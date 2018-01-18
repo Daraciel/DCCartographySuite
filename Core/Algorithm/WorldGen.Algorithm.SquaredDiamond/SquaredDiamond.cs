@@ -1,11 +1,24 @@
-﻿using WorldGen.Common.BE;
+﻿using System;
+using WorldGen.Common.BE;
 using WorldGen.Common.Enums;
 using WorldGen.Common.Interfaces;
+using WorldGen.Common.Maps;
 
 namespace WorldGen.Algorithm.SquaredDiamond
 {
     public class SquaredDiamond : IAlgorithm
     {
+
+        #region FIELDS
+
+        private uint Detail;
+        private int? Seed;
+        private float Roughness;
+        private Random rnd;
+
+        private HeightMap resultMap;
+
+        #endregion
 
         #region IALGORITHM
 
