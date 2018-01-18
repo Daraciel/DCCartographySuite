@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7B8967AF-C127-4B89-8C5D-791C072E5443}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forms", "Forms", "{62AA1C52-9833-4946-8399-A2C6B38F6F4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{C0C28035-98EC-4293-B91D-A14B3BF1042D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Common", "Core\WorldGen.Common\WorldGen.Common.csproj", "{719F60E5-FA4C-40D5-AE1D-988C0E4B694B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Algorithm", "Algorithm", "{BC23554C-7F62-4F0E-8843-8618B3154449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Algorithm.SquaredDiamond", "Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\WorldGen.Algorithm.SquaredDiamond.csproj", "{577761C6-B10C-4141-8195-0CD3023644D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Utilities", "Core\WorldGen.Utilities\WorldGen.Utilities.csproj", "{3B9ACE7E-2940-431D-AC77-1C7181D07E01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{719F60E5-FA4C-40D5-AE1D-988C0E4B694B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719F60E5-FA4C-40D5-AE1D-988C0E4B694B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719F60E5-FA4C-40D5-AE1D-988C0E4B694B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719F60E5-FA4C-40D5-AE1D-988C0E4B694B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577761C6-B10C-4141-8195-0CD3023644D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577761C6-B10C-4141-8195-0CD3023644D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577761C6-B10C-4141-8195-0CD3023644D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577761C6-B10C-4141-8195-0CD3023644D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{719F60E5-FA4C-40D5-AE1D-988C0E4B694B} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
+		{BC23554C-7F62-4F0E-8843-8618B3154449} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
+		{577761C6-B10C-4141-8195-0CD3023644D9} = {BC23554C-7F62-4F0E-8843-8618B3154449}
+		{3B9ACE7E-2940-431D-AC77-1C7181D07E01} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D53F7796-E2CC-4773-873C-3382BC418333}
+	EndGlobalSection
+EndGlobal

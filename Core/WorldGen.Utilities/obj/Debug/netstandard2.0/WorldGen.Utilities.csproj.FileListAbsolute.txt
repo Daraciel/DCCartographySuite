@@ -1,0 +1,9 @@
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csprojResolveAssemblyReference.cache
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csproj.CoreCompileInputs.cache
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfoInputs.cache
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfo.cs
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.deps.json
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.dll
+D:\Projects\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.pdb

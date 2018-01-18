@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00189" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WorldGen.Utilities\WorldGen.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

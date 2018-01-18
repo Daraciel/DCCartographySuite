@@ -1,0 +1,9 @@
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.deps.json
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.dll
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.pdb
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csprojResolveAssemblyReference.cache
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csproj.CoreCompileInputs.cache
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfoInputs.cache
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfo.cs
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.dll
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.pdb
