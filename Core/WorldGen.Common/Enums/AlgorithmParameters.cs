@@ -2,7 +2,12 @@
 {
     public enum AlgorithmParameters
     {
+        DEBUG,
         SEED,
-        SIZE
+        SIZE,
+
+        //SquaredDiamond
+        DETAIL,
+        ROUGHNESS
     }
 }

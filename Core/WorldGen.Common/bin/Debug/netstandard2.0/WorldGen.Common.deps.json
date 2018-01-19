@@ -7,13 +7,14 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "WorldGen.Algorithm.SquaredDiamond/1.0.0": {
+      "WorldGen.Common/1.0.0": {
         "dependencies": {
+          "ImageSharp.Drawing": "1.0.0-alpha9-00189",
           "NETStandard.Library": "2.0.0",
-          "WorldGen.Common": "1.0.0"
+          "WorldGen.Utilities": "1.0.0"
         },
         "runtime": {
-          "WorldGen.Algorithm.SquaredDiamond.dll": {}
+          "WorldGen.Common.dll": {}
         }
       },
       "ImageSharp/1.0.0-alpha9-00194": {
@@ -319,15 +320,6 @@
         }
       },
       "System.ValueTuple/4.4.0": {},
-      "WorldGen.Common/1.0.0": {
-        "dependencies": {
-          "ImageSharp.Drawing": "1.0.0-alpha9-00189",
-          "WorldGen.Utilities": "1.0.0"
-        },
-        "runtime": {
-          "WorldGen.Common.dll": {}
-        }
-      },
       "WorldGen.Utilities/1.0.0": {
         "runtime": {
           "WorldGen.Utilities.dll": {}
@@ -336,7 +328,7 @@
     }
   },
   "libraries": {
-    "WorldGen.Algorithm.SquaredDiamond/1.0.0": {
+    "WorldGen.Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -592,11 +584,6 @@
       "sha512": "sha512-BahUww/+mdP4ARCAh2RQhQTg13wYLVrBb9SYVgW8ZlrwjraGCXHGjo0oIiUfZ34LUZkMMR+RAzR7dEY4S1HeQQ==",
       "path": "system.valuetuple/4.4.0",
       "hashPath": "system.valuetuple.4.4.0.nupkg.sha512"
-    },
-    "WorldGen.Common/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     },
     "WorldGen.Utilities/1.0.0": {
       "type": "project",

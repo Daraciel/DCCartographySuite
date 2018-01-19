@@ -7,3 +7,7 @@ D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\
 D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfo.cs
 D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.dll
 D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.pdb
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Common.dll
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Common.pdb
+D:\Projects\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb

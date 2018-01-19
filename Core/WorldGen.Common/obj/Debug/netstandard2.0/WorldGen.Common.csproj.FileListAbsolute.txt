@@ -7,3 +7,5 @@ D:\Projects\DCCartographySuite\Core\WorldGen.Common\bin\Debug\netstandard2.0\Wor
 D:\Projects\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.dll
 D:\Projects\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.pdb
 D:\Projects\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.csprojResolveAssemblyReference.cache
+D:\Projects\DCCartographySuite\Core\WorldGen.Common\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
+D:\Projects\DCCartographySuite\Core\WorldGen.Common\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb
