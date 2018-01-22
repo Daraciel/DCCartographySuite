@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Common", "Core\Wor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Algorithm", "Algorithm", "{BC23554C-7F62-4F0E-8843-8618B3154449}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Algorithm.SquaredDiamond", "Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\WorldGen.Algorithm.SquaredDiamond.csproj", "{577761C6-B10C-4141-8195-0CD3023644D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Algorithm.SquaredDiamond", "Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\WorldGen.Algorithm.SquaredDiamond.csproj", "{577761C6-B10C-4141-8195-0CD3023644D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Utilities", "Core\WorldGen.Utilities\WorldGen.Utilities.csproj", "{3B9ACE7E-2940-431D-AC77-1C7181D07E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Utilities", "Core\WorldGen.Utilities\WorldGen.Utilities.csproj", "{3B9ACE7E-2940-431D-AC77-1C7181D07E01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Forms.TestForm", "Forms\WorldGen.Forms.TestForm\WorldGen.Forms.TestForm.csproj", "{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B9ACE7E-2940-431D-AC77-1C7181D07E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{BC23554C-7F62-4F0E-8843-8618B3154449} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
 		{577761C6-B10C-4141-8195-0CD3023644D9} = {BC23554C-7F62-4F0E-8843-8618B3154449}
 		{3B9ACE7E-2940-431D-AC77-1C7181D07E01} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
+		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24} = {62AA1C52-9833-4946-8399-A2C6B38F6F4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D53F7796-E2CC-4773-873C-3382BC418333}
