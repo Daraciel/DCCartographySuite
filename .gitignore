@@ -1,6 +1,13 @@
 # Prerequisites
 *.d
 
+
+#Visual Studio files
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -31,3 +38,7 @@
 *.out
 *.app
 /.vs/DCCartographySuite/v15/Server/sqlite3
+*.pdb
+*.pdb
+Core/Algorithm/WorldGen.Algorithm.SquaredDiamond/bin/Debug/netstandard2.0/WorldGen.Algorithm.SquaredDiamond.pdb
+*.cache
