@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7B8967AF-C127-4B89-8C5D-791C072E5443}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Utilities", "Core\WorldGen.Utilities\WorldGen.Utilities.csproj", "{3B9ACE7E-2940-431D-AC77-1C7181D07E01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Forms.TestForm", "Forms\WorldGen.Forms.TestForm\WorldGen.Forms.TestForm.csproj", "{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldGen.Algorithm.TetrahedralSubdivision", "Core\Algorithm\WorldGen.Algorithm.TetrahedralSubdivision\WorldGen.Algorithm.TetrahedralSubdivision.csproj", "{63874F91-0C65-4BFA-8748-F73F05945FA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63874F91-0C65-4BFA-8748-F73F05945FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63874F91-0C65-4BFA-8748-F73F05945FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63874F91-0C65-4BFA-8748-F73F05945FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63874F91-0C65-4BFA-8748-F73F05945FA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{577761C6-B10C-4141-8195-0CD3023644D9} = {BC23554C-7F62-4F0E-8843-8618B3154449}
 		{3B9ACE7E-2940-431D-AC77-1C7181D07E01} = {7B8967AF-C127-4B89-8C5D-791C072E5443}
 		{13C15CCA-99E7-46EF-9CA3-E7F4CC203C24} = {62AA1C52-9833-4946-8399-A2C6B38F6F4F}
+		{63874F91-0C65-4BFA-8748-F73F05945FA8} = {BC23554C-7F62-4F0E-8843-8618B3154449}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D53F7796-E2CC-4773-873C-3382BC418333}
