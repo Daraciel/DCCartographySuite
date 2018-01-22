@@ -14,7 +14,7 @@ namespace WorldGen.Common.Maps
 
         #region CONSTRUCTORS
 
-        public HeightMap(uint height, uint width)
+        public HeightMap(int height, int width)
         {
             this.height = height;
             this.width = width;
@@ -26,8 +26,8 @@ namespace WorldGen.Common.Maps
         #region FIELDS
 
         private float[] heightmap;
-        private uint height;
-        private uint width;
+        private int height;
+        private int width;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace WorldGen.Common.Maps
             }
         }
 
-        public uint Height
+        public int Height
         {
             get
             {
@@ -59,7 +59,7 @@ namespace WorldGen.Common.Maps
             }
         }
 
-        public uint Width
+        public int Width
         {
             get
             {
@@ -89,7 +89,7 @@ namespace WorldGen.Common.Maps
 
             result = new Image<Rgba32>((int)this.width, (int)this.height);
 
-            if(result == null || result.Width > 0 || result.Height > 0)
+            if(result == null || result.Width <= 0 || result.Height <= 0)
             {
                 return null;
             }

@@ -17,7 +17,7 @@ namespace WorldGen.Algorithm.SquaredDiamond
 
         #region FIELDS
 
-        private uint Detail;
+        private int Detail;
         private int? Seed;
         private float Roughness;
         private Random rnd;
@@ -25,6 +25,7 @@ namespace WorldGen.Algorithm.SquaredDiamond
         private HeightMap resultMap;
 
         private int maxIterations;
+        private int size;
 
         #endregion
 
@@ -32,7 +33,7 @@ namespace WorldGen.Algorithm.SquaredDiamond
 
         public override IMap Create()
         {
-            this.resultMap = new HeightMap(this.Detail, this.Detail);
+            this.resultMap = new HeightMap(this.size, this.size);
 
             InitializeHeightMap();
 
@@ -51,28 +52,30 @@ namespace WorldGen.Algorithm.SquaredDiamond
                 switch (kvp.Key)
                 {
                     case AlgorithmParameters.DETAIL:
-                        Detail = (uint)kvp.Value;
+                        Detail = (int)kvp.Value;
+                        this.size = (int)Math.Pow(2, this.Detail) + 1;
+                        this.maxIterations = this.size - 1;
                         break;
                     case AlgorithmParameters.ROUGHNESS:
                         Roughness = (float)kvp.Value;
                         break;
                     case AlgorithmParameters.SEED:
                         Seed = (int)kvp.Value;
+
+                        if (this.Seed.HasValue)
+                        {
+                            rnd = new Random(this.Seed.Value);
+                        }
+                        else
+                        {
+                            rnd = new Random();
+                        }
                         break;
                     case AlgorithmParameters.DEBUG:
                         debugMode = (bool)kvp.Value;
                         break;
                 }
 
-            }
-
-            if (this.Seed.HasValue)
-            {
-                rnd = new Random(this.Seed.Value);
-            }
-            else
-            {
-                rnd = new Random();
             }
         }
 
@@ -81,7 +84,9 @@ namespace WorldGen.Algorithm.SquaredDiamond
             switch (paramType)
             {
                 case AlgorithmParameters.DETAIL:
-                    Detail = (uint)value;
+                    Detail = (int)value;
+                    this.size = (int)Math.Pow(2, this.Detail) + 1;
+                    this.maxIterations = this.size - 1;
                     break;
                 case AlgorithmParameters.ROUGHNESS:
                     Roughness = (float)value;

@@ -6,6 +6,12 @@ namespace WorldGen.Common.Interfaces
 {
     public abstract class IMap
     {
+        #region FIELDS
+
+        protected Image<Rgba32> resultingMap;
+
+        #endregion
+
         #region CONSTRUCTORS
 
         public IMap()
@@ -23,6 +29,20 @@ namespace WorldGen.Common.Interfaces
         #region METHODS
 
         public abstract Image<Rgba32> Print();
+
+        private void prepareSave()
+        {
+            if(resultingMap == null)
+            {
+                resultingMap = Print();
+            }
+        }
+
+        public void Save(string path)
+        {
+            prepareSave();
+            resultingMap.Save(path);
+        }
 
         #endregion
     }
