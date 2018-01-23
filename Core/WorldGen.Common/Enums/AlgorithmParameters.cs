@@ -8,6 +8,9 @@
 
         //SquaredDiamond
         DETAIL,
-        ROUGHNESS
+        ROUGHNESS,
+
+        //TETRAHEDRAL SUBDIVISION
+        DISTANCEWEIGHT
     }
 }

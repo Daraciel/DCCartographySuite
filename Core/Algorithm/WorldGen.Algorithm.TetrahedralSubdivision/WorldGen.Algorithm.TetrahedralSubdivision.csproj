@@ -4,4 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="TetrahedralSubdivision.cs~RF38b261c3.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WorldGen.Common\WorldGen.Common.csproj" />
+  </ItemGroup>
+
 </Project>

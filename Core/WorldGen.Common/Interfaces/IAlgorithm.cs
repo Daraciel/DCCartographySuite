@@ -23,6 +23,16 @@ namespace WorldGen.Common.Interfaces
 
         #endregion
 
+        #region PROPERTIES
+
+        public bool DebugMode
+        {
+            get { return debugMode; }
+            set { debugMode = value; }
+        }
+
+        #endregion
+
         #region METHODS
 
         /// <summary>
