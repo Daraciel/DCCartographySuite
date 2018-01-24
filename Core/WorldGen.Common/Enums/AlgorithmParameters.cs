@@ -5,12 +5,19 @@
         DEBUG,
         SEED,
         SIZE,
+        WIDTH,
+        HEIGHT,
 
         //SquaredDiamond
         DETAIL,
         ROUGHNESS,
 
         //TETRAHEDRAL SUBDIVISION
-        DISTANCEWEIGHT
+        DISTANCEWEIGHT,
+        ALTITUDE_DIFFERENCE_WEIGHT,
+        SCALE,
+        LONGITUDE,
+        LATITUDE,
+        INITIAL_ALTITUDE
     }
 }
