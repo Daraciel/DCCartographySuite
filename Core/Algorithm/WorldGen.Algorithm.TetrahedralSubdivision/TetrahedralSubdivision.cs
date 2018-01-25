@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WorldGen.Algorithm.TetrahedralSubdivision.BE;
 using WorldGen.Common.BE;
 using WorldGen.Common.Enums;
@@ -108,6 +109,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 if (value < -90) latitude = -90;
                 if (value > 90) latitude = 90;
                 latitude *= Constants.DEG2RAD;
+                latitudeSin = Math.Sin(latitude);
+                latitudeCos = Math.Cos(latitude);
             }
         }
 
@@ -120,6 +123,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 while (longitude < -180) longitude += 360;
                 while (longitude > 180) longitude -= 360;
                 longitude *= Constants.DEG2RAD;
+                longitudeSin = Math.Sin(longitude);
+                longitudeCos = Math.Cos(longitude);
             }
         }
 
