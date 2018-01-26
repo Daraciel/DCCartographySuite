@@ -159,8 +159,8 @@ namespace WorldGen.Algorithm.SquaredDiamond
 
         private void Square(int x, int y, int size, float offset)
         {
-            float newValue;
-            float[] values = new float[] {
+            double newValue;
+            double[] values = new double[] {
                                             this.getValue(x - size, y - size),
                                             this.getValue(x + size, y - size),
                                             this.getValue(x + size, y + size),
@@ -173,8 +173,8 @@ namespace WorldGen.Algorithm.SquaredDiamond
     
         private void Diamond(int x, int y, int size, float offset)
         {
-            float newValue;
-            float[] values = new float[] {
+            double newValue;
+            double[] values = new double[] {
                                                 this.getValue(x, y - size),
                                                 this.getValue(x + size, y),
                                                 this.getValue(x, y + size),
@@ -195,8 +195,8 @@ namespace WorldGen.Algorithm.SquaredDiamond
 
         private void NormalizeMap()
         {
-            float lowest = WorldGen.Utilities.ToolBox.GetMinValue(this.resultMap.Heightmap);
-            float highest = WorldGen.Utilities.ToolBox.GetMaxValue(this.resultMap.Heightmap);
+            double lowest = WorldGen.Utilities.ToolBox.GetMinValue(this.resultMap.Heightmap);
+            double highest = WorldGen.Utilities.ToolBox.GetMaxValue(this.resultMap.Heightmap);
             for (int i = 0; i < this.resultMap.Heightmap.Length; i++)
             {
                 this.resultMap.Heightmap[i] = (this.resultMap.Heightmap[i] - lowest) / (highest - lowest);
@@ -217,14 +217,14 @@ namespace WorldGen.Algorithm.SquaredDiamond
             return result;
         }
 
-        private void setValue(int x, int y, float value)
+        private void setValue(int x, int y, double value)
         {
             this.resultMap.Heightmap[x + this.resultMap.Height * y] = value;
         }
 
-        private float getValue(int x, int y)
+        private double getValue(int x, int y)
         {
-            float result = -1;
+            double result = -1;
             if (x >= 0 &&
                 x <= this.maxIterations &&
                 y >= 0 &&

@@ -18,6 +18,7 @@
         SCALE,
         LONGITUDE,
         LATITUDE,
-        INITIAL_ALTITUDE
+        INITIAL_ALTITUDE,
+        PROJECTION
     }
 }

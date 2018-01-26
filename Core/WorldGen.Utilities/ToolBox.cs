@@ -5,6 +5,21 @@ namespace WorldGen.Utilities
 {
     public static class ToolBox
     {
+        public static double GetMaxValue(double[] array)
+        {
+            double result = double.MinValue;
+
+            Parallel.ForEach(array, (point) =>
+            {
+                if (point > result)
+                {
+                    result = point;
+                }
+            });
+
+            return result;
+        }
+
         public static float GetMaxValue(float[] array)
         {
             float result = float.MinValue;
@@ -30,6 +45,21 @@ namespace WorldGen.Utilities
             return (x < y ? y : x);
         }
 
+        public static double GetMinValue(double[] array)
+        {
+            double result = double.MaxValue;
+
+            Parallel.ForEach(array, (point) =>
+            {
+                if (point < result)
+                {
+                    result = point;
+                }
+            });
+
+            return result;
+        }
+
         public static float GetMinValue(float[] array)
         {
             float result = float.MaxValue;
@@ -53,6 +83,16 @@ namespace WorldGen.Utilities
         public static float GetMinValue(float x, float y)
         {
             return (x < y ? x : y);
+        }
+
+        public static double Average(double[] values)
+        {
+            double result = 0;
+            values = values.Where(p => p != -1).ToArray();
+            result = values.Sum();
+            result /= values.Length;
+
+            return result;
         }
 
         public static float Average(float[] values)

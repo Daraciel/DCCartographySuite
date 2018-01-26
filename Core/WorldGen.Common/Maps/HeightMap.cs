@@ -21,11 +21,20 @@ namespace WorldGen.Common.Maps
             InitializeMap();
         }
 
+        public HeightMap(int height, int width, double defaultValue)
+        {
+            this.height = height;
+            this.width = width;
+            InitializeMap(defaultValue);
+        }
+
+
+
         #endregion
 
         #region FIELDS
 
-        private float[] heightmap;
+        private double[] heightmap;
         private int height;
         private int width;
 
@@ -33,7 +42,7 @@ namespace WorldGen.Common.Maps
 
         #region PROPERTIES
 
-        public float[] Heightmap
+        public double[] Heightmap
         {
             get
             {
@@ -82,7 +91,7 @@ namespace WorldGen.Common.Maps
             Rgba32 color;
             byte pointValue;
             long position;
-            float maxHeight;
+            double maxHeight;
 
             maxHeight = Utilities.ToolBox.GetMaxValue(this.heightmap);
             color.A = byte.MaxValue;
@@ -163,13 +172,13 @@ namespace WorldGen.Common.Maps
 
         #region PRIVATE METHODS
 
-        private void InitializeMap()
+        private void InitializeMap(double defaultValue = 0.0)
         {
-            this.heightmap = new float[this.width * this.height];
+            this.heightmap = new double[this.width * this.height];
 
             Parallel.ForEach(this.heightmap, (point) =>
             {
-                point = 0.0f;
+                point = defaultValue;
             });
         }
 
