@@ -75,10 +75,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private Tetrahedron workingTetra;
 
-        private Tetrahedron defaultTetra = new Tetrahedron( new double[] {  -Constants.SQRT3 - 0.20, -Constants.SQRT3 - 0.22, -Constants.SQRT3 - 0.23 },
-                                                            new double[] {  -Constants.SQRT3 - 0.19,  Constants.SQRT3 + 0.18,  Constants.SQRT3 + 0.17 },
-                                                            new double[] {   Constants.SQRT3 + 0.21, -Constants.SQRT3 - 0.24,  Constants.SQRT3 + 0.15 },
-                                                            new double[] {   Constants.SQRT3 + 0.24,  Constants.SQRT3 + 0.22, -Constants.SQRT3 - 0.25 });
+        private Tetrahedron defaultTetra;
 
         private double latitudeSin, latitudeCos, longitudeSin, longitudeCos;
 
@@ -160,7 +157,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             randSeed3 = random(randSeed1, randSeed2);
             randSeed4 = random(randSeed2, randSeed3);
 
-            switch(this.Projection)
+            workingTetra = new Tetrahedron();
+            InitilizeDefaultTetra();
+
+            switch (this.Projection)
             {
                 case MapProjections.MERCATOR:
                     DoMercatorProjection();
@@ -256,15 +256,31 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double generatedHeight = 0;
 
-            generatedHeight = getHeightForPoint(x, y, z);
+            generatedHeight = getHeightForPoint(new Point3D(x, y, z));
         }
 
-        private double getHeightForPoint(double x, double y, double z)
+        private double getHeightForPoint(Point3D point)
         {
             double result = 0;
             bool isInsideTetrahedron = false;
 
-            
+            isInsideTetrahedron = workingTetra.IsInside(point);
+
+            if(isInsideTetrahedron)
+            {
+                result = getHeightForPoint(workingTetra, point, 11);
+            }
+            else
+            {
+                result = getHeightForPoint(defaultTetra, point, depth);
+            }
+
+            return result;
+        }
+
+        private double getHeightForPoint(Tetrahedron defaultTetra, Point3D point, double depth)
+        {
+            double result = 0;
 
 
             return result;
@@ -273,6 +289,14 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         #endregion
 
         #region PRIVATE METHODS
+
+        private void InitilizeDefaultTetra()
+        {
+            defaultTetra = new Tetrahedron(new double[] { -Constants.SQRT3 - 0.20, -Constants.SQRT3 - 0.22, -Constants.SQRT3 - 0.23, InitialAltitude, randSeed1 },
+                                            new double[] { -Constants.SQRT3 - 0.19, Constants.SQRT3 + 0.18, Constants.SQRT3 + 0.17, InitialAltitude, randSeed2 },
+                                            new double[] { Constants.SQRT3 + 0.21, -Constants.SQRT3 - 0.24, Constants.SQRT3 + 0.15, InitialAltitude, randSeed3 },
+                                            new double[] { Constants.SQRT3 + 0.24, Constants.SQRT3 + 0.22, -Constants.SQRT3 - 0.25, InitialAltitude, randSeed4 });
+        }
 
         private void setDepth()
         {
