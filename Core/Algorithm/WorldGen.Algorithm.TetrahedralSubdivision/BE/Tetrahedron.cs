@@ -1,4 +1,6 @@
 ﻿using System;
+using WorldGen.Algorithm.TetrahedralSubdivision.Enum;
+using WorldGen.Common.BE;
 
 namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 {
@@ -36,6 +38,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         public double BCSideLength { get; private set; }
         public double BDSideLength { get; private set; }
         public double CDSideLength { get; private set; }
+
+        public TetrahedronSides LongestSide { get; private set; }
 
         #endregion
 
@@ -164,8 +168,79 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             {
                 double abx, aby, abz, acx, acy, acz, adx, ady, adz;
                 double bcx, bcy, bcz, bdx, bdy, bdz, cdx, cdy, cdz;
-                //abx = ax - bx; aby = ay - by; abz = az - bz;
-                //acx = ax - cx; acy = ay - cy; acz = az - cz;
+
+                abx = this.A.X - this.B.X;
+                aby = this.A.Y - this.B.Y;
+                abz = this.A.Z - this.B.Z;
+
+                acx = this.A.X - this.C.X;
+                acy = this.A.Y - this.C.Y;
+                acz = this.A.Z - this.C.Z;
+
+                adx = this.A.X - this.D.X;
+                ady = this.A.Y - this.D.Y;
+                adz = this.A.Z - this.D.Z;
+
+                bcx = this.B.X - this.C.X;
+                bcy = this.B.Y - this.C.Y;
+                bcz = this.B.Z - this.C.Z;
+
+                bdx = this.B.X - this.D.X;
+                bdy = this.B.Y - this.D.Y;
+                bdz = this.B.Z - this.D.Z;
+
+                cdx = this.C.X - this.D.X;
+                cdy = this.C.Y - this.D.Y;
+                cdz = this.C.Z - this.D.Z;
+
+                ABSideLength = abx * abx + aby * aby + abz * abz;
+                ACSideLength = acx * acx + acy * acy + acz * acz;
+                ADSideLength = adx * adx + ady * ady + adz * adz;
+                BCSideLength = bcx * bcx + bcy * bcy + bcz * bcz;
+                BDSideLength = bdx * bdx + bdy * bdy + bdz * bdz;
+                CDSideLength = cdx * cdx + cdy * cdy + cdz * cdz;
+
+                setLongestSide();
+
+            }
+        }
+
+        private void setLongestSide()
+        {
+            double longestSide;
+            if (ABSideLength > ACSideLength)
+            {
+                this.LongestSide = TetrahedronSides.AB;
+                longestSide = ABSideLength;
+            }
+            else
+            {
+                this.LongestSide = TetrahedronSides.AC;
+                longestSide = ACSideLength;
+            }
+
+            if (ADSideLength > longestSide)
+            {
+                this.LongestSide = TetrahedronSides.AD;
+                longestSide = ADSideLength;
+            }
+
+            if (BCSideLength > longestSide)
+            {
+                this.LongestSide = TetrahedronSides.BC;
+                longestSide = BCSideLength;
+            }
+
+            if (BDSideLength > longestSide)
+            {
+                this.LongestSide = TetrahedronSides.BD;
+                longestSide = BDSideLength;
+            }
+
+            if (CDSideLength > longestSide)
+            {
+                this.LongestSide = TetrahedronSides.CD;
+                longestSide = CDSideLength;
             }
         }
 

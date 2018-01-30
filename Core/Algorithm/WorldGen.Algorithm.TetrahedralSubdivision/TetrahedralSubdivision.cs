@@ -278,9 +278,78 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             return result;
         }
 
-        private double getHeightForPoint(Tetrahedron defaultTetra, Point3D point, double depth)
+        private double getHeightForPoint(Tetrahedron tetra, Point3D point, double depth)
         {
             double result = 0;
+            double es, es1, es2, es3;
+            double longestSideValue;
+            TetrahedronPoint E = new TetrahedronPoint();
+            TetrahedronPoint A, B;
+
+            switch(tetra.LongestSide)
+            {
+                case Enum.TetrahedronSides.AB:
+                default:
+                    A = tetra.A;
+                    B = tetra.B;
+                    longestSideValue = tetra.ABSideLength;
+                    break;
+                case Enum.TetrahedronSides.AC:
+                    A = tetra.A;
+                    B = tetra.C;
+                    longestSideValue = tetra.ACSideLength;
+                    break;
+                case Enum.TetrahedronSides.AD:
+                    A = tetra.A;
+                    B = tetra.D;
+                    longestSideValue = tetra.ADSideLength;
+                    break;
+                case Enum.TetrahedronSides.BC:
+                    A = tetra.B;
+                    B = tetra.C;
+                    longestSideValue = tetra.BCSideLength;
+                    break;
+                case Enum.TetrahedronSides.BD:
+                    A = tetra.B;
+                    B = tetra.D;
+                    longestSideValue = tetra.BDSideLength;
+                    break;
+                case Enum.TetrahedronSides.CD:
+                    A = tetra.C;
+                    B = tetra.D;
+                    longestSideValue = tetra.CDSideLength;
+                    break;
+            }
+
+            es = this.random(A.Seed, B.Seed);
+            es1 = this.random(es, es);
+            es2 = 0.5 + 0.1 * this.random(es1, es1);
+            es3 = 1.0 - es2;
+
+            if (A.Seed < B.Seed)
+            {
+                E.X = es2 * A.X + es3 * B.X;
+                E.Y = es2 * A.Y + es3 * B.Y;
+                E.Z = es2 * A.Z + es3 * B.Z;
+            }
+            else if(A.Seed > B.Seed)
+            {
+                E.X = es3 * A.X + es2 * B.X;
+                E.Y = es3 * A.Y + es2 * B.Y;
+                E.Z = es3 * A.Z + es2 * B.Z;
+            }
+            else
+            {
+                E.X = 0.5 * A.X + 0.5 * B.X;
+                E.Y = 0.5 * A.Y + 0.5 * B.Y;
+                E.Z = 0.5 * A.Z + 0.5 * B.Z;
+            }
+
+            if (longestSideValue > 1.0) { longestSideValue = Math.Pow(longestSideValue, 0.5); }
+
+            E.Value = 0.5 * (A.Value + B.Value)
+                        + es * this.AltitudeDifferenceWeight * Math.Pow(Math.Abs(A.Value - B.Value), this.AltitudeDifferencePower)
+                        + es1 * this.DistanceWeight * Math.Pow(longestSideValue, this.DistanceFunctionPower);
 
 
             return result;

@@ -1,4 +1,6 @@
-﻿namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
+﻿using System;
+
+namespace WorldGen.Common.BE
 {
     public class Point3D
     {
@@ -24,6 +26,22 @@
             X = x;
             Y = y;
             Z = z;
+        }
+
+        #endregion
+
+        #region PUBLIC METHODS
+
+
+        public double GetDistanceToPoint(Point3D B)
+        {
+            double result = 0;
+
+            result = Math.Pow(this.X - B.X, 2);
+            result += Math.Pow(this.Y - B.Y, 2);
+            result += Math.Pow(this.Z - B.Z, 2);
+
+            return result;
         }
 
         #endregion

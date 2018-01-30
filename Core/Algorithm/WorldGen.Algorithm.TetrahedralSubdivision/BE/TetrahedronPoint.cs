@@ -1,4 +1,6 @@
-﻿namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
+﻿using WorldGen.Common.BE;
+
+namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 {
     public class TetrahedronPoint : Point3D
     {
