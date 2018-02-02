@@ -32,6 +32,9 @@
             this.tpSquaredDiamond = new System.Windows.Forms.TabPage();
             this.pbSDResult = new System.Windows.Forms.PictureBox();
             this.gbSDParameters = new System.Windows.Forms.GroupBox();
+            this.btnSDGenerateRandomSeed = new System.Windows.Forms.Button();
+            this.lblSDSize = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.nudSDSeed = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,10 +42,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.nudSDDetail = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblSDSize = new System.Windows.Forms.Label();
-            this.btnSDGenerateRandomSeed = new System.Windows.Forms.Button();
+            this.tpTetraSubd = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.tcAlgorithms.SuspendLayout();
             this.tpSquaredDiamond.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSDResult)).BeginInit();
@@ -50,12 +62,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSDSeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDRoughness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDDetail)).BeginInit();
+            this.tpTetraSubd.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             this.SuspendLayout();
             // 
             // tcAlgorithms
             // 
             this.tcAlgorithms.Controls.Add(this.tpSquaredDiamond);
-            this.tcAlgorithms.Controls.Add(this.tabPage2);
+            this.tcAlgorithms.Controls.Add(this.tpTetraSubd);
             this.tcAlgorithms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcAlgorithms.Location = new System.Drawing.Point(0, 0);
             this.tcAlgorithms.Name = "tcAlgorithms";
@@ -103,6 +121,34 @@
             this.gbSDParameters.TabIndex = 0;
             this.gbSDParameters.TabStop = false;
             this.gbSDParameters.Text = "Parameters";
+            // 
+            // btnSDGenerateRandomSeed
+            // 
+            this.btnSDGenerateRandomSeed.Location = new System.Drawing.Point(121, 129);
+            this.btnSDGenerateRandomSeed.Name = "btnSDGenerateRandomSeed";
+            this.btnSDGenerateRandomSeed.Size = new System.Drawing.Size(120, 23);
+            this.btnSDGenerateRandomSeed.TabIndex = 9;
+            this.btnSDGenerateRandomSeed.Text = "Random Seed";
+            this.btnSDGenerateRandomSeed.UseVisualStyleBackColor = true;
+            this.btnSDGenerateRandomSeed.Click += new System.EventHandler(this.btnSDGenerateRandomSeed_Click);
+            // 
+            // lblSDSize
+            // 
+            this.lblSDSize.Location = new System.Drawing.Point(121, 46);
+            this.lblSDSize.Name = "lblSDSize";
+            this.lblSDSize.Size = new System.Drawing.Size(108, 23);
+            this.lblSDSize.TabIndex = 8;
+            this.lblSDSize.Text = "1x1";
+            this.lblSDSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(6, 46);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(108, 23);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Resulting Size:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnGenerate
             // 
@@ -215,43 +261,182 @@
             this.label1.Text = "Detail (Side)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tabPage2
+            // tpTetraSubd
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(882, 567);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpTetraSubd.Controls.Add(this.pictureBox1);
+            this.tpTetraSubd.Controls.Add(this.groupBox1);
+            this.tpTetraSubd.Location = new System.Drawing.Point(4, 22);
+            this.tpTetraSubd.Name = "tpTetraSubd";
+            this.tpTetraSubd.Padding = new System.Windows.Forms.Padding(3);
+            this.tpTetraSubd.Size = new System.Drawing.Size(882, 567);
+            this.tpTetraSubd.TabIndex = 1;
+            this.tpTetraSubd.Text = "Tetraherical subdivision";
+            this.tpTetraSubd.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // pictureBox1
             // 
-            this.label4.Location = new System.Drawing.Point(6, 46);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 23);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Resulting Size:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pictureBox1.Location = new System.Drawing.Point(256, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(623, 561);
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
             // 
-            // lblSDSize
+            // groupBox1
             // 
-            this.lblSDSize.Location = new System.Drawing.Point(121, 46);
-            this.lblSDSize.Name = "lblSDSize";
-            this.lblSDSize.Size = new System.Drawing.Size(108, 23);
-            this.lblSDSize.TabIndex = 8;
-            this.lblSDSize.Text = "1x1";
-            this.lblSDSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.numericUpDown1);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.numericUpDown2);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.numericUpDown3);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(247, 561);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Parameters";
             // 
-            // btnSDGenerateRandomSeed
+            // button1
             // 
-            this.btnSDGenerateRandomSeed.Location = new System.Drawing.Point(121, 129);
-            this.btnSDGenerateRandomSeed.Name = "btnSDGenerateRandomSeed";
-            this.btnSDGenerateRandomSeed.Size = new System.Drawing.Size(120, 23);
-            this.btnSDGenerateRandomSeed.TabIndex = 9;
-            this.btnSDGenerateRandomSeed.Text = "Random Seed";
-            this.btnSDGenerateRandomSeed.UseVisualStyleBackColor = true;
-            this.btnSDGenerateRandomSeed.Click += new System.EventHandler(this.btnSDGenerateRandomSeed_Click);
+            this.button1.Location = new System.Drawing.Point(121, 129);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Random Seed";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(121, 46);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(108, 23);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "1x1";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 46);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 23);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Resulting Size:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button2.Location = new System.Drawing.Point(3, 510);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(241, 48);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Generate";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(121, 103);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 5;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(7, 103);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 23);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Seed";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.DecimalPlaces = 2;
+            this.numericUpDown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown2.Location = new System.Drawing.Point(121, 77);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown2.TabIndex = 3;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            65536});
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(7, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(108, 23);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Roughness";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.Location = new System.Drawing.Point(121, 23);
+            this.numericUpDown3.Maximum = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown3.TabIndex = 1;
+            this.numericUpDown3.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(7, 20);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(108, 23);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Detail (Side)";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1
             // 
@@ -269,6 +454,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSDSeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDRoughness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDDetail)).EndInit();
+            this.tpTetraSubd.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -277,7 +468,7 @@
 
         private System.Windows.Forms.TabControl tcAlgorithms;
         private System.Windows.Forms.TabPage tpSquaredDiamond;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tpTetraSubd;
         private System.Windows.Forms.GroupBox gbSDParameters;
         private System.Windows.Forms.NumericUpDown nudSDDetail;
         private System.Windows.Forms.Label label1;
@@ -290,6 +481,18 @@
         private System.Windows.Forms.Label lblSDSize;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSDGenerateRandomSeed;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.Label label9;
     }
 }
 

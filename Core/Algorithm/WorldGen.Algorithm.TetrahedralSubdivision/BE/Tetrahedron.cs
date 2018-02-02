@@ -166,39 +166,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                 C != null &&
                 D != null)
             {
-                double abx, aby, abz, acx, acy, acz, adx, ady, adz;
-                double bcx, bcy, bcz, bdx, bdy, bdz, cdx, cdy, cdz;
 
-                abx = this.A.X - this.B.X;
-                aby = this.A.Y - this.B.Y;
-                abz = this.A.Z - this.B.Z;
-
-                acx = this.A.X - this.C.X;
-                acy = this.A.Y - this.C.Y;
-                acz = this.A.Z - this.C.Z;
-
-                adx = this.A.X - this.D.X;
-                ady = this.A.Y - this.D.Y;
-                adz = this.A.Z - this.D.Z;
-
-                bcx = this.B.X - this.C.X;
-                bcy = this.B.Y - this.C.Y;
-                bcz = this.B.Z - this.C.Z;
-
-                bdx = this.B.X - this.D.X;
-                bdy = this.B.Y - this.D.Y;
-                bdz = this.B.Z - this.D.Z;
-
-                cdx = this.C.X - this.D.X;
-                cdy = this.C.Y - this.D.Y;
-                cdz = this.C.Z - this.D.Z;
-
-                ABSideLength = abx * abx + aby * aby + abz * abz;
-                ACSideLength = acx * acx + acy * acy + acz * acz;
-                ADSideLength = adx * adx + ady * ady + adz * adz;
-                BCSideLength = bcx * bcx + bcy * bcy + bcz * bcz;
-                BDSideLength = bdx * bdx + bdy * bdy + bdz * bdz;
-                CDSideLength = cdx * cdx + cdy * cdy + cdz * cdz;
+                ABSideLength = this.A.GetDistanceToPoint(this.B);
+                ACSideLength = this.A.GetDistanceToPoint(this.C);
+                ADSideLength = this.A.GetDistanceToPoint(this.D);
+                BCSideLength = this.B.GetDistanceToPoint(this.C);
+                BDSideLength = this.B.GetDistanceToPoint(this.D);
+                CDSideLength = this.C.GetDistanceToPoint(this.D);
 
                 setLongestSide();
 
