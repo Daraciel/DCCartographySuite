@@ -176,9 +176,9 @@ namespace WorldGen.Common.Maps
         {
             this.heightmap = new double[this.width * this.height];
 
-            Parallel.ForEach(this.heightmap, (point) =>
+            Parallel.For(0, this.heightmap.Length, index => 
             {
-                point = defaultValue;
+                this.heightmap[index] = defaultValue;
             });
         }
 

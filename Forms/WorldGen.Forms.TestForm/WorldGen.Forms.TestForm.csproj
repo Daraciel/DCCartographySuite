@@ -193,6 +193,10 @@
       <Project>{577761c6-b10c-4141-8195-0cd3023644d9}</Project>
       <Name>WorldGen.Algorithm.SquaredDiamond</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Algorithm\WorldGen.Algorithm.TetrahedralSubdivision\WorldGen.Algorithm.TetrahedralSubdivision.csproj">
+      <Project>{63874F91-0C65-4BFA-8748-F73F05945FA8}</Project>
+      <Name>WorldGen.Algorithm.TetrahedralSubdivision</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\WorldGen.Common\WorldGen.Common.csproj">
       <Project>{719f60e5-fa4c-40d5-ae1d-988c0e4b694b}</Project>
       <Name>WorldGen.Common</Name>

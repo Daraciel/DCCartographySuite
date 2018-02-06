@@ -43,18 +43,27 @@
             this.nudSDDetail = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.tpTetraSubd = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbTSResult = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.btnTSGenerate = new System.Windows.Forms.Button();
+            this.nudTSInitialAltitude = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cmbTSProjection = new System.Windows.Forms.ComboBox();
+            this.nudTSLongitude = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.nudTSLatitude = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.nudTSScale = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nudTSHeight = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nudTSWidth = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnTSGenerateRandomSeed = new System.Windows.Forms.Button();
+            this.btnTSPrint = new System.Windows.Forms.Button();
+            this.nudTSSeed = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.tcAlgorithms.SuspendLayout();
             this.tpSquaredDiamond.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSDResult)).BeginInit();
@@ -63,11 +72,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSDRoughness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDDetail)).BeginInit();
             this.tpTetraSubd.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTSResult)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSInitialAltitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSLongitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSLatitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSScale)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSSeed)).BeginInit();
             this.SuspendLayout();
             // 
             // tcAlgorithms
@@ -78,7 +91,7 @@
             this.tcAlgorithms.Location = new System.Drawing.Point(0, 0);
             this.tcAlgorithms.Name = "tcAlgorithms";
             this.tcAlgorithms.SelectedIndex = 0;
-            this.tcAlgorithms.Size = new System.Drawing.Size(890, 593);
+            this.tcAlgorithms.Size = new System.Drawing.Size(1075, 593);
             this.tcAlgorithms.TabIndex = 0;
             // 
             // tpSquaredDiamond
@@ -88,17 +101,17 @@
             this.tpSquaredDiamond.Location = new System.Drawing.Point(4, 22);
             this.tpSquaredDiamond.Name = "tpSquaredDiamond";
             this.tpSquaredDiamond.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSquaredDiamond.Size = new System.Drawing.Size(882, 567);
+            this.tpSquaredDiamond.Size = new System.Drawing.Size(1067, 567);
             this.tpSquaredDiamond.TabIndex = 0;
             this.tpSquaredDiamond.Text = "Squared Diamond";
             this.tpSquaredDiamond.UseVisualStyleBackColor = true;
             // 
             // pbSDResult
             // 
-            this.pbSDResult.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbSDResult.Location = new System.Drawing.Point(256, 3);
+            this.pbSDResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pbSDResult.Location = new System.Drawing.Point(250, 3);
             this.pbSDResult.Name = "pbSDResult";
-            this.pbSDResult.Size = new System.Drawing.Size(623, 561);
+            this.pbSDResult.Size = new System.Drawing.Size(810, 561);
             this.pbSDResult.TabIndex = 1;
             this.pbSDResult.TabStop = false;
             // 
@@ -263,37 +276,46 @@
             // 
             // tpTetraSubd
             // 
-            this.tpTetraSubd.Controls.Add(this.pictureBox1);
+            this.tpTetraSubd.Controls.Add(this.pbTSResult);
             this.tpTetraSubd.Controls.Add(this.groupBox1);
             this.tpTetraSubd.Location = new System.Drawing.Point(4, 22);
             this.tpTetraSubd.Name = "tpTetraSubd";
             this.tpTetraSubd.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTetraSubd.Size = new System.Drawing.Size(882, 567);
+            this.tpTetraSubd.Size = new System.Drawing.Size(1067, 567);
             this.tpTetraSubd.TabIndex = 1;
             this.tpTetraSubd.Text = "Tetraherical subdivision";
             this.tpTetraSubd.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pbTSResult
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBox1.Location = new System.Drawing.Point(256, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(623, 561);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.pbTSResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pbTSResult.Location = new System.Drawing.Point(250, 3);
+            this.pbTSResult.Name = "pbTSResult";
+            this.pbTSResult.Size = new System.Drawing.Size(810, 561);
+            this.pbTSResult.TabIndex = 3;
+            this.pbTSResult.TabStop = false;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.numericUpDown2);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.numericUpDown3);
+            this.groupBox1.Controls.Add(this.btnTSGenerate);
+            this.groupBox1.Controls.Add(this.nudTSInitialAltitude);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.cmbTSProjection);
+            this.groupBox1.Controls.Add(this.nudTSLongitude);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.nudTSLatitude);
             this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.nudTSScale);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.nudTSHeight);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.nudTSWidth);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.btnTSGenerateRandomSeed);
+            this.groupBox1.Controls.Add(this.btnTSPrint);
+            this.groupBox1.Controls.Add(this.nudTSSeed);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
@@ -302,147 +324,286 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parameters";
             // 
-            // button1
+            // btnTSGenerate
             // 
-            this.button1.Location = new System.Drawing.Point(121, 129);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Random Seed";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnTSGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnTSGenerate.Location = new System.Drawing.Point(3, 462);
+            this.btnTSGenerate.Name = "btnTSGenerate";
+            this.btnTSGenerate.Size = new System.Drawing.Size(241, 48);
+            this.btnTSGenerate.TabIndex = 24;
+            this.btnTSGenerate.Text = "Generate and Print";
+            this.btnTSGenerate.UseVisualStyleBackColor = true;
+            this.btnTSGenerate.Click += new System.EventHandler(this.btnTSGenerate_Click);
             // 
-            // label5
+            // nudTSInitialAltitude
             // 
-            this.label5.Location = new System.Drawing.Point(121, 46);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(108, 23);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "1x1";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(6, 46);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(108, 23);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Resulting Size:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button2.Location = new System.Drawing.Point(3, 510);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(241, 48);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Generate";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(121, 103);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 5;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(7, 103);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(108, 23);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Seed";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.DecimalPlaces = 2;
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.nudTSInitialAltitude.DecimalPlaces = 2;
+            this.nudTSInitialAltitude.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.numericUpDown2.Location = new System.Drawing.Point(121, 77);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            1,
+            this.nudTSInitialAltitude.Location = new System.Drawing.Point(121, 231);
+            this.nudTSInitialAltitude.Maximum = new decimal(new int[] {
+            10,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.nudTSInitialAltitude.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.nudTSInitialAltitude.Name = "nudTSInitialAltitude";
+            this.nudTSInitialAltitude.Size = new System.Drawing.Size(120, 20);
+            this.nudTSInitialAltitude.TabIndex = 23;
+            this.nudTSInitialAltitude.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147352576});
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(7, 231);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(108, 23);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Initial Altitude";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(7, 202);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(108, 23);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Projection";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmbTSProjection
+            // 
+            this.cmbTSProjection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTSProjection.FormattingEnabled = true;
+            this.cmbTSProjection.Location = new System.Drawing.Point(121, 204);
+            this.cmbTSProjection.Name = "cmbTSProjection";
+            this.cmbTSProjection.Size = new System.Drawing.Size(119, 21);
+            this.cmbTSProjection.TabIndex = 20;
+            // 
+            // nudTSLongitude
+            // 
+            this.nudTSLongitude.DecimalPlaces = 2;
+            this.nudTSLongitude.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            7,
+            this.nudTSLongitude.Location = new System.Drawing.Point(121, 178);
+            this.nudTSLongitude.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.nudTSLongitude.Minimum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            -2147483648});
+            this.nudTSLongitude.Name = "nudTSLongitude";
+            this.nudTSLongitude.Size = new System.Drawing.Size(120, 20);
+            this.nudTSLongitude.TabIndex = 19;
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(7, 178);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(108, 23);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Longitude";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nudTSLatitude
+            // 
+            this.nudTSLatitude.DecimalPlaces = 2;
+            this.nudTSLatitude.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudTSLatitude.Location = new System.Drawing.Point(121, 152);
+            this.nudTSLatitude.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.nudTSLatitude.Minimum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            -2147483648});
+            this.nudTSLatitude.Name = "nudTSLatitude";
+            this.nudTSLatitude.Size = new System.Drawing.Size(120, 20);
+            this.nudTSLatitude.TabIndex = 17;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(7, 152);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(108, 23);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Latitude";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nudTSScale
+            // 
+            this.nudTSScale.DecimalPlaces = 2;
+            this.nudTSScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudTSScale.Location = new System.Drawing.Point(120, 126);
+            this.nudTSScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudTSScale.Name = "nudTSScale";
+            this.nudTSScale.Size = new System.Drawing.Size(120, 20);
+            this.nudTSScale.TabIndex = 15;
+            this.nudTSScale.Value = new decimal(new int[] {
+            10,
             0,
             0,
             65536});
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(7, 77);
+            this.label8.Location = new System.Drawing.Point(6, 126);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(108, 23);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Roughness";
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Scale";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // numericUpDown3
+            // nudTSHeight
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(121, 23);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
-            12,
+            this.nudTSHeight.Location = new System.Drawing.Point(121, 100);
+            this.nudTSHeight.Maximum = new decimal(new int[] {
+            99999999,
             0,
             0,
             0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
+            this.nudTSHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudTSHeight.Name = "nudTSHeight";
+            this.nudTSHeight.Size = new System.Drawing.Size(120, 20);
+            this.nudTSHeight.TabIndex = 13;
+            this.nudTSHeight.Value = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(7, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 23);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Height";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nudTSWidth
+            // 
+            this.nudTSWidth.Location = new System.Drawing.Point(120, 74);
+            this.nudTSWidth.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nudTSWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudTSWidth.Name = "nudTSWidth";
+            this.nudTSWidth.Size = new System.Drawing.Size(120, 20);
+            this.nudTSWidth.TabIndex = 11;
+            this.nudTSWidth.Value = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(6, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(108, 23);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Width";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnTSGenerateRandomSeed
+            // 
+            this.btnTSGenerateRandomSeed.Location = new System.Drawing.Point(120, 45);
+            this.btnTSGenerateRandomSeed.Name = "btnTSGenerateRandomSeed";
+            this.btnTSGenerateRandomSeed.Size = new System.Drawing.Size(120, 23);
+            this.btnTSGenerateRandomSeed.TabIndex = 9;
+            this.btnTSGenerateRandomSeed.Text = "Random Seed";
+            this.btnTSGenerateRandomSeed.UseVisualStyleBackColor = true;
+            // 
+            // btnTSPrint
+            // 
+            this.btnTSPrint.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnTSPrint.Location = new System.Drawing.Point(3, 510);
+            this.btnTSPrint.Name = "btnTSPrint";
+            this.btnTSPrint.Size = new System.Drawing.Size(241, 48);
+            this.btnTSPrint.TabIndex = 6;
+            this.btnTSPrint.Text = "Print";
+            this.btnTSPrint.UseVisualStyleBackColor = true;
+            // 
+            // nudTSSeed
+            // 
+            this.nudTSSeed.DecimalPlaces = 10;
+            this.nudTSSeed.Location = new System.Drawing.Point(121, 19);
+            this.nudTSSeed.Maximum = new decimal(new int[] {
+            1410065407,
             2,
             0,
-            0,
-            0});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown3.TabIndex = 1;
-            this.numericUpDown3.Value = new decimal(new int[] {
-            2,
+            655360});
+            this.nudTSSeed.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
-            0});
+            655360});
+            this.nudTSSeed.Name = "nudTSSeed";
+            this.nudTSSeed.Size = new System.Drawing.Size(120, 20);
+            this.nudTSSeed.TabIndex = 5;
+            this.nudTSSeed.Value = new decimal(new int[] {
+            1111111111,
+            0,
+            0,
+            655360});
             // 
-            // label9
+            // label7
             // 
-            this.label9.Location = new System.Drawing.Point(7, 20);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(108, 23);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Detail (Side)";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.Location = new System.Drawing.Point(7, 19);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 23);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Seed";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 593);
+            this.ClientSize = new System.Drawing.Size(1075, 593);
             this.Controls.Add(this.tcAlgorithms);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -455,11 +616,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSDRoughness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSDDetail)).EndInit();
             this.tpTetraSubd.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTSResult)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSInitialAltitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSLongitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSLatitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSScale)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTSSeed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -481,18 +646,27 @@
         private System.Windows.Forms.Label lblSDSize;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSDGenerateRandomSeed;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbTSResult;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button btnTSGenerateRandomSeed;
+        private System.Windows.Forms.Button btnTSPrint;
+        private System.Windows.Forms.NumericUpDown nudTSSeed;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown nudTSWidth;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown nudTSHeight;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown nudTSLatitude;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown nudTSScale;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown nudTSLongitude;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox cmbTSProjection;
+        private System.Windows.Forms.NumericUpDown nudTSInitialAltitude;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button btnTSGenerate;
     }
 }
 

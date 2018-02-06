@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WorldGen.Algorithm.SquaredDiamond;
+using WorldGen.Algorithm.TetrahedralSubdivision;
 using WorldGen.Common.BE;
+using WorldGen.Common.Enums;
 
 namespace WorldGen.Forms.TestForm
 {
@@ -16,12 +18,27 @@ namespace WorldGen.Forms.TestForm
     {
         private InitializeParams parameters;
         private SquaredDiamond SDAlgorithm;
+        private TetrahedralSubdivision TSAlgorithm;
         private Random rnd;
 
         public Form1()
         {
             InitializeComponent();
             rnd = new Random();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.setSquaredDiamondValues();
+            this.setTetrahedricalSubdivisionValues();
+        }
+
+        #region SQUARED-DIAMOND METHODS
+
+        private void setSquaredDiamondValues()
+        {
+            this.nudSDDetail.Value = 8;
+            this.nudSDSeed.Value = rnd.Next(99999999);
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -55,17 +72,63 @@ namespace WorldGen.Forms.TestForm
             this.lblSDSize.Text = size + "x" + size;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.nudSDDetail.Value = 8;
-            this.nudSDSeed.Value = rnd.Next(99999999);
-        }
-
         private void btnSDGenerateRandomSeed_Click(object sender, EventArgs e)
         {
             this.nudSDSeed.Value = rnd.Next(99999999);
         }
 
+        #endregion
 
+        #region TETRAHEDRICAL SUBDIVISION METHODS
+
+        private void setTetrahedricalSubdivisionValues()
+        {
+            this.populateCmbTSProjection();
+        }
+
+        private void populateCmbTSProjection()
+        {
+            this.cmbTSProjection.Items.Clear();
+            HashSet<MapProjections> projs;
+
+            projs = TetrahedralSubdivision.SupportedProjections();
+
+            this.cmbTSProjection.DataSource = new BindingSource(projs.ToDictionary(t => (int)t, t => t.ToString()), null);
+            this.cmbTSProjection.DisplayMember = "Value";
+            this.cmbTSProjection.ValueMember = "Key";
+
+        }
+
+        private void btnTSGenerate_Click(object sender, EventArgs e)
+        {
+            int width, height;
+            double seed, scale, latitude, longitude, initialAltitude;
+            MapProjections projection;
+            parameters = new InitializeParams();
+
+            seed = (double)nudTSSeed.Value;
+            width = (int)nudTSWidth.Value;
+            height = (int)nudTSHeight.Value;
+            scale = (double)nudTSScale.Value;
+            longitude = (double)nudTSLongitude.Value;
+            latitude = (double)nudTSLatitude.Value;
+            initialAltitude = (double)nudTSInitialAltitude.Value;
+
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.HEIGHT, height);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SCALE, scale);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LONGITUDE, longitude);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LATITUDE, latitude);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.INITIAL_ALTITUDE, initialAltitude);
+
+            TSAlgorithm = new TetrahedralSubdivision();
+            TSAlgorithm.Initialize(parameters);
+            TSAlgorithm.Create().Save(@"C:/sample/sampleTSimage.jpg");
+            pbTSResult.ImageLocation = @"C:/sample/sampleTSimage.jpg";
+
+        }
+
+        #endregion
     }
 }

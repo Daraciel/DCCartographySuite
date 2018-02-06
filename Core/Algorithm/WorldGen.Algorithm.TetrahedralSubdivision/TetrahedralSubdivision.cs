@@ -139,13 +139,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         public MapProjections Projection { get => projection; set => projection = value; }
 
         #endregion
-
-
-
-        #region PROPERTIES
-
-        #endregion
-
+        
         #region IALGORITHM
 
         public override IMap Create()
@@ -220,6 +214,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         #endregion
 
+        #region PUBLIC METHODS
+
+        public static HashSet<MapProjections> SupportedProjections()
+        {
+            return new HashSet<MapProjections>() { MapProjections.MERCATOR };
+        }
+
+        #endregion
+
         #region PROJECTIONS
 
         private void DoMercatorProjection()
@@ -238,7 +241,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 y = (y - 1.0) / (y + 1.0);
                 scale1 = scale * Width / Height / Math.Sqrt(1.0 - y * y) / Constants.PI;
                 cos2 = Math.Sqrt(1.0 - y * y);
-                depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+                depth = 3 * (Math.Truncate(Math.Log(scale1 * Height, 2))) + 3;
                 for (i = 0; i < Width; i++)
                 {
                     theta1 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
@@ -258,7 +261,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
             generatedHeight = getHeightForPoint(new Point3D(x, y, z));
 
-            this.resultMap.Heightmap[i*this.resultMap.Width + j] = generatedHeight;
+            this.resultMap.Heightmap[j*this.resultMap.Width + i] = generatedHeight;
         }
 
         private double getHeightForPoint(Point3D point)
@@ -289,6 +292,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             TetrahedronPoint A, B;
             if(depth > 0)
             {
+                if(depth == 11)
+                {
+                    workingTetra = tetra;
+                }
                 switch (tetra.LongestSide)
                 {
                     case Enum.TetrahedronSides.AB:
@@ -368,6 +375,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             {
                 result = (tetra.A.Value + tetra.B.Value + tetra.C.Value + tetra.D.Value) / 4;
             }
+
             
             return result;
         }
@@ -378,10 +386,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private void InitilizeDefaultTetra()
         {
-            defaultTetra = new Tetrahedron(new double[] { -Constants.SQRT3 - 0.20, -Constants.SQRT3 - 0.22, -Constants.SQRT3 - 0.23, InitialAltitude, randSeed1 },
-                                            new double[] { -Constants.SQRT3 - 0.19, Constants.SQRT3 + 0.18, Constants.SQRT3 + 0.17, InitialAltitude, randSeed2 },
-                                            new double[] { Constants.SQRT3 + 0.21, -Constants.SQRT3 - 0.24, Constants.SQRT3 + 0.15, InitialAltitude, randSeed3 },
-                                            new double[] { Constants.SQRT3 + 0.24, Constants.SQRT3 + 0.22, -Constants.SQRT3 - 0.25, InitialAltitude, randSeed4 });
+            defaultTetra = new Tetrahedron( new double[] { -Constants.SQRT3 - 0.20, -Constants.SQRT3 - 0.22, -Constants.SQRT3 - 0.23, InitialAltitude, randSeed1 },
+                                            new double[] { -Constants.SQRT3 - 0.19,  Constants.SQRT3 + 0.18,  Constants.SQRT3 + 0.17, InitialAltitude, randSeed2 },
+                                            new double[] {  Constants.SQRT3 + 0.21, -Constants.SQRT3 - 0.24,  Constants.SQRT3 + 0.15, InitialAltitude, randSeed3 },
+                                            new double[] {  Constants.SQRT3 + 0.24,  Constants.SQRT3 + 0.22, -Constants.SQRT3 - 0.25, InitialAltitude, randSeed4 });
         }
 
         private void setDepth()
@@ -404,8 +412,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             result -= Math.Truncate(result);
             result *= 2.0;
             result -= 1.0;
-
             return result;
+
+            //double r;
+            //r = (a + 3.14159265) * (b + 3.14159265);
+            //return (2.0 * (r - (int)r) - 1.0);
+
         }
 
         #endregion

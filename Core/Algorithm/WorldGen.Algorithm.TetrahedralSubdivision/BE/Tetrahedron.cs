@@ -6,30 +6,39 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 {
     public class Tetrahedron
     {
+        #region FIELDS
+
+        private TetrahedronPoint a;
+        private TetrahedronPoint b;
+        private TetrahedronPoint c;
+        private TetrahedronPoint d;
+
+        #endregion
+
         #region PROPERTIES
 
         public TetrahedronPoint A
         {
-            get { return A; }
-            set {  A = value; calculateSides(); }
+            get { return a; }
+            set {  a = value; calculateSides(); }
         }
 
         public TetrahedronPoint B
         {
-            get { return B; }
-            set { B = value; calculateSides(); }
+            get { return b; }
+            set { b = value; calculateSides(); }
         }
 
         public TetrahedronPoint C
         {
-            get { return C; }
-            set { C = value; calculateSides(); }
+            get { return c; }
+            set { c = value; calculateSides(); }
         }
 
         public TetrahedronPoint D
         {
-            get { return D; }
-            set { D = value; calculateSides(); }
+            get { return d; }
+            set { d = value; calculateSides(); }
         }
 
         public double ABSideLength { get; private set; }
