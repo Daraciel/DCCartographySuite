@@ -290,13 +290,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             double longestSideValue;
             TetrahedronPoint E = new TetrahedronPoint();
             TetrahedronPoint A, B;
-            if(depth > 0)
+            Enum.TetrahedronSides longestSide;
+            if (depth > 0)
             {
-                if(depth == 11)
+                longestSide = tetra.LongestSide;
+                if (depth == 11)
                 {
                     workingTetra = tetra;
                 }
-                switch (tetra.LongestSide)
+                switch (longestSide)
                 {
                     case Enum.TetrahedronSides.AB:
                     default:
@@ -361,12 +363,53 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             + es * this.AltitudeDifferenceWeight * Math.Pow(Math.Abs(A.Value - B.Value), this.AltitudeDifferencePower)
                             + es1 * this.DistanceWeight * Math.Pow(longestSideValue, this.DistanceFunctionPower);
 
-                tetra.A = E;
+                switch (longestSide)
+                {
+                    case Enum.TetrahedronSides.AB:
+                    case Enum.TetrahedronSides.AC:
+                    case Enum.TetrahedronSides.AD:
+                    default:
+                        tetra.A = E;
+                        break;
+                    case Enum.TetrahedronSides.BC:
+                    case Enum.TetrahedronSides.BD:
+                        tetra.B = E;
+                        break;
+                    case Enum.TetrahedronSides.CD:
+                        tetra.C = E;
+                        break;
+                }
 
                 if (!tetra.IsInside(point))
                 {
-                    tetra.A = A;
-                    tetra.B = E;
+                    switch (longestSide)
+                    {
+                        case Enum.TetrahedronSides.AB:
+                        default:
+                            tetra.A = A;
+                            tetra.B = E;
+                            break;
+                        case Enum.TetrahedronSides.AC:
+                            tetra.A = A;
+                            tetra.C = E;
+                            break;
+                        case Enum.TetrahedronSides.AD:
+                            tetra.A = A;
+                            tetra.D = E;
+                            break;
+                        case Enum.TetrahedronSides.BC:
+                            tetra.B = A;
+                            tetra.C = E;
+                            break;
+                        case Enum.TetrahedronSides.BD:
+                            tetra.B = A;
+                            tetra.D = E;
+                            break;
+                        case Enum.TetrahedronSides.CD:
+                            tetra.C = A;
+                            tetra.D = E;
+                            break;
+                    }
                 }
 
                 result = this.getHeightForPoint(tetra, point, depth - 1);
