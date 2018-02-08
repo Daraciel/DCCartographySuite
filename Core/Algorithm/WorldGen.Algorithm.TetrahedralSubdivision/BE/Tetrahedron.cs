@@ -48,7 +48,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         public double BDSideLength { get; private set; }
         public double CDSideLength { get; private set; }
 
-        public TetrahedronSides LongestSide { get; private set; }
+        public TetrahedronEdges LongestSide { get; private set; }
 
         #endregion
 
@@ -164,6 +164,29 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             return result;
         }
 
+        public bool IsBeside(TetrahedronSides side, Point3D point)
+        {
+            bool result = false;
+
+            switch(side)
+            {
+                case TetrahedronSides.ABC:
+                    result = checkIfPointIsBesideABCSide(point);
+                    break;
+                case TetrahedronSides.ABD:
+                    result = checkIfPointIsBesideABDSide(point);
+                    break;
+                case TetrahedronSides.ACD:
+                    result = checkIfPointIsBesideACDSide(point);
+                    break;
+                case TetrahedronSides.BCD:
+                    result = checkIfPointIsBesideBCDSide(point);
+                    break;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region PRIVATE METHODS
@@ -193,38 +216,76 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             double longestSide;
             if (ABSideLength > ACSideLength)
             {
-                this.LongestSide = TetrahedronSides.AB;
+                this.LongestSide = TetrahedronEdges.AB;
                 longestSide = ABSideLength;
             }
             else
             {
-                this.LongestSide = TetrahedronSides.AC;
+                this.LongestSide = TetrahedronEdges.AC;
                 longestSide = ACSideLength;
             }
 
             if (ADSideLength > longestSide)
             {
-                this.LongestSide = TetrahedronSides.AD;
+                this.LongestSide = TetrahedronEdges.AD;
                 longestSide = ADSideLength;
             }
 
             if (BCSideLength > longestSide)
             {
-                this.LongestSide = TetrahedronSides.BC;
+                this.LongestSide = TetrahedronEdges.BC;
                 longestSide = BCSideLength;
             }
 
             if (BDSideLength > longestSide)
             {
-                this.LongestSide = TetrahedronSides.BD;
+                this.LongestSide = TetrahedronEdges.BD;
                 longestSide = BDSideLength;
             }
 
             if (CDSideLength > longestSide)
             {
-                this.LongestSide = TetrahedronSides.CD;
+                this.LongestSide = TetrahedronEdges.CD;
                 longestSide = CDSideLength;
             }
+        }
+
+        private bool checkIfPointIsBesideBCDSide(Point3D p)
+        {
+            double  abx, aby, abz,
+                    bpx, bpy, bpz,
+                    bcx, bcy, bcz,
+                    bdx, bdy, bdz;
+            bool result = false;
+
+            abx = A.X - B.X; aby = A.Y - B.Y; abz = A.Z - B.Z;
+            bpx = p.X - B.X; bpy = p.Y - B.Y; bpz = p.Z - B.Z;
+            bcx = C.X - B.X; bcy = C.Y - B.Y; bcz = C.Z - B.Z;
+            bdx = D.X - B.X; bdy = D.Y - B.Y; bdz = D.Z - B.Z;
+            if ((abx * bcy * bdz + aby * bcz * bdx + abz * bcx * bdy
+                   - abz * bcy * bdx - aby * bcx * bdz - abx * bcz * bdy) *
+                (bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy
+                   - bpz * bcy * bdx - bpy * bcx * bdz - bpx * bcz * bdy) > 0.0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        private bool checkIfPointIsBesideACDSide(Point3D point)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool checkIfPointIsBesideABDSide(Point3D point)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool checkIfPointIsBesideABCSide(Point3D point)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

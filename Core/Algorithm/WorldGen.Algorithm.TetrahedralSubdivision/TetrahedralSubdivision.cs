@@ -290,7 +290,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             double longestSideValue;
             TetrahedronPoint E = new TetrahedronPoint();
             TetrahedronPoint A, B;
-            Enum.TetrahedronSides longestSide;
+            Enum.TetrahedronEdges longestSide;
             if (depth > 0)
             {
                 longestSide = tetra.LongestSide;
@@ -300,33 +300,33 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 }
                 switch (longestSide)
                 {
-                    case Enum.TetrahedronSides.AB:
+                    case Enum.TetrahedronEdges.AB:
                     default:
                         A = tetra.A;
                         B = tetra.B;
                         longestSideValue = tetra.ABSideLength;
                         break;
-                    case Enum.TetrahedronSides.AC:
+                    case Enum.TetrahedronEdges.AC:
                         A = tetra.A;
                         B = tetra.C;
                         longestSideValue = tetra.ACSideLength;
                         break;
-                    case Enum.TetrahedronSides.AD:
+                    case Enum.TetrahedronEdges.AD:
                         A = tetra.A;
                         B = tetra.D;
                         longestSideValue = tetra.ADSideLength;
                         break;
-                    case Enum.TetrahedronSides.BC:
+                    case Enum.TetrahedronEdges.BC:
                         A = tetra.B;
                         B = tetra.C;
                         longestSideValue = tetra.BCSideLength;
                         break;
-                    case Enum.TetrahedronSides.BD:
+                    case Enum.TetrahedronEdges.BD:
                         A = tetra.B;
                         B = tetra.D;
                         longestSideValue = tetra.BDSideLength;
                         break;
-                    case Enum.TetrahedronSides.CD:
+                    case Enum.TetrahedronEdges.CD:
                         A = tetra.C;
                         B = tetra.D;
                         longestSideValue = tetra.CDSideLength;
@@ -337,6 +337,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 es1 = this.random(es, es);
                 es2 = 0.5 + 0.1 * this.random(es1, es1);
                 es3 = 1.0 - es2;
+
+                E.Seed = es;
 
                 if (A.Seed < B.Seed)
                 {
@@ -365,17 +367,70 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
                 switch (longestSide)
                 {
-                    case Enum.TetrahedronSides.AB:
-                    case Enum.TetrahedronSides.AC:
-                    case Enum.TetrahedronSides.AD:
+                    case Enum.TetrahedronEdges.AB:
+                        tetra.B = E;
+                        if(!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                        {
+                            tetra.A = E;
+                            tetra.B = B;
+                        }
+                        break;
+                    case Enum.TetrahedronEdges.AC:
+                        tetra.C = E;
+                        if (!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                        {
+                            tetra.A = E;
+                            tetra.C = B;
+                        }
+                        break;
+                    case Enum.TetrahedronEdges.AD:
+                        tetra.D = E;
+                        if (!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                        {
+                            tetra.A = E;
+                            tetra.D = B;
+                        }
+                        break;
+                    case Enum.TetrahedronEdges.BC:
+                        tetra.C = E;
+                        if (!tetra.IsBeside(Enum.TetrahedronSides.ACD, point))
+                        {
+                            tetra.B = E;
+                            tetra.C = B;
+                        }
+                        break;
+                    case Enum.TetrahedronEdges.BD:
+                        tetra.D = E;
+                        if (!tetra.IsBeside(Enum.TetrahedronSides.ACD, point))
+                        {
+                            tetra.B = E;
+                            tetra.D = B;
+                        }
+                        break;
+                    case Enum.TetrahedronEdges.CD:
+                        tetra.D = E;
+                        if (!tetra.IsBeside(Enum.TetrahedronSides.ABD, point))
+                        {
+                            tetra.C = E;
+                            tetra.D = B;
+                        }
+                        break;
+                }
+
+
+                switch (longestSide)
+                {
+                    case Enum.TetrahedronEdges.AB:
+                    case Enum.TetrahedronEdges.AC:
+                    case Enum.TetrahedronEdges.AD:
                     default:
                         tetra.A = E;
                         break;
-                    case Enum.TetrahedronSides.BC:
-                    case Enum.TetrahedronSides.BD:
+                    case Enum.TetrahedronEdges.BC:
+                    case Enum.TetrahedronEdges.BD:
                         tetra.B = E;
                         break;
-                    case Enum.TetrahedronSides.CD:
+                    case Enum.TetrahedronEdges.CD:
                         tetra.C = E;
                         break;
                 }
@@ -384,28 +439,28 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 {
                     switch (longestSide)
                     {
-                        case Enum.TetrahedronSides.AB:
+                        case Enum.TetrahedronEdges.AB:
                         default:
                             tetra.A = A;
                             tetra.B = E;
                             break;
-                        case Enum.TetrahedronSides.AC:
+                        case Enum.TetrahedronEdges.AC:
                             tetra.A = A;
                             tetra.C = E;
                             break;
-                        case Enum.TetrahedronSides.AD:
+                        case Enum.TetrahedronEdges.AD:
                             tetra.A = A;
                             tetra.D = E;
                             break;
-                        case Enum.TetrahedronSides.BC:
+                        case Enum.TetrahedronEdges.BC:
                             tetra.B = A;
                             tetra.C = E;
                             break;
-                        case Enum.TetrahedronSides.BD:
+                        case Enum.TetrahedronEdges.BD:
                             tetra.B = A;
                             tetra.D = E;
                             break;
-                        case Enum.TetrahedronSides.CD:
+                        case Enum.TetrahedronEdges.CD:
                             tetra.C = A;
                             tetra.D = E;
                             break;

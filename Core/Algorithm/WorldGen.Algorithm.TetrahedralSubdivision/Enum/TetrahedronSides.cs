@@ -2,11 +2,9 @@
 {
     public enum TetrahedronSides
     {
-        AB,
-        AC,
-        AD,
-        BC,
-        BD,
-        CD
+        ABC,
+        ABD,
+        ACD,
+        BCD
     }
 }
