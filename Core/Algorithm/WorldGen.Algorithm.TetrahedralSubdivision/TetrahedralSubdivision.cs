@@ -418,55 +418,56 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 }
 
 
-                switch (longestSide)
-                {
-                    case Enum.TetrahedronEdges.AB:
-                    case Enum.TetrahedronEdges.AC:
-                    case Enum.TetrahedronEdges.AD:
-                    default:
-                        tetra.A = E;
-                        break;
-                    case Enum.TetrahedronEdges.BC:
-                    case Enum.TetrahedronEdges.BD:
-                        tetra.B = E;
-                        break;
-                    case Enum.TetrahedronEdges.CD:
-                        tetra.C = E;
-                        break;
-                }
 
-                if (!tetra.IsInside(point))
-                {
-                    switch (longestSide)
-                    {
-                        case Enum.TetrahedronEdges.AB:
-                        default:
-                            tetra.A = A;
-                            tetra.B = E;
-                            break;
-                        case Enum.TetrahedronEdges.AC:
-                            tetra.A = A;
-                            tetra.C = E;
-                            break;
-                        case Enum.TetrahedronEdges.AD:
-                            tetra.A = A;
-                            tetra.D = E;
-                            break;
-                        case Enum.TetrahedronEdges.BC:
-                            tetra.B = A;
-                            tetra.C = E;
-                            break;
-                        case Enum.TetrahedronEdges.BD:
-                            tetra.B = A;
-                            tetra.D = E;
-                            break;
-                        case Enum.TetrahedronEdges.CD:
-                            tetra.C = A;
-                            tetra.D = E;
-                            break;
-                    }
-                }
 
+                //switch (longestSide)
+                //{
+                //    case Enum.TetrahedronEdges.AB:
+                //    case Enum.TetrahedronEdges.AC:
+                //    case Enum.TetrahedronEdges.AD:
+                //    default:
+                //        tetra.A = E;
+                //        break;
+                //    case Enum.TetrahedronEdges.BC:
+                //    case Enum.TetrahedronEdges.BD:
+                //        tetra.B = E;
+                //        break;
+                //    case Enum.TetrahedronEdges.CD:
+                //        tetra.C = E;
+                //        break;
+                //}
+
+                //if (!tetra.IsInside(point))
+                //{
+                //    switch (longestSide)
+                //    {
+                //        case Enum.TetrahedronEdges.AB:
+                //        default:
+                //            tetra.A = A;
+                //            tetra.B = E;
+                //            break;
+                //        case Enum.TetrahedronEdges.AC:
+                //            tetra.A = A;
+                //            tetra.C = E;
+                //            break;
+                //        case Enum.TetrahedronEdges.AD:
+                //            tetra.A = A;
+                //            tetra.D = E;
+                //            break;
+                //        case Enum.TetrahedronEdges.BC:
+                //            tetra.B = A;
+                //            tetra.C = E;
+                //            break;
+                //        case Enum.TetrahedronEdges.BD:
+                //            tetra.B = A;
+                //            tetra.D = E;
+                //            break;
+                //        case Enum.TetrahedronEdges.CD:
+                //            tetra.C = A;
+                //            tetra.D = E;
+                //            break;
+                //    }
+                //}                
                 result = this.getHeightForPoint(tetra, point, depth - 1);
             }
             else

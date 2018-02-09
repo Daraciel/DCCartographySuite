@@ -252,18 +252,18 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         private bool checkIfPointIsBesideBCDSide(Point3D p)
         {
-            double  abx, aby, abz,
+            double  bax, bay, baz,
                     bpx, bpy, bpz,
                     bcx, bcy, bcz,
                     bdx, bdy, bdz;
             bool result = false;
 
-            abx = A.X - B.X; aby = A.Y - B.Y; abz = A.Z - B.Z;
+            bax = A.X - B.X; bay = A.Y - B.Y; baz = A.Z - B.Z;
             bpx = p.X - B.X; bpy = p.Y - B.Y; bpz = p.Z - B.Z;
             bcx = C.X - B.X; bcy = C.Y - B.Y; bcz = C.Z - B.Z;
             bdx = D.X - B.X; bdy = D.Y - B.Y; bdz = D.Z - B.Z;
-            if ((abx * bcy * bdz + aby * bcz * bdx + abz * bcx * bdy
-                   - abz * bcy * bdx - aby * bcx * bdz - abx * bcz * bdy) *
+            if ((bax * bcy * bdz + bay * bcz * bdx + baz * bcx * bdy
+                   - baz * bcy * bdx - bay * bcx * bdz - bax * bcz * bdy) *
                 (bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy
                    - bpz * bcy * bdx - bpy * bcx * bdz - bpx * bcz * bdy) > 0.0)
             {
@@ -273,19 +273,75 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             return result;
         }
 
-        private bool checkIfPointIsBesideACDSide(Point3D point)
+        private bool checkIfPointIsBesideACDSide(Point3D p)
         {
-            throw new NotImplementedException();
+            double abx, aby, abz,
+                    apx, apy, apz,
+                    acx, acy, acz,
+                    adx, ady, adz;
+            bool result = false;
+
+            abx = B.X - A.X; aby = B.Y - A.Y; abz = B.Z - A.Z;
+            apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
+            acx = C.X - A.X; acy = C.Y - A.Y; acz = C.Z - A.Z;
+            adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
+            if ((abx * acy * adz + aby * acz * adx + abz * acx * ady
+                   - abz * acy * adx - aby * acx * adz - abx * acz * ady) *
+                (apx * acy * adz + apy * acz * adx + apz * acx * ady
+                   - apz * acy * adx - apy * acx * adz - apx * acz * ady) > 0.0)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
-        private bool checkIfPointIsBesideABDSide(Point3D point)
+        private bool checkIfPointIsBesideABDSide(Point3D p)
         {
-            throw new NotImplementedException();
+            //checkIfPointIsBesideBCDSide
+            double acx, acy, acz,
+                    apx, apy, apz,
+                    abx, aby, abz,
+                    adx, ady, adz;
+            bool result = false;
+
+            acx = C.X - A.X; acy = C.Y - A.Y; acz = C.Z - A.Z;
+            apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
+            abx = C.X - A.X; aby = B.Y - A.Y; abz = B.Z - A.Z;
+            adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
+            if ((acx * aby * adz + acy * abz * adx + acz * abx * ady
+                   - acz * aby * adx - acy * abx * adz - acx * abz * ady) *
+                (apx * aby * adz + apy * abz * adx + apz * abx * ady
+                   - apz * aby * adx - apy * abx * adz - apx * abz * ady) > 0.0)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
-        private bool checkIfPointIsBesideABCSide(Point3D point)
+        private bool checkIfPointIsBesideABCSide(Point3D p)
         {
-            throw new NotImplementedException();
+            //checkIfPointIsBesideBCDSide
+            double adx, ady, adz,
+                    apx, apy, apz,
+                    abx, aby, abz,
+                    acx, acy, acz;
+            bool result = false;
+
+            adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
+            apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
+            abx = A.X - B.X; aby = A.Y - B.Y; abz = A.Z - B.Z;
+            acx = A.X - C.X; acy = A.Y - C.Y; acz = A.Z - C.Z;
+            if ((adx * aby * acz + ady * abz * acx + adz * abx * acy
+                   - adz * aby * acx - ady * abx * acz - adx * abz * acy) *
+                (apx * aby * acz + apy * abz * acx + apz * abx * acy
+                   - apz * aby * acx - apy * abx * acz - apx * abz * acy) > 0.0)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         #endregion
