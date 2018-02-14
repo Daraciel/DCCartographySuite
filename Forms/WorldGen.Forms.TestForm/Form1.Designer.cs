@@ -566,6 +566,7 @@
             this.btnTSPrint.TabIndex = 6;
             this.btnTSPrint.Text = "Print";
             this.btnTSPrint.UseVisualStyleBackColor = true;
+            this.btnTSPrint.Click += new System.EventHandler(this.btnTSPrint_Click);
             // 
             // nudTSSeed
             // 

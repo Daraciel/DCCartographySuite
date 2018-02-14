@@ -1,12 +1,16 @@
 ﻿using ImageSharp;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using WorldGen.Common.BE;
 
 namespace WorldGen.Common.Interfaces
 {
     public abstract class IMap
     {
         #region FIELDS
+
+        protected ColorSchema colorPalette;
 
         protected Image<Rgba32> resultingMap;
 
@@ -30,6 +34,8 @@ namespace WorldGen.Common.Interfaces
 
         public abstract Image<Rgba32> Print();
 
+        public abstract Image<Rgba32> PrintBW();
+
         private void prepareSave()
         {
             if(resultingMap == null)
@@ -42,6 +48,14 @@ namespace WorldGen.Common.Interfaces
         {
             prepareSave();
             resultingMap.Save(path);
+        }
+
+        public void SetColorSchema(string path)
+        {
+            if(File.Exists(path))
+            {
+                this.colorPalette = new ColorSchema(path);
+            }
         }
 
         #endregion

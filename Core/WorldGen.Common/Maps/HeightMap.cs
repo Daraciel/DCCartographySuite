@@ -85,7 +85,7 @@ namespace WorldGen.Common.Maps
 
         #region IMAP
 
-        public override Image<Rgba32> Print()
+        public override Image<Rgba32> PrintBW()
         {
             Image<Rgba32> result;
             Rgba32 color;
@@ -130,6 +130,97 @@ namespace WorldGen.Common.Maps
             //         .Grayscale());
             //    image.Save("bar.jpg"); // automatic encoder selected based on extension.
             //}
+
+            return result;
+        }
+
+        public override Image<Rgba32> Print()
+        {
+            Image<Rgba32> result;
+            Rgba32 color;
+            long position;
+            double maxHeight;
+            double alt;
+            int colorIndex;
+
+            maxHeight = Utilities.ToolBox.GetMaxValue(this.heightmap);
+            color.A = byte.MaxValue;
+
+            result = new Image<Rgba32>((int)this.width, (int)this.height);
+
+            if (result == null || result.Width <= 0 || result.Height <= 0)
+            {
+                return null;
+            }
+
+            result.Fill(Rgba32.Red);
+
+            for (int x = 0; x < this.width; x++)
+            {
+                for (int y = 0; y < this.height; y++)
+                {
+                    if(y == 82)
+                    {
+
+                    }
+                    position = x + this.width * y;
+                    alt = Heightmap[position];
+                    if (alt == double.MaxValue || alt >= 0.1)
+                    {
+                        colorIndex = this.colorPalette.Highest;
+                    }
+                    else if (alt <= 0)
+                    {
+                        colorIndex = this.colorPalette.Sea + (int)((this.colorPalette.Sea - this.colorPalette.Lowest + 1) * (10 * alt));
+                    }
+                    else
+                    {
+                        colorIndex = this.colorPalette.Land + (int)((this.colorPalette.Highest - this.colorPalette.Land + 1) * (10 * alt));
+                    }
+
+                    if (colorIndex > this.colorPalette.Highest)
+                    {
+                        colorIndex = this.colorPalette.Highest;
+                    }
+
+                    if (colorIndex < this.colorPalette.Lowest)
+                    {
+                        colorIndex = this.colorPalette.Lowest;
+                    }
+
+                    result[x, y] = this.colorPalette.Colors[colorIndex];
+                }
+            }
+
+            //Parallel.For(0, this.width,
+            //    x =>
+            //    {
+            //        Parallel.For(0, this.height,
+            //            y =>
+            //            {
+            //                position = x + this.width * y;
+            //                alt = Heightmap[position];
+            //                if (alt == double.MaxValue || alt >= 0.1)
+            //                {
+            //                    colorIndex = this.colorPalette.Highest;
+            //                }
+            //                else if(alt <= 0)
+            //                {
+            //                    colorIndex = this.colorPalette.Sea + (int)((this.colorPalette.Sea - this.colorPalette.Lowest + 1) * (10 * alt));
+            //                }
+            //                else
+            //                {
+            //                    colorIndex = this.colorPalette.Land + (int)((this.colorPalette.Highest - this.colorPalette.Land + 1) * (10 * alt));
+            //                }
+
+            //                if(colorIndex > this.colorPalette.Highest)
+            //                {
+            //                    colorIndex = this.colorPalette.Highest;
+            //                }
+
+            //                result[x, y] = this.colorPalette.Colors[colorIndex];
+            //            });
+            //    });
 
             return result;
         }

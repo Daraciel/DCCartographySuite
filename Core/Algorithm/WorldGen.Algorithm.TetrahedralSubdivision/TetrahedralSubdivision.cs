@@ -69,11 +69,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         /// </summary>
         private int height = 600;
 
+        private bool isDoLatitudeIcecapsSet = false;
+
         private MapProjections projection = MapProjections.MERCATOR;
 
 
 
-        private Tetrahedron workingTetra;
+        private Tetrahedron savedTetra;
 
         private Tetrahedron defaultTetra;
 
@@ -137,9 +139,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         public int Width { get => width; set => width = value; }
         public int Height { get => height; set => height = value; }
         public MapProjections Projection { get => projection; set => projection = value; }
+        public bool IsDoLatitudeIcecapsSet { get => isDoLatitudeIcecapsSet; set => isDoLatitudeIcecapsSet = value; }
 
         #endregion
-        
+
         #region IALGORITHM
 
         public override IMap Create()
@@ -151,7 +154,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             randSeed3 = random(randSeed1, randSeed2);
             randSeed4 = random(randSeed2, randSeed3);
 
-            workingTetra = new Tetrahedron();
+            savedTetra = new Tetrahedron();
             InitilizeDefaultTetra();
 
             switch (this.Projection)
@@ -227,7 +230,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private void DoMercatorProjection()
         {
-            double y, scale1, cos2, theta1;
+            double x, y, z, scale1, cos2, theta1;
             int i, j, k;
 
             y = latitudeSin;
@@ -245,7 +248,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 for (i = 0; i < Width; i++)
                 {
                     theta1 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
-                    planet0(Math.Cos(theta1) * cos2, y, -Math.Sin(theta1) * cos2, i, j);
+                    x = Math.Cos(theta1) * cos2;
+                    z = -Math.Sin(theta1) * cos2;
+                    planet0(x, y, z, i, j);
                 }
             }
         }
@@ -269,15 +274,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             double result = 0;
             bool isInsideTetrahedron = false;
 
-            isInsideTetrahedron = workingTetra.IsInside(point);
+            isInsideTetrahedron = savedTetra.IsInside(point);
 
             if(isInsideTetrahedron)
             {
-                result = getHeightForPoint(workingTetra, point, 11);
+                result = getHeightForPoint(savedTetra.Copy(), point, 11);
             }
             else
             {
-                result = getHeightForPoint(defaultTetra, point, depth);
+                result = getHeightForPoint(defaultTetra.Copy(), point, depth);
             }
 
             return result;
@@ -296,7 +301,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 longestSide = tetra.LongestSide;
                 if (depth == 11)
                 {
-                    workingTetra = tetra;
+                    savedTetra = tetra;
                 }
                 switch (longestSide)
                 {
@@ -415,67 +420,47 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             tetra.D = B;
                         }
                         break;
-                }
-
-
-
-
-                //switch (longestSide)
-                //{
-                //    case Enum.TetrahedronEdges.AB:
-                //    case Enum.TetrahedronEdges.AC:
-                //    case Enum.TetrahedronEdges.AD:
-                //    default:
-                //        tetra.A = E;
-                //        break;
-                //    case Enum.TetrahedronEdges.BC:
-                //    case Enum.TetrahedronEdges.BD:
-                //        tetra.B = E;
-                //        break;
-                //    case Enum.TetrahedronEdges.CD:
-                //        tetra.C = E;
-                //        break;
-                //}
-
-                //if (!tetra.IsInside(point))
-                //{
-                //    switch (longestSide)
-                //    {
-                //        case Enum.TetrahedronEdges.AB:
-                //        default:
-                //            tetra.A = A;
-                //            tetra.B = E;
-                //            break;
-                //        case Enum.TetrahedronEdges.AC:
-                //            tetra.A = A;
-                //            tetra.C = E;
-                //            break;
-                //        case Enum.TetrahedronEdges.AD:
-                //            tetra.A = A;
-                //            tetra.D = E;
-                //            break;
-                //        case Enum.TetrahedronEdges.BC:
-                //            tetra.B = A;
-                //            tetra.C = E;
-                //            break;
-                //        case Enum.TetrahedronEdges.BD:
-                //            tetra.B = A;
-                //            tetra.D = E;
-                //            break;
-                //        case Enum.TetrahedronEdges.CD:
-                //            tetra.C = A;
-                //            tetra.D = E;
-                //            break;
-                //    }
-                //}                
+                }             
                 result = this.getHeightForPoint(tetra, point, depth - 1);
             }
             else
             {
                 result = (tetra.A.Value + tetra.B.Value + tetra.C.Value + tetra.D.Value) / 4;
+
+                result = doLatitudeIcecaps(result, point.Y);
             }
 
             
+            return result;
+        }
+
+        private double doLatitudeIcecaps(double alt, double y)
+        {
+            double result = 0;
+            double yRaised;
+
+            result = alt;
+            if(IsDoLatitudeIcecapsSet)
+            {
+                yRaised = y * y;
+                yRaised *= yRaised;
+                yRaised *= yRaised;
+                if(result <= 0 &&
+                    yRaised + alt >= 1.0 - 0.02)
+                {
+                    result = double.MaxValue;
+                }
+                else
+                {
+                    result += 0.1 * yRaised;
+                }
+            }
+
+            if (result >= 0.1)
+            {
+                result = double.MaxValue;
+            }
+
             return result;
         }
 
@@ -506,12 +491,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double result = 0;
 
-            result = (a + Constants.PI) * (b + Constants.PI);
+            result = (a + 3.14159265) * (b + 3.14159265);
 
             result -= Math.Truncate(result);
             result *= 2.0;
             result -= 1.0;
             return result;
+            //return Math.Round(result, 6);
 
             //double r;
             //r = (a + 3.14159265) * (b + 3.14159265);

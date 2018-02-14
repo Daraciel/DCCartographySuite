@@ -91,10 +91,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             }
             else
             {
-                A = v1;
-                B = v2;
-                C = v3;
-                D = v4;
+                A = new TetrahedronPoint(v1.X, v1.Y, v1.Z, v1.Value, v1.Seed);
+                B = new TetrahedronPoint(v2.X, v2.Y, v2.Z, v2.Value, v2.Seed);
+                C = new TetrahedronPoint(v3.X, v3.Y, v3.Z, v3.Value, v3.Seed);
+                D = new TetrahedronPoint(v4.X, v4.Y, v4.Z, v4.Value, v4.Seed);
             }
         }
 
@@ -187,6 +187,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             return result;
         }
 
+        public Tetrahedron Copy()
+        {
+            Tetrahedron result;
+
+            result = new Tetrahedron(A, B, C, D);
+
+            return result;
+        }
+
         #endregion
 
         #region PRIVATE METHODS
@@ -256,16 +265,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                     bpx, bpy, bpz,
                     bcx, bcy, bcz,
                     bdx, bdy, bdz;
+            double vectorBCDA, vectorBCDP;
             bool result = false;
 
             bax = A.X - B.X; bay = A.Y - B.Y; baz = A.Z - B.Z;
             bpx = p.X - B.X; bpy = p.Y - B.Y; bpz = p.Z - B.Z;
             bcx = C.X - B.X; bcy = C.Y - B.Y; bcz = C.Z - B.Z;
             bdx = D.X - B.X; bdy = D.Y - B.Y; bdz = D.Z - B.Z;
-            if ((bax * bcy * bdz + bay * bcz * bdx + baz * bcx * bdy
-                   - baz * bcy * bdx - bay * bcx * bdz - bax * bcz * bdy) *
-                (bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy
-                   - bpz * bcy * bdx - bpy * bcx * bdz - bpx * bcz * bdy) > 0.0)
+
+            vectorBCDA = bax * bcy * bdz + bay * bcz * bdx + baz * bcx * bdy -
+                         baz * bcy * bdx - bay * bcx * bdz - bax * bcz * bdy;
+
+            vectorBCDP = bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy -
+                         bpz * bcy * bdx - bpy * bcx * bdz - bpx * bcz * bdy;
+
+            if (vectorBCDA * vectorBCDP > 0.0)// ||
+                //Math.Abs(vectorBCDA) < 0.000001)
             {
                 result = true;
             }
@@ -279,16 +294,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                     apx, apy, apz,
                     acx, acy, acz,
                     adx, ady, adz;
+            double vectorACDB, vectorACDP;
             bool result = false;
 
             abx = B.X - A.X; aby = B.Y - A.Y; abz = B.Z - A.Z;
             apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
             acx = C.X - A.X; acy = C.Y - A.Y; acz = C.Z - A.Z;
             adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
-            if ((abx * acy * adz + aby * acz * adx + abz * acx * ady
-                   - abz * acy * adx - aby * acx * adz - abx * acz * ady) *
-                (apx * acy * adz + apy * acz * adx + apz * acx * ady
-                   - apz * acy * adx - apy * acx * adz - apx * acz * ady) > 0.0)
+
+            vectorACDB = abx * acy * adz + aby * acz * adx + abz * acx * ady -
+                         abz * acy * adx - aby * acx * adz - abx * acz * ady;
+
+            vectorACDP = apx * acy * adz + apy * acz * adx + apz * acx * ady -
+                         apz * acy * adx - apy * acx * adz - apx * acz * ady;
+
+            if (vectorACDB * vectorACDP > 0.0)// ||
+                //Math.Abs(vectorACDB) < 0.000001)
             {
                 result = true;
             }
@@ -303,16 +324,20 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                     apx, apy, apz,
                     abx, aby, abz,
                     adx, ady, adz;
+            double vectorABDC, vectorABDP;
             bool result = false;
 
             acx = C.X - A.X; acy = C.Y - A.Y; acz = C.Z - A.Z;
             apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
             abx = C.X - A.X; aby = B.Y - A.Y; abz = B.Z - A.Z;
             adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
-            if ((acx * aby * adz + acy * abz * adx + acz * abx * ady
-                   - acz * aby * adx - acy * abx * adz - acx * abz * ady) *
-                (apx * aby * adz + apy * abz * adx + apz * abx * ady
-                   - apz * aby * adx - apy * abx * adz - apx * abz * ady) > 0.0)
+            vectorABDC = acx * aby * adz + acy * abz * adx + acz * abx * ady -
+                         acz * aby * adx - acy * abx * adz - acx * abz * ady;
+            vectorABDP = apx * aby * adz + apy * abz * adx + apz * abx * ady -
+                         apz * aby * adx - apy * abx * adz - apx * abz * ady;
+
+            if (vectorABDC * vectorABDP >= 0.0)// ||
+                //Math.Abs(vectorABDC) < 0.0000009)
             {
                 result = true;
             }
@@ -327,16 +352,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                     apx, apy, apz,
                     abx, aby, abz,
                     acx, acy, acz;
+            double vectorABCD, vectorABCP;
             bool result = false;
 
             adx = D.X - A.X; ady = D.Y - A.Y; adz = D.Z - A.Z;
             apx = p.X - A.X; apy = p.Y - A.Y; apz = p.Z - A.Z;
             abx = A.X - B.X; aby = A.Y - B.Y; abz = A.Z - B.Z;
             acx = A.X - C.X; acy = A.Y - C.Y; acz = A.Z - C.Z;
-            if ((adx * aby * acz + ady * abz * acx + adz * abx * acy
-                   - adz * aby * acx - ady * abx * acz - adx * abz * acy) *
-                (apx * aby * acz + apy * abz * acx + apz * abx * acy
-                   - apz * aby * acx - apy * abx * acz - apx * abz * acy) > 0.0)
+
+            vectorABCD = adx * aby * acz + ady * abz * acx + adz * abx * acy -
+                         adz * aby * acx - ady * abx * acz - adx * abz * acy;
+
+            vectorABCP = apx * aby * acz + apy * abz * acx + apz * abx * acy - 
+                         apz * aby * acx - apy * abx * acz - apx * abz * acy;
+
+            if (vectorABCD * vectorABCP > 0.0)// ||
+                //Math.Abs(vectorABCD) < 0.000001)
             {
                 result = true;
             }

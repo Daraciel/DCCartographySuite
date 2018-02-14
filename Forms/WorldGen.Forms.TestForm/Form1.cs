@@ -11,6 +11,7 @@ using WorldGen.Algorithm.SquaredDiamond;
 using WorldGen.Algorithm.TetrahedralSubdivision;
 using WorldGen.Common.BE;
 using WorldGen.Common.Enums;
+using WorldGen.Common.Maps;
 
 namespace WorldGen.Forms.TestForm
 {
@@ -20,6 +21,8 @@ namespace WorldGen.Forms.TestForm
         private SquaredDiamond SDAlgorithm;
         private TetrahedralSubdivision TSAlgorithm;
         private Random rnd;
+
+        private HeightMap TSMaps;
 
         public Form1()
         {
@@ -124,11 +127,22 @@ namespace WorldGen.Forms.TestForm
 
             TSAlgorithm = new TetrahedralSubdivision();
             TSAlgorithm.Initialize(parameters);
-            TSAlgorithm.Create().Save(@"C:/sample/sampleTSimage.jpg");
-            pbTSResult.ImageLocation = @"C:/sample/sampleTSimage.jpg";
-
+            TSMaps = (HeightMap)TSAlgorithm.Create();
+            TSPrint();
         }
 
         #endregion
+
+        private void btnTSPrint_Click(object sender, EventArgs e)
+        {
+            TSPrint();
+        }
+
+        private void TSPrint()
+        {
+            TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
+            TSMaps.Save(@"C:/sample/sampleTSimage.jpg");
+            pbTSResult.ImageLocation = @"C:/sample/sampleTSimage.jpg";
+        }
     }
 }
