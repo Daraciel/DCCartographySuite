@@ -25,6 +25,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             Seed = s;
         }
 
+        public TetrahedronPoint Copy()
+        {
+            TetrahedronPoint result;
+
+            result = new TetrahedronPoint(X, Y, Z, Value, Seed);
+
+            return result;
+        }
+
         #endregion
     }
 }
