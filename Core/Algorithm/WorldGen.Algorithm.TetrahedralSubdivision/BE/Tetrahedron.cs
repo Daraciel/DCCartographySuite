@@ -101,6 +101,33 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         #endregion
 
         #region PUBLIC METHODS
+
+        public void Reorder()
+        {
+            if(ABSideLength < ACSideLength)
+            {
+                this.SwitchSides(ref b, ref c);
+                Reorder();
+            }
+            else if(ABSideLength < ADSideLength)
+            {
+                this.SwitchSides(ref b, ref c);
+                this.SwitchSides(ref b, ref d);
+                Reorder();
+            }
+            else if (ABSideLength < BCSideLength)
+            {
+                this.SwitchSides(ref a, ref b);
+                this.SwitchSides(ref b, ref c);
+                Reorder();
+            }
+            else if (ABSideLength < BDSideLength)
+            {
+                this.SwitchSides(ref b, ref c);
+                this.SwitchSides(ref b, ref d);
+                Reorder();
+            }
+        }
         
         public bool IsInside(Point3D point)
         {
@@ -126,10 +153,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                  - apz * aby * acx - apy * abx * acz - apx * abz * acy) > 0.0)
             {
                 /* p is on same side of abc as d */
-                if ((acx * aby * adz + acy * abz * adx + acz * abx * ady
-                 - acz * aby * adx - acy * abx * adz - acx * abz * ady) *
-                (apx * aby * adz + apy * abz * adx + apz * abx * ady
-                 - apz * aby * adx - apy * abx * adz - apx * abz * ady) > 0.0)
+                if ((acx * aby * adz + acy * abz * adx + acz * abx * ady - acz * aby * adx - acy * abx * adz - acx * abz * ady) *
+                (apx * aby * adz + apy * abz * adx + apz * abx * ady - apz * aby * adx - apy * abx * adz - apx * abz * ady) > 0.0)
                 {
                     /* p is on same side of abd as c */
                     if ((abx * ady * acz + aby * adz * acx + abz * adx * acy
@@ -189,11 +214,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         public Tetrahedron Copy()
         {
-            Tetrahedron result;
+            //Tetrahedron result;
 
-            result = new Tetrahedron(A, B, C, D);
+            //result = new Tetrahedron(A, B, C, D);
 
-            return result;
+            //return result;
+
+            return (Tetrahedron)this.MemberwiseClone();
         }
 
         #endregion
@@ -279,8 +306,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             vectorBCDP = bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy -
                          bpz * bcy * bdx - bpy * bcx * bdz - bpx * bcz * bdy;
 
-            if (vectorBCDA * vectorBCDP > 0.0)// ||
-                //Math.Abs(vectorBCDA) < 0.000001)
+            if (vectorBCDA * vectorBCDP > 0.0)
+            //Math.Abs(vectorBCDA) < 0.000001)
             {
                 result = true;
             }
@@ -308,7 +335,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             vectorACDP = apx * acy * adz + apy * acz * adx + apz * acx * ady -
                          apz * acy * adx - apy * acx * adz - apx * acz * ady;
 
-            if (vectorACDB * vectorACDP > 0.0)// ||
+            if (vectorACDB * vectorACDP > 0.0)
                 //Math.Abs(vectorACDB) < 0.000001)
             {
                 result = true;
@@ -336,8 +363,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             vectorABDP = apx * aby * adz + apy * abz * adx + apz * abx * ady -
                          apz * aby * adx - apy * abx * adz - apx * abz * ady;
 
-            if (vectorABDC * vectorABDP >= 0.0)// ||
-                //Math.Abs(vectorABDC) < 0.0000009)
+            if (vectorABDC * vectorABDP >= 0.0)
             {
                 result = true;
             }
@@ -366,7 +392,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             vectorABCP = apx * aby * acz + apy * abz * acx + apz * abx * acy - 
                          apz * aby * acx - apy * abx * acz - apx * abz * acy;
 
-            if (vectorABCD * vectorABCP > 0.0)// ||
+            if (vectorABCD * vectorABCP > 0.0)
                 //Math.Abs(vectorABCD) < 0.000001)
             {
                 result = true;

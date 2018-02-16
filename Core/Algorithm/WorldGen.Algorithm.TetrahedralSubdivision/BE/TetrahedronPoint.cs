@@ -27,11 +27,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         public TetrahedronPoint Copy()
         {
-            TetrahedronPoint result;
+            //TetrahedronPoint result;
 
-            result = new TetrahedronPoint(X, Y, Z, Value, Seed);
+            //result = new TetrahedronPoint(X, Y, Z, Value, Seed);
 
-            return result;
+            //return result;
+            return (TetrahedronPoint)this.MemberwiseClone();
         }
 
         #endregion

@@ -235,7 +235,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
             y = latitudeSin;
             y = (1.0 + y) / (1.0 - y);
-            y = 0.5 * Math.Log(y);
+            y = 0.5 * Math.Log10(y);
             k = (int)(0.5 * y * Width * scale / Constants.PI);
             for (j = 0; j < Height; j++)
             {
@@ -282,7 +282,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             else
             {
-                result = getHeightForPoint(defaultTetra.Copy(), point, depth);
+                result = getHeightForPoint(defaultTetra.Copy(), 
+                                           point, depth);
             }
 
             return result;
@@ -294,14 +295,14 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             double es, es1, es2, es3;
             double longestSideValue;
             TetrahedronPoint E = new TetrahedronPoint();
-            TetrahedronPoint A, B;
+            TetrahedronPoint A, B, Aux;
             Enum.TetrahedronEdges longestSide;
             if (depth > 0)
             {
                 longestSide = tetra.LongestSide;
                 if (depth == 11)
                 {
-                    savedTetra = tetra;
+                    savedTetra = tetra.Copy();
                 }
                 switch (longestSide)
                 {
@@ -345,23 +346,23 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
                 E.Seed = es;
 
-                if (A.Seed < B.Seed)
+                if (A.Seed < B.Seed )
                 {
-                    E.X = es2 * A.X + es3 * B.X;
-                    E.Y = es2 * A.Y + es3 * B.Y;
-                    E.Z = es2 * A.Z + es3 * B.Z;
+                    E.X = (es2 * A.X + es3 * B.X);
+                    E.Y = (es2 * A.Y + es3 * B.Y);
+                    E.Z = (es2 * A.Z + es3 * B.Z);
                 }
                 else if (A.Seed > B.Seed)
                 {
-                    E.X = es3 * A.X + es2 * B.X;
-                    E.Y = es3 * A.Y + es2 * B.Y;
-                    E.Z = es3 * A.Z + es2 * B.Z;
+                    E.X = (es3 * A.X + es2 * B.X);
+                    E.Y = (es3 * A.Y + es2 * B.Y);
+                    E.Z = (es3 * A.Z + es2 * B.Z);
                 }
                 else
                 {
-                    E.X = 0.5 * A.X + 0.5 * B.X;
-                    E.Y = 0.5 * A.Y + 0.5 * B.Y;
-                    E.Z = 0.5 * A.Z + 0.5 * B.Z;
+                    E.X = (0.5 * A.X + 0.5 * B.X);
+                    E.Y = (0.5 * A.Y + 0.5 * B.Y);
+                    E.Z = (0.5 * A.Z + 0.5 * B.Z);
                 }
 
                 if (longestSideValue > 1.0) { longestSideValue = Math.Pow(longestSideValue, 0.5); }

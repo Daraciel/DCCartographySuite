@@ -4,6 +4,7 @@ namespace WorldGen.Common.BE
 {
     public class Point3D
     {
+
         #region PROPERTIES
 
         public double X { get; set; }
