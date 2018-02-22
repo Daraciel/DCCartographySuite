@@ -61,7 +61,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "NETStandard.Library/2.0.0": {
+      "NETStandard.Library/2.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -583,10 +583,10 @@
         "runtime.json"
       ]
     },
-    "NETStandard.Library/2.0.0": {
-      "sha512": "7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+    "NETStandard.Library/2.0.1": {
+      "sha512": "oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
       "type": "package",
-      "path": "netstandard.library/2.0.0",
+      "path": "netstandard.library/2.0.1",
       "files": [
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -707,7 +707,7 @@
         "build/netstandard2.0/ref/netstandard.dll",
         "build/netstandard2.0/ref/netstandard.xml",
         "lib/netstandard1.0/_._",
-        "netstandard.library.2.0.0.nupkg.sha512",
+        "netstandard.library.2.0.1.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
     },
@@ -2276,50 +2276,42 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "NETStandard.Library >= 2.0.0",
+      "NETStandard.Library >= 2.0.1",
       "WorldGen.Common >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
+    "C:\\Users\\jponce\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "D:\\Projects\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\WorldGen.Algorithm.SquaredDiamond.csproj",
+      "projectUniqueName": "C:\\Users\\jponce\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\WorldGen.Algorithm.SquaredDiamond.csproj",
       "projectName": "WorldGen.Algorithm.SquaredDiamond",
-      "projectPath": "D:\\Projects\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\WorldGen.Algorithm.SquaredDiamond.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\obj\\",
+      "projectPath": "C:\\Users\\jponce\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\WorldGen.Algorithm.SquaredDiamond.csproj",
+      "packagesPath": "C:\\Users\\jponce\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jponce\\DCCartographySuite\\Core\\Algorithm\\WorldGen.Algorithm.SquaredDiamond\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "D:\\Projects\\DCCartographySuite\\NuGet.Config",
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "C:\\Users\\jponce\\DCCartographySuite\\NuGet.Config",
+        "C:\\Users\\jponce\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.myget.org/F/imagesharp/api/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "D:\\Projects\\DCCartographySuite\\Core\\WorldGen.Common\\WorldGen.Common.csproj": {
-              "projectPath": "D:\\Projects\\DCCartographySuite\\Core\\WorldGen.Common\\WorldGen.Common.csproj"
+            "C:\\Users\\jponce\\DCCartographySuite\\Core\\WorldGen.Common\\WorldGen.Common.csproj": {
+              "projectPath": "C:\\Users\\jponce\\DCCartographySuite\\Core\\WorldGen.Common\\WorldGen.Common.csproj"
             }
           }
         }
@@ -2336,7 +2328,7 @@
           "NETStandard.Library": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "[2.0.1, )",
             "autoReferenced": true
           }
         },

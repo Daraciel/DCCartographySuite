@@ -128,7 +128,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                 Reorder();
             }
         }
-        
+
+        private void SwitchSides(ref TetrahedronPoint b, ref TetrahedronPoint c)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsInside(Point3D point)
         {
             bool result;
