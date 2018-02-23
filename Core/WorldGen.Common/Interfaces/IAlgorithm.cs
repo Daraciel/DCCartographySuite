@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using WorldGen.Common.Enums;
+using WorldGen.Utilities.Logger;
 
 namespace WorldGen.Common.Interfaces
 {
@@ -72,6 +73,7 @@ namespace WorldGen.Common.Interfaces
                                             this.GetType().Name,
                                             fName,
                                             paramValues);
+                StaticLogger.WriteLog(logString);
             }
         }
 
@@ -87,6 +89,7 @@ namespace WorldGen.Common.Interfaces
                                             this.GetType().Name,
                                             fName,
                                             resultString);
+                StaticLogger.WriteLog(logString);
             }
         }
 
@@ -98,6 +101,7 @@ namespace WorldGen.Common.Interfaces
                                         this.GetType().Name,
                                         fName,
                                         ex.Message);
+            StaticLogger.WriteLog(logString);
         }
 
         protected override void WriteLogMessage(string fName, string message)
@@ -110,6 +114,7 @@ namespace WorldGen.Common.Interfaces
                                             this.GetType().Name,
                                             fName,
                                             message);
+                StaticLogger.WriteLog(logString);
             }
         }
 
