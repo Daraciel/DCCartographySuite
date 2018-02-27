@@ -47,5 +47,18 @@ namespace WorldGen.Common.BE
 
         #endregion
 
+        #region OVERRIDE METHODS
+
+        public override string ToString()
+        {
+            string result = string.Empty;
+
+            result = string.Format("X: {0} | Y: {1} | Z: {2}",
+                                    X, Y, Z);
+
+            return result;
+        }
+
+        #endregion
     }
 }

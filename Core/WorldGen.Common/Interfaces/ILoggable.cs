@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace WorldGen.Common.Interfaces
 {
@@ -10,31 +11,46 @@ namespace WorldGen.Common.Interfaces
         protected string functionMessageBaseString = "{0}|{1}|Write function enter|{2}|Message : {3}";
         
 
-        protected abstract void WriteLogFunctionEnter(string fName, params object[] values);
-        protected abstract void WriteLogFunctionExit(string fName, object result = null);
-        protected abstract void WriteLogError(string fName, Exception ex);
-        protected abstract void WriteLogMessage(string fName, string message);
+        protected abstract void WriteLogFunctionEnter(MethodBase method, params object[] values);
+        protected abstract void WriteLogFunctionExit(MethodBase method, object result = null);
+        protected abstract void WriteLogError(MethodBase method, Exception ex);
+        protected abstract void WriteLogMessage(MethodBase method, string message);
+        protected abstract void WriteLogMessage(string message);
 
-        protected string GetArrayObjectsString(object[] values)
+        protected string GetArrayObjectsString(MethodBase method, params object[] values)
         {
             string result = String.Empty;
             Type objType;
+            MethodInfo methodToString;
+            string objName;
+            string valueToString;
             if(values == null || values.Length == 0)
             {
                 result = "-";
             }
             else
             {
-                foreach( object obj in values)
+                for(int i=0; i<values.Length; i++)
+                //foreach( object myObj in values)
                 {
-                    objType =obj.GetType(); 
-                    if(objType.GetMethod("ToString") != null)
+                    objName = GetParamName(method, i);
+                    objType = values[i].GetType();
+                    methodToString = objType.GetMethod(
+                                                        "ToString",
+                                                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+                                                        null,
+                                                        new Type[] { },// Method ToString() without parameters
+                                                        null);
+                    if(methodToString != null)
                     {
-                        result +=nameof(obj) + ":" + obj.ToString() + "#";
+                        //this.WriteLogMessage("GetArrayObjectsString", "nameof(obj): " + objName);
+                        //this.WriteLogMessage("GetArrayObjectsString", "obj.GetType().GetMethod('ToString').Invoke(obj, null): " + methodToString.Invoke(values[i], null));
+                        valueToString = (string)methodToString.Invoke(values[i], null);
+                        result += objName + ":" + valueToString + "#";
                     }
                     else
                     {
-                        result +=nameof(obj) + ":" + obj + "#";
+                        result += objName + ":" + "NOT STRINGGABLE" + "#";
                     }
                 }
             }
@@ -42,22 +58,43 @@ namespace WorldGen.Common.Interfaces
             return result;
         }
 
-        protected string GetResultObjectString(object resultObject)
+        protected string GetResultObjectString(MethodBase method, object resultObject)
         {
             string result = String.Empty;
+            Type objType;
+            MethodInfo methodToString;
+            string valueToString;
 
             if(resultObject != null)
             {
-                if(resultObject.GetType().GetMethod("ToString") != null)
+                 objType = resultObject.GetType();
+                 methodToString = objType.GetMethod("ToString",
+                                                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+                                                    null,
+                                                    new Type[] { },// Method ToString() without parameters
+                                                    null);
+                if(methodToString != null)
                 {
-                    result += "Result :" + resultObject.ToString() + "#";
+                    valueToString = (string)methodToString.Invoke(resultObject, null);
+                    result += "Result :" + valueToString;
                 }
                 else
                 {
-                    result += "Result :" + resultObject + "#";
+                    result += "Result :" + "NOT STRINGGABLE" + "#";
                 }
             }
             return result;
+        }
+
+        protected string GetParamName(MethodBase method, int index)
+        {
+            string retVal = string.Empty;
+
+            if (method != null && method.GetParameters().Length > index)
+                retVal = method.GetParameters()[index].Name;
+
+
+            return retVal;
         }
     }
 }

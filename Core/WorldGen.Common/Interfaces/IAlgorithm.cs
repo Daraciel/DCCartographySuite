@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using WorldGen.Common.Enums;
 using WorldGen.Utilities.Logger;
 
@@ -61,50 +62,50 @@ namespace WorldGen.Common.Interfaces
         #region ILOGGABLE
 
 
-        protected override void WriteLogFunctionEnter(string fName, params object[] values)
+        protected override void WriteLogFunctionEnter(MethodBase method, params object[] values)
         {
             string logString = String.Empty;
             string paramValues = String.Empty;
             if(this.DebugMode)
             {
-                paramValues = this.GetArrayObjectsString(values);
+                paramValues = this.GetArrayObjectsString(method, values);
                 logString = string.Format(  this.functionEnterBaseString,
                                             DateTime.Now.ToString("HHmmSS"),
                                             this.GetType().Name,
-                                            fName,
+                                            method.Name,
                                             paramValues);
                 StaticLogger.WriteLog(logString);
             }
         }
 
-        protected override void WriteLogFunctionExit(string fName, object result = null)
+        protected override void WriteLogFunctionExit(MethodBase method, object result = null)
         {
             string logString = String.Empty;
             string resultString = String.Empty;
             if(this.DebugMode)
             {
-                resultString = this.GetResultObjectString(result);
+                resultString = this.GetResultObjectString(method, result);
                 logString = string.Format(  this.functionExitBaseString,
                                             DateTime.Now.ToString("HHmmSS"),
                                             this.GetType().Name,
-                                            fName,
+                                            method.Name,
                                             resultString);
                 StaticLogger.WriteLog(logString);
             }
         }
 
-        protected override void WriteLogError(string fName, Exception ex)
+        protected override void WriteLogError(MethodBase method, Exception ex)
         {
             string logString = String.Empty;
             logString = string.Format(  this.functionErrorBaseString,
                                         DateTime.Now.ToString("HHmmSS"),
                                         this.GetType().Name,
-                                        fName,
+                                        method.Name,
                                         ex.Message);
             StaticLogger.WriteLog(logString);
         }
 
-        protected override void WriteLogMessage(string fName, string message)
+        protected override void WriteLogMessage(MethodBase method, string message)
         {
             string logString = String.Empty;
             if(this.DebugMode)
@@ -112,7 +113,21 @@ namespace WorldGen.Common.Interfaces
                 logString = string.Format(  this.functionMessageBaseString,
                                             DateTime.Now.ToString("HHmmSS"),
                                             this.GetType().Name,
-                                            fName,
+                                            method.Name,
+                                            message);
+                StaticLogger.WriteLog(logString);
+            }
+        }
+
+        protected override void WriteLogMessage(string message)
+        {
+            string logString = String.Empty;
+            if(this.DebugMode)
+            {
+                logString = string.Format(  this.functionMessageBaseString,
+                                            DateTime.Now.ToString("HHmmSS"),
+                                            this.GetType().Name,
+                                            "",
                                             message);
                 StaticLogger.WriteLog(logString);
             }

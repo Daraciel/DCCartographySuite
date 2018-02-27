@@ -36,5 +36,20 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         }
 
         #endregion
+
+
+        #region OVERRIDE METHODS
+
+        public override string ToString()
+        {
+            string result = string.Empty;
+
+            result = string.Format("X: {0} | Y: {1} | Z: {2} | Value: {3} | Seed: {4}",
+                                    X, Y, Z, Value, Seed);
+
+            return result;
+        }
+
+        #endregion
     }
 }

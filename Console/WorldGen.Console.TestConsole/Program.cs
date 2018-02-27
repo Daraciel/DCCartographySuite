@@ -15,18 +15,20 @@ namespace WorldGen.Console.TestConsole
             TetrahedralSubdivision TSAlgorithm;
             HeightMap TSMaps;
             InitializeParams parameters;
-            double seed, width, height;
+            double seed;
+            int width, height;
             seed = 0.3;
             width = 200;
             height = 150;
             TSAlgorithm = new TetrahedralSubdivision();
             parameters = new InitializeParams();
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.DEBUG, true);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.HEIGHT, height);
-            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.DEBUG, true);
 
-            StaticLogger.SetLoggerType(LoggerTypes.CONSOLE);
+            //StaticLogger.SetLoggerType(LoggerTypes.CONSOLE);
+            StaticLogger.SetLoggerType(LoggerTypes.TEXT);
             TSAlgorithm.Initialize(parameters);
             TSMaps = (HeightMap)TSAlgorithm.Create();
 

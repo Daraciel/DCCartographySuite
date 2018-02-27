@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using WorldGen.Algorithm.TetrahedralSubdivision.BE;
 using WorldGen.Common.BE;
 using WorldGen.Common.Enums;
@@ -11,19 +12,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 {
     public class TetrahedralSubdivision : IAlgorithm
     {
-        #region CONSTANTS
-
-        private const string FUNC_NAME_CREATE = "Create";
-        private const string FUNC_NAME_INITIALIZE = "Initialize";
-        private const string FUNC_NAME_SETPARAMETER = "SetParameter";
-        private const string FUNC_NAME_DOMERCATORPROJECTION = "DoMercatorProjection";
-        private const string FUNC_NAME_GENERATEPOINT = "GeneratePoint";
-        private const string FUNC_NAME_GETHEIGHTFORPOINT = "GetHeightForPoint";
-        private const string FUNC_NAME_DOLATITUDEICECAPS = "DoLatitudeIcecaps";
-        private const string FUNC_NAME_INITIALIZEDEFAULTTETRA = "InitializeDefaultTetra";
-        private const string FUNC_NAME_SETDEPTH = "SetDepth";
-
-        
+        #region CONSTANTS        
 
         #endregion
 
@@ -162,9 +151,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         public override IMap Create()
         {
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_CREATE);
+                this.WriteLogFunctionEnter(method);
                 resultMap = new HeightMap(this.Height, this.Width, this.initialAltitude);
                 randSeed1 = this.Seed;
                 randSeed1 = random(randSeed1, randSeed1);
@@ -183,11 +173,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_CREATE, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_CREATE);
+                this.WriteLogFunctionExit(method);
             }
             
             return resultMap;
@@ -195,9 +186,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         public override void Initialize(InitializeParams parameters)
         {
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_INITIALIZE, parameters);
+                this.WriteLogFunctionEnter(method, parameters);
                 foreach(KeyValuePair<AlgorithmParameters, object> par in parameters.Parameters)
                 {
                     this.SetParameter(par.Key, par.Value);
@@ -205,20 +197,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_INITIALIZE, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_INITIALIZE);
+                this.WriteLogFunctionExit(method);
             }
 
         }
 
         public override void SetParameter(AlgorithmParameters paramType, object value)
         {
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_SETPARAMETER, paramType, value);
+                this.WriteLogFunctionEnter(method, paramType, value);
                 switch(paramType)
                 {
                     case AlgorithmParameters.DEBUG:
@@ -258,11 +252,11 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_SETPARAMETER, ex);
+                this.WriteLogError(method, ex);
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_SETPARAMETER);
+                this.WriteLogFunctionExit(method);
             }
         }
 
@@ -283,9 +277,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double x, y, z, scale1, cos2, theta1;
             int i, j, k;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_DOMERCATORPROJECTION);
+                this.WriteLogFunctionEnter(method);
 
                 y = latitudeSin;
                 y = (1.0 + y) / (1.0 - y);
@@ -310,11 +305,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_DOMERCATORPROJECTION, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_DOMERCATORPROJECTION);
+                this.WriteLogFunctionExit(method);
             }
         }
 
@@ -326,9 +322,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         private void generatePoint(double x, double y, double z, int i, int j)
         {
             double generatedHeight = 0;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_GENERATEPOINT, x, y, z, i, j);
+                this.WriteLogFunctionEnter(method, x, y, z, i, j);
 
                 generatedHeight = getHeightForPoint(new Point3D(x, y, z));
 
@@ -336,11 +333,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_GENERATEPOINT, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_GENERATEPOINT);
+                this.WriteLogFunctionExit(method);
             }
         }
 
@@ -348,9 +346,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double result = 0;
             bool isInsideTetrahedron = false;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_GETHEIGHTFORPOINT, point);
+                this.WriteLogFunctionEnter(method, point);
 
                 isInsideTetrahedron = savedTetra.IsInside(point);
 
@@ -366,11 +365,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_GETHEIGHTFORPOINT, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_GETHEIGHTFORPOINT, result);
+                this.WriteLogFunctionExit(method, result);
             }
 
             return result;
@@ -384,9 +384,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             TetrahedronPoint E = new TetrahedronPoint();
             TetrahedronPoint A, B, Aux;
             Enum.TetrahedronEdges longestSide;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_GETHEIGHTFORPOINT, tetra, point, depth);
+                this.WriteLogFunctionEnter(method, tetra, point, depth);
                 if (depth > 0)
                 {
                     longestSide = tetra.LongestSide;
@@ -523,11 +524,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_GETHEIGHTFORPOINT, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_GETHEIGHTFORPOINT, result);
+                this.WriteLogFunctionExit(method, result);
             }
             
             return result;
@@ -537,9 +539,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double result = 0;
             double yRaised;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_DOLATITUDEICECAPS, alt, y);
+                this.WriteLogFunctionEnter(method, alt, y);
 
                 result = alt;
                 if(IsDoLatitudeIcecapsSet)
@@ -565,11 +568,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_DOLATITUDEICECAPS, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_DOLATITUDEICECAPS, result);
+                this.WriteLogFunctionExit(method, result);
             }
 
             return result;
@@ -581,9 +585,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private void InitilizeDefaultTetra()
         {
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_INITIALIZEDEFAULTTETRA);
+                this.WriteLogFunctionEnter(method);
             defaultTetra = new Tetrahedron( new double[] { -Constants.SQRT3 - 0.20, -Constants.SQRT3 - 0.22, -Constants.SQRT3 - 0.23, InitialAltitude, randSeed1 },
                                             new double[] { -Constants.SQRT3 - 0.19,  Constants.SQRT3 + 0.18,  Constants.SQRT3 + 0.17, InitialAltitude, randSeed2 },
                                             new double[] {  Constants.SQRT3 + 0.21, -Constants.SQRT3 - 0.24,  Constants.SQRT3 + 0.15, InitialAltitude, randSeed3 },
@@ -591,20 +596,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_INITIALIZEDEFAULTTETRA, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_INITIALIZEDEFAULTTETRA);
+                this.WriteLogFunctionExit(method);
             }
         }
 
         private void setDepth()
         {
             int aux = 0;
+            MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(FUNC_NAME_SETDEPTH);
+                this.WriteLogFunctionEnter(method);
 
                 aux = Convert.ToInt32(Math.Log(Scale*Height, 2));
                 aux *= 3;
@@ -614,11 +621,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(FUNC_NAME_SETDEPTH, ex);
+                this.WriteLogError(method, ex);
+                throw ex;
             }
             finally
             {
-                this.WriteLogFunctionExit(FUNC_NAME_SETDEPTH);
+                this.WriteLogFunctionExit(method);
             }
         }
 
