@@ -70,7 +70,7 @@ namespace WorldGen.Common.Interfaces
             {
                 paramValues = this.GetArrayObjectsString(method, values);
                 logString = string.Format(  this.functionEnterBaseString,
-                                            DateTime.Now.ToString("HHmmSS"),
+                                            DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
                                             method.Name,
                                             paramValues);
@@ -78,7 +78,7 @@ namespace WorldGen.Common.Interfaces
             }
         }
 
-        protected override void WriteLogFunctionExit(MethodBase method, object result = null)
+        protected override void WriteLogFunctionExit(MethodBase method, object result)
         {
             string logString = String.Empty;
             string resultString = String.Empty;
@@ -86,7 +86,22 @@ namespace WorldGen.Common.Interfaces
             {
                 resultString = this.GetResultObjectString(method, result);
                 logString = string.Format(  this.functionExitBaseString,
-                                            DateTime.Now.ToString("HHmmSS"),
+                                            DateTime.Now.ToString("HHmmss"),
+                                            this.GetType().Name,
+                                            method.Name,
+                                            resultString);
+                StaticLogger.WriteLog(logString);
+            }
+        }
+
+        protected override void WriteLogFunctionExit(MethodBase method)
+        {
+            string logString = String.Empty;
+            string resultString = String.Empty;
+            if(this.DebugMode)
+            {
+                logString = string.Format(  this.functionExitBaseString,
+                                            DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
                                             method.Name,
                                             resultString);
@@ -98,7 +113,7 @@ namespace WorldGen.Common.Interfaces
         {
             string logString = String.Empty;
             logString = string.Format(  this.functionErrorBaseString,
-                                        DateTime.Now.ToString("HHmmSS"),
+                                        DateTime.Now.ToString("HHmmss"),
                                         this.GetType().Name,
                                         method.Name,
                                         ex.Message);
@@ -111,7 +126,7 @@ namespace WorldGen.Common.Interfaces
             if(this.DebugMode)
             {
                 logString = string.Format(  this.functionMessageBaseString,
-                                            DateTime.Now.ToString("HHmmSS"),
+                                            DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
                                             method.Name,
                                             message);
@@ -125,7 +140,7 @@ namespace WorldGen.Common.Interfaces
             if(this.DebugMode)
             {
                 logString = string.Format(  this.functionMessageBaseString,
-                                            DateTime.Now.ToString("HHmmSS"),
+                                            DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
                                             "",
                                             message);

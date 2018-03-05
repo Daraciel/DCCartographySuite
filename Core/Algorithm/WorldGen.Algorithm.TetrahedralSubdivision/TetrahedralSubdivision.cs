@@ -314,10 +314,81 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
         }
 
+        private void doPeterProjection()
+        {
+            double x, y, z, cos2, theta1, scale1;
+            int k, i, j;//, water, land;
+
+            y = 2.0*latitudeSin;
+            k = (int)(0.5*y*Width*Scale/Constants.PI+0.5);
+            //water = land = 0;
+            MethodBase method = MethodBase.GetCurrentMethod();
+            try
+            {
+                this.WriteLogFunctionEnter(method);
+                for (j = 0; j < Height; j++) 
+                {
+                    y = 0.5*Constants.PI*(2.0*(j-k)-Height)/Width/Scale;
+                    if (Math.Abs(y)>1.0)
+                    {
+                        for (i = 0; i < Width ; i++) 
+                        {
+                            setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                        }
+                    }		
+                    else 
+                    {
+                        cos2 = Math.Sqrt(1.0 - y*y);
+                        if (cos2>0.0) 
+                        {
+                            scale1 = Scale*Width/Height/cos2/Constants.PI;
+                            depth = 3*((int)(Math.Log(scale1*Height, 2)))+3;
+                            for (i = 0; i < Width ; i++) 
+                            {
+                                theta1 = Longitude-0.5*Constants.PI + Constants.PI*(2.0*i-Width)/Width/Scale;
+                                x = Math.Cos(theta1)*cos2;
+                                z = -Math.Sin(theta1)*cos2;
+                                generatePoint(x, y, z, i, j);
+                                //if (col[i][j] < LAND) water++; else land++;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                this.WriteLogError(method, ex);
+                throw ex;
+            }
+            finally
+            {
+                this.WriteLogFunctionExit(method);
+            }
+        }
 
         #endregion
 
         #region HEIGHT GENERATION
+
+        private void setFixedPointValue(int i, int j, double value)
+        {
+            MethodBase method = MethodBase.GetCurrentMethod();
+            try
+            {
+                this.WriteLogFunctionEnter(method, i, j, value);
+                
+                this.resultMap.Heightmap[j*this.resultMap.Width + i] = value;
+            }
+            catch(Exception ex)
+            {
+                this.WriteLogError(method, ex);
+                throw ex;
+            }
+            finally
+            {
+                this.WriteLogFunctionExit(method);
+            }
+        }
 
         private void generatePoint(double x, double y, double z, int i, int j)
         {
@@ -355,7 +426,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
                 if(isInsideTetrahedron)
                 {
-                    result = getHeightForPoint(savedTetra.Copy(), point, 11);
+                    result = getHeightForPoint(savedTetra, point, 11);
                 }
                 else
                 {
@@ -381,8 +452,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             double result = 0;
             double es, es1, es2, es3;
             double longestSideValue;
-            TetrahedronPoint E = new TetrahedronPoint();
-            TetrahedronPoint A, B, Aux;
+            TetrahedronPoint E;
+            TetrahedronPoint A, B;
             Enum.TetrahedronEdges longestSide;
             MethodBase method = MethodBase.GetCurrentMethod();
             try
@@ -399,33 +470,33 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     {
                         case Enum.TetrahedronEdges.AB:
                         default:
-                            A = tetra.A;
-                            B = tetra.B;
+                            A = tetra.A.Copy();
+                            B = tetra.B.Copy();
                             longestSideValue = tetra.ABSideLength;
                             break;
                         case Enum.TetrahedronEdges.AC:
-                            A = tetra.A;
-                            B = tetra.C;
+                            A = tetra.A.Copy();
+                            B = tetra.C.Copy();
                             longestSideValue = tetra.ACSideLength;
                             break;
                         case Enum.TetrahedronEdges.AD:
-                            A = tetra.A;
-                            B = tetra.D;
+                            A = tetra.A.Copy();
+                            B = tetra.D.Copy();
                             longestSideValue = tetra.ADSideLength;
                             break;
                         case Enum.TetrahedronEdges.BC:
-                            A = tetra.B;
-                            B = tetra.C;
+                            A = tetra.B.Copy();
+                            B = tetra.C.Copy();
                             longestSideValue = tetra.BCSideLength;
                             break;
                         case Enum.TetrahedronEdges.BD:
-                            A = tetra.B;
-                            B = tetra.D;
+                            A = tetra.B.Copy();
+                            B = tetra.D.Copy();
                             longestSideValue = tetra.BDSideLength;
                             break;
                         case Enum.TetrahedronEdges.CD:
-                            A = tetra.C;
-                            B = tetra.D;
+                            A = tetra.C.Copy();
+                            B = tetra.D.Copy();
                             longestSideValue = tetra.CDSideLength;
                             break;
                     }
@@ -435,6 +506,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     es2 = 0.5 + 0.1 * this.random(es1, es1);
                     es3 = 1.0 - es2;
 
+                    E = new TetrahedronPoint();
                     E.Seed = es;
 
                     if (A.Seed < B.Seed )
@@ -466,53 +538,130 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     {
                         case Enum.TetrahedronEdges.AB:
                             tetra.B = E;
-                            if(!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.A = E;
-                                tetra.B = B;
+                                tetra.A = B;
                             }
                             break;
                         case Enum.TetrahedronEdges.AC:
                             tetra.C = E;
-                            if (!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.A = E;
-                                tetra.C = B;
+                                tetra.A = B;
                             }
                             break;
                         case Enum.TetrahedronEdges.AD:
                             tetra.D = E;
-                            if (!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.A = E;
-                                tetra.D = B;
+                                tetra.A = B;
                             }
                             break;
                         case Enum.TetrahedronEdges.BC:
                             tetra.C = E;
-                            if (!tetra.IsBeside(Enum.TetrahedronSides.ACD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.B = E;
-                                tetra.C = B;
+                                tetra.B = B;
                             }
                             break;
                         case Enum.TetrahedronEdges.BD:
                             tetra.D = E;
-                            if (!tetra.IsBeside(Enum.TetrahedronSides.ACD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.B = E;
-                                tetra.D = B;
+                                tetra.B = B;
                             }
                             break;
                         case Enum.TetrahedronEdges.CD:
                             tetra.D = E;
-                            if (!tetra.IsBeside(Enum.TetrahedronSides.ABD, point))
+                            if(!tetra.IsInside(point))
                             {
-                                tetra.C = E;
-                                tetra.D = B;
+                                tetra.C = B;
                             }
                             break;
                     }             
+                    result = this.getHeightForPointOld(tetra, point, depth - 1);
+                }
+                else
+                {
+                    result = (tetra.A.Value + tetra.B.Value + tetra.C.Value + tetra.D.Value) / 4;
+
+                    result = doLatitudeIcecaps(result, point.Y);
+                }
+            }
+            catch(Exception ex)
+            {
+                this.WriteLogError(method, ex);
+                throw ex;
+            }
+            finally
+            {
+                this.WriteLogFunctionExit(method, result);
+            }
+            
+            return result;
+        }
+
+        private double getHeightForPointOld(Tetrahedron tetra, Point3D point, double depth)
+        {
+            double result = 0;
+            double es, es1, es2, es3;
+            double longestSideValue;
+            TetrahedronPoint E;
+            TetrahedronPoint B;
+            Enum.TetrahedronEdges longestSide;
+            MethodBase method = MethodBase.GetCurrentMethod();
+            try
+            {
+                this.WriteLogFunctionEnter(method, tetra, point, depth);
+                if (depth > 0)
+                {
+                    tetra.Reorder();
+                    longestSide = tetra.LongestSide;
+                    if (depth == 11)
+                    {
+                        savedTetra = tetra.Copy();
+                    }
+                    B = tetra.B.Copy();
+                    longestSideValue = tetra.ABSideLength;
+
+                    es = this.random(tetra.A.Seed, tetra.B.Seed);
+                    es1 = this.random(es, es);
+                    es2 = 0.5 + 0.1 * this.random(es1, es1);
+                    es3 = 1.0 - es2;
+                    E = new TetrahedronPoint();
+                    E.Seed = es;
+
+                    if (tetra.A.Seed < tetra.B.Seed )
+                    {
+                        E.X = (es2 * tetra.A.X + es3 * tetra.B.X);
+                        E.Y = (es2 * tetra.A.Y + es3 * tetra.B.Y);
+                        E.Z = (es2 * tetra.A.Z + es3 * tetra.B.Z);
+                    }
+                    else if (tetra.A.Seed > tetra.B.Seed)
+                    {
+                        E.X = (es3 * tetra.A.X + es2 * tetra.B.X);
+                        E.Y = (es3 * tetra.A.Y + es2 * tetra.B.Y);
+                        E.Z = (es3 * tetra.A.Z + es2 * tetra.B.Z);
+                    }
+                    else
+                    {
+                        E.X = (0.5 * tetra.A.X + 0.5 * tetra.B.X);
+                        E.Y = (0.5 * tetra.A.Y + 0.5 * tetra.B.Y);
+                        E.Z = (0.5 * tetra.A.Z + 0.5 * tetra.B.Z);
+                    }
+
+                    if (tetra.ABSideLength > 1.0) { longestSideValue = Math.Pow(longestSideValue, 0.5); }
+
+                    E.Value = 0.5 * (tetra.A.Value + tetra.B.Value)
+                                + es * this.AltitudeDifferenceWeight * Math.Pow(Math.Abs(tetra.A.Value - tetra.B.Value), this.AltitudeDifferencePower)
+                                + es1 * this.DistanceWeight * Math.Pow(longestSideValue, this.DistanceFunctionPower);
+
+                    tetra.B = E; 
+                    if(!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
+                    {
+                        tetra.A = B;
+                    }
+                             
                     result = this.getHeightForPoint(tetra, point, depth - 1);
                 }
                 else
@@ -573,6 +722,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             finally
             {
+                this.WriteLogMessage(method, "result test = " + result);
                 this.WriteLogFunctionExit(method, result);
             }
 

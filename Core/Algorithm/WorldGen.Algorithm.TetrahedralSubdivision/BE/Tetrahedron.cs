@@ -131,7 +131,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         private void SwitchSides(ref TetrahedronPoint b, ref TetrahedronPoint c)
         {
-            throw new NotImplementedException();
+            TetrahedronPoint aux;
+
+            aux = b.Copy();
+            b = c.Copy();
+            c = aux.Copy();
+            calculateSides();
         }
 
         public bool IsInside(Point3D point)
@@ -140,18 +145,11 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             double abx, aby, abz, acx, acy, acz, adx, ady, adz, apx, apy, apz;
             double bax, bay, baz, bcx, bcy, bcz, bdx, bdy, bdz, bpx, bpy, bpz;
             result = false;
-            abx = this.B.X - this.A.X;
-            aby = this.B.Y - this.A.Y;
-            abz = this.B.Z - this.A.Z;
-            acx = this.C.X - this.A.X;
-            acy = this.C.Y - this.A.Y;
-            acz = this.C.Z - this.A.Z;
-            adx = this.D.X - this.A.X;
-            ady = this.D.Y - this.A.Y;
-            adz = this.D.Z - this.A.Y;
-            apx = point.X - this.A.X;
-            apy = point.Y - this.A.Y;
-            apz = point.Z - this.A.Z;
+            abx = this.B.X - this.A.X; aby = this.B.Y - this.A.Y; abz = this.B.Z - this.A.Z;
+            acx = this.C.X - this.A.X; acy = this.C.Y - this.A.Y; acz = this.C.Z - this.A.Z;
+            adx = this.D.X - this.A.X; ady = this.D.Y - this.A.Y; adz = this.D.Z - this.A.Z;
+            apx = point.X  - this.A.X; apy = point.Y  - this.A.Y; apz = point.Z  - this.A.Z;
+
             if ((adx * aby * acz + ady * abz * acx + adz * abx * acy
                  - adz * aby * acx - ady * abx * acz - adx * abz * acy) *
                 (apx * aby * acz + apy * abz * acx + apz * abx * acy
@@ -171,15 +169,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
                         bax = -abx;
                         bay = -aby;
                         baz = -abz;
-                        bcx = this.C.X - this.B.X;
-                        bcy = this.C.Y - this.B.Y;
-                        bcz = this.C.Z - this.B.Z;
-                        bdx = this.D.X - this.B.X;
-                        bdy = this.D.Y - this.B.Y;
-                        bdz = this.D.Z - this.B.Z;
-                        bpx = point.X - this.B.X;
-                        bpy = point.Y - this.B.Y;
-                        bpz = point.Z - this.B.Z;
+                        bcx = this.C.X - this.B.X; bcy = this.C.Y - this.B.Y; bcz = this.C.Z - this.B.Z;
+                        bdx = this.D.X - this.B.X; bdy = this.D.Y - this.B.Y; bdz = this.D.Z - this.B.Z;
+                        bpx = point.X  - this.B.X; bpy = point.Y  - this.B.Y; bpz = point.Z  - this.B.Z;
+
                         if ((bax * bcy * bdz + bay * bcz * bdx + baz * bcx * bdy
                              - baz * bcy * bdx - bay * bcx * bdz - bax * bcz * bdy) *
                             (bpx * bcy * bdz + bpy * bcz * bdx + bpz * bcx * bdy

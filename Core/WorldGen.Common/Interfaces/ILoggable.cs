@@ -6,13 +6,14 @@ namespace WorldGen.Common.Interfaces
     public abstract class ILoggable
     {
         protected string functionEnterBaseString = "{0}|{1}|Write function Enter|{2}|Parámetros : {3}";
-        protected string functionExitBaseString = "{0}|{1}|Write function Exit|{2}";
+        protected string functionExitBaseString = "{0}|{1}|Write function Exit|{2}|{3}";
         protected string functionErrorBaseString = "{0}|{1}|Write function Error|{2}|Exception Message : {3}";
-        protected string functionMessageBaseString = "{0}|{1}|Write function enter|{2}|Message : {3}";
+        protected string functionMessageBaseString = "{0}|{1}|Write custom Log|{2}|Message : {3}";
         
 
         protected abstract void WriteLogFunctionEnter(MethodBase method, params object[] values);
-        protected abstract void WriteLogFunctionExit(MethodBase method, object result = null);
+        protected abstract void WriteLogFunctionExit(MethodBase method, object result);
+        protected abstract void WriteLogFunctionExit(MethodBase method);
         protected abstract void WriteLogError(MethodBase method, Exception ex);
         protected abstract void WriteLogMessage(MethodBase method, string message);
         protected abstract void WriteLogMessage(string message);
@@ -67,8 +68,8 @@ namespace WorldGen.Common.Interfaces
 
             if(resultObject != null)
             {
-                 objType = resultObject.GetType();
-                 methodToString = objType.GetMethod("ToString",
+                objType = resultObject.GetType();
+                methodToString = objType.GetMethod("ToString",
                                                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
                                                     null,
                                                     new Type[] { },// Method ToString() without parameters

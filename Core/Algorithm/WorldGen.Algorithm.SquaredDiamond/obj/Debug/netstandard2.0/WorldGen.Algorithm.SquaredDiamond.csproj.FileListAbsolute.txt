@@ -62,7 +62,6 @@ C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiam
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Common.pdb
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb
-C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csprojResolveAssemblyReference.cache
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csproj.CoreCompileInputs.cache
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfoInputs.cache
 C:\Users\jponce\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfo.cs
