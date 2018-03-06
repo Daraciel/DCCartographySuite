@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,19 @@ namespace WorldGen.Forms.TestForm
         private void setTetrahedricalSubdivisionValues()
         {
             this.populateCmbTSProjection();
+            this.populateCmbTSColourSchema();
+        }
+
+        private void populateCmbTSColourSchema()
+        {
+            this.cmbTSColourSchema.Items.Clear();
+            DirectoryInfo d = new DirectoryInfo(@"ColorSchemas/");
+            FileInfo[] Files = d.GetFiles("*.col");
+
+            this.cmbTSColourSchema.DataSource = new BindingSource(Files.ToDictionary(t => t.Name, t => t.FullName), null);
+            this.cmbTSColourSchema.DisplayMember = "Key";
+            this.cmbTSColourSchema.ValueMember = "Value";
+
         }
 
         private void populateCmbTSProjection()
@@ -116,6 +130,7 @@ namespace WorldGen.Forms.TestForm
             longitude = (double)nudTSLongitude.Value;
             latitude = (double)nudTSLatitude.Value;
             initialAltitude = (double)nudTSInitialAltitude.Value;
+            projection = (MapProjections)cmbTSProjection.SelectedValue;
 
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
@@ -124,14 +139,13 @@ namespace WorldGen.Forms.TestForm
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LONGITUDE, longitude);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LATITUDE, latitude);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.INITIAL_ALTITUDE, initialAltitude);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.PROJECTION, projection);
 
             TSAlgorithm = new TetrahedralSubdivision();
             TSAlgorithm.Initialize(parameters);
             TSMaps = (HeightMap)TSAlgorithm.Create();
             TSPrint();
         }
-
-        #endregion
 
         private void btnTSPrint_Click(object sender, EventArgs e)
         {
@@ -140,9 +154,16 @@ namespace WorldGen.Forms.TestForm
 
         private void TSPrint()
         {
-            TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
+            TSMaps.SetColorSchema(this.cmbTSColourSchema.SelectedValue.ToString());
             TSMaps.Save(@"C:/sample/sampleTSimage.jpg");
             pbTSResult.ImageLocation = @"C:/sample/sampleTSimage.jpg";
         }
+
+        private void btnTSGenerateRandomSeed_Click(object sender, EventArgs e)
+        {
+            this.nudTSSeed.Value = (decimal)rnd.NextDouble();
+        }
+
+        #endregion
     }
 }

@@ -64,6 +64,9 @@
             this.btnTSPrint = new System.Windows.Forms.Button();
             this.nudTSSeed = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.gbTSPrinting = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.cmbTSColourSchema = new System.Windows.Forms.ComboBox();
             this.tcAlgorithms.SuspendLayout();
             this.tpSquaredDiamond.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSDResult)).BeginInit();
@@ -81,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTSHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTSWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTSSeed)).BeginInit();
+            this.gbTSPrinting.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcAlgorithms
@@ -297,6 +301,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.gbTSPrinting);
             this.groupBox1.Controls.Add(this.btnTSGenerate);
             this.groupBox1.Controls.Add(this.nudTSInitialAltitude);
             this.groupBox1.Controls.Add(this.label12);
@@ -556,6 +561,7 @@
             this.btnTSGenerateRandomSeed.TabIndex = 9;
             this.btnTSGenerateRandomSeed.Text = "Random Seed";
             this.btnTSGenerateRandomSeed.UseVisualStyleBackColor = true;
+            this.btnTSGenerateRandomSeed.Click += new System.EventHandler(this.btnTSGenerateRandomSeed_Click);
             // 
             // btnTSPrint
             // 
@@ -600,6 +606,35 @@
             this.label7.Text = "Seed";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // gbTSPrinting
+            // 
+            this.gbTSPrinting.Controls.Add(this.label13);
+            this.gbTSPrinting.Controls.Add(this.cmbTSColourSchema);
+            this.gbTSPrinting.Location = new System.Drawing.Point(3, 343);
+            this.gbTSPrinting.Name = "gbTSPrinting";
+            this.gbTSPrinting.Size = new System.Drawing.Size(241, 113);
+            this.gbTSPrinting.TabIndex = 25;
+            this.gbTSPrinting.TabStop = false;
+            this.gbTSPrinting.Text = "Printing";
+            // 
+            // label13
+            // 
+            this.label13.Location = new System.Drawing.Point(4, 17);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(108, 23);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "Colour Schema";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmbTSColourSchema
+            // 
+            this.cmbTSColourSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTSColourSchema.FormattingEnabled = true;
+            this.cmbTSColourSchema.Location = new System.Drawing.Point(118, 19);
+            this.cmbTSColourSchema.Name = "cmbTSColourSchema";
+            this.cmbTSColourSchema.Size = new System.Drawing.Size(119, 21);
+            this.cmbTSColourSchema.TabIndex = 22;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -626,6 +661,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTSHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTSWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTSSeed)).EndInit();
+            this.gbTSPrinting.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -668,6 +704,9 @@
         private System.Windows.Forms.NumericUpDown nudTSInitialAltitude;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnTSGenerate;
+        private System.Windows.Forms.GroupBox gbTSPrinting;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox cmbTSColourSchema;
     }
 }
 

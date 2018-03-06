@@ -55,6 +55,7 @@ namespace WorldGen.Common.Interfaces
             if(File.Exists(path))
             {
                 this.colorPalette = new ColorSchema(path);
+                this.resultingMap = null;
             }
         }
 

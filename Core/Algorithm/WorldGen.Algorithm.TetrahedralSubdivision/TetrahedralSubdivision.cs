@@ -167,8 +167,20 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 switch (this.Projection)
                 {
                     case MapProjections.MERCATOR:
-                    DoMercatorProjection();
-                    break;
+                        DoMercatorProjection();
+                        break;
+                    case MapProjections.PETERS:
+                        DoPeterProjection();
+                        break;
+                    case MapProjections.SQUARE:
+                        DoSquareProjection();
+                        break;
+                    case MapProjections.MOLLWEIDE:
+                        DoMollweideProjection();
+                        break;
+                    case MapProjections.SINUSOID:
+                        DoSinusoidProjection();
+                        break;
                 }
             }
             catch(Exception ex)
@@ -266,7 +278,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         public static HashSet<MapProjections> SupportedProjections()
         {
-            return new HashSet<MapProjections>() { MapProjections.MERCATOR };
+            return new HashSet<MapProjections>() {  MapProjections.MERCATOR, MapProjections.PETERS, MapProjections.SQUARE,
+                                                    MapProjections.MOLLWEIDE, MapProjections.SINUSOID};
         }
 
         #endregion
@@ -314,7 +327,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
         }
 
-        private void doPeterProjection()
+        private void DoPeterProjection()
         {
             double x, y, z, cos2, theta1, scale1;
             int k, i, j;//, water, land;
@@ -363,6 +376,139 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             finally
             {
                 this.WriteLogFunctionExit(method);
+            }
+        }
+
+        private void DoSquareProjection()
+        {
+            double x, y, z, scale1, theta1, cos2;
+            int k, i, j;
+
+            k = (int)(0.5 * Latitude * Width * Scale / Constants.PI + 0.5);
+            for (j = 0; j < Height; j++)
+            {
+                y = (2.0 * (j - k) - Height) / Width / Scale * Constants.PI;
+                if (Math.Abs(y + y) > Constants.PI)
+                {
+                    for (i = 0; i < Width; i++)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                }
+                else
+                {
+                    cos2 = Math.Cos(y);
+                    y = Math.Sin(y);
+                    if (cos2 > 0.0)
+                    {
+                        scale1 = scale * Width / Height / cos2 / Constants.PI;
+                        depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+                        for (i = 0; i < Width; i++)
+                        {
+                            theta1 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
+                            x = Math.Cos(theta1) * cos2;
+                            z = -Math.Sin(theta1) * cos2;
+                            generatePoint(x, y, z, i, j);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DoMollweideProjection()
+        {
+            double x, y, z, y1, zz, scale1, cos2, theta1;
+            int i, j, k;
+
+            for (j = 0; j < Height; j++)
+            {
+                y1 = 2 * (2.0 * j - Height) / Width / Scale;
+                if (Math.Abs(y1) >= 1.0)
+                {
+                    for (i = 0; i < Width; i++)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                }
+                else
+                {
+                    zz = Math.Sqrt(1.0 - y1 * y1);
+                    y = 2.0 / Constants.PI * (y1 * zz + Math.Asin(y1));
+                    cos2 = Math.Sqrt(1.0 - y * y);
+                    if (cos2 > 0.0)
+                    {
+                        scale1 = Scale * Width / Height / cos2 / Constants.PI;
+                        depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+                        for (i = 0; i < Width; i++)
+                        {
+                            theta1 = Constants.PI / zz * (2.0 * i - Width) / Width / Scale;
+                            if (Math.Abs(theta1) > Constants.PI)
+                            {
+                                setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                            }
+                            else
+                            {
+                                double x2, y2, z2, x3, y3, z3;
+                                theta1 += -0.5 * Constants.PI;
+                                x2 = Math.Cos(theta1) * cos2;
+                                y2 = y;
+                                z2 = -Math.Sin(theta1) * cos2;
+                                x3 = longitudeCos * x2 + longitudeSin * latitudeSin * y2 + longitudeSin * latitudeCos * z2;
+                                y3 = latitudeCos * y2 - latitudeSin * z2;
+                                z3 = -longitudeSin * x2 + longitudeCos * latitudeSin * y2 + longitudeCos * latitudeCos * z2;
+
+                                generatePoint(x3, y3, z3, i, j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DoSinusoidProjection()
+        {
+            double x, y, z, theta1, theta2, cos2, l1, i1, scale1;
+            int k, i, j, l, c;
+
+            k = (int)(Latitude * Width * Scale / Constants.PI + 0.5);
+            for (j = 0; j < Height; j++)
+            {
+                y = (2.0 * (j - k) - Height) / Width / Scale * Constants.PI;
+                if (Math.Abs(y + y) > Constants.PI)
+                {
+                    for (i = 0; i < Width; i++)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                }
+                else
+                {
+                    cos2 = Math.Cos(y);
+                    if (cos2 > 0.0)
+                    {
+                        y = Math.Sin(y);
+                        scale1 = Scale * Width / Height / cos2 / Constants.PI;
+                        depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+                        for (i = 0; i < Width; i++)
+                        {
+                            l = i * 12 / Width / (int)Scale;
+                            l1 = l * Width * Scale / 12.0;
+                            i1 = i - l1;
+                            theta2 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * l1 - Width) / Width / Scale;
+                            theta1 = (Constants.PI * (2.0 * i1 - Width * Scale / 12.0) / Width / Scale) / cos2;
+                            if (Math.Abs(theta1) > Constants.PI / 12.0)
+                            {
+                                setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                            }
+                            else
+                            {
+                                x = Math.Cos(theta1 + theta2) * cos2;
+                                z = -Math.Sin(theta1 + theta2) * cos2;
+                                generatePoint(x, y, z, i, j);
+                            }
+                        }
+                    }
+                }
             }
         }
 
