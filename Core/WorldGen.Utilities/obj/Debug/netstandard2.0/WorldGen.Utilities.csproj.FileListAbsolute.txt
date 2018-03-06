@@ -15,3 +15,11 @@ C:\Users\jponce\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard
 C:\Users\jponce\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfo.cs
 C:\Users\jponce\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.dll
 C:\Users\jponce\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.pdb
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.deps.json
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csproj.CoreCompileInputs.cache
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfoInputs.cache
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfo.cs
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.dll
+C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.pdb

@@ -178,28 +178,33 @@
   },
   "packageFolders": {
     "C:\\Users\\jponce\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jponce\\DCCartographySuite\\Core\\WorldGen.Utilities\\WorldGen.Utilities.csproj",
+      "projectUniqueName": "C:\\Users\\jponce\\Documents\\GitHub\\DCCartographySuite\\Core\\WorldGen.Utilities\\WorldGen.Utilities.csproj",
       "projectName": "WorldGen.Utilities",
-      "projectPath": "C:\\Users\\jponce\\DCCartographySuite\\Core\\WorldGen.Utilities\\WorldGen.Utilities.csproj",
+      "projectPath": "C:\\Users\\jponce\\Documents\\GitHub\\DCCartographySuite\\Core\\WorldGen.Utilities\\WorldGen.Utilities.csproj",
       "packagesPath": "C:\\Users\\jponce\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jponce\\DCCartographySuite\\Core\\WorldGen.Utilities\\obj\\",
+      "outputPath": "C:\\Users\\jponce\\Documents\\GitHub\\DCCartographySuite\\Core\\WorldGen.Utilities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\jponce\\DCCartographySuite\\NuGet.Config",
-        "C:\\Users\\jponce\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jponce\\Documents\\GitHub\\DCCartographySuite\\NuGet.Config",
+        "C:\\Users\\jponce\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.myget.org/F/imagesharp/api/v3/index.json": {}
       },
