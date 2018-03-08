@@ -181,6 +181,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     case MapProjections.SINUSOID:
                         DoSinusoidProjection();
                         break;
+                    case MapProjections.AZIMUTH:
+                        DoAzimuthProjection();
+                        break;
+                    case MapProjections.CONICAL:
+                        DoConicalProjection();
+                        break;
+                    case MapProjections.GNOMONIC:
+                        DoGnomonicProjection();
+                        break;
+                    case MapProjections.ICOSAHEDRAL:
+                        DoIcosahedralProjection();
+                        break;
+                    case MapProjections.ORTOGRAPHIC:
+                        DoOrtographicProjection();
+                        break;
+                    case MapProjections.STEREOGRAPHIC:
+                        DoStereographicProjection();
+                        break;
                 }
             }
             catch(Exception ex)
@@ -279,7 +297,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         public static HashSet<MapProjections> SupportedProjections()
         {
             return new HashSet<MapProjections>() {  MapProjections.MERCATOR, MapProjections.PETERS, MapProjections.SQUARE,
-                                                    MapProjections.MOLLWEIDE, MapProjections.SINUSOID};
+                                                    MapProjections.MOLLWEIDE, MapProjections.SINUSOID, MapProjections.STEREOGRAPHIC,
+                                                    MapProjections.ORTOGRAPHIC, MapProjections.ICOSAHEDRAL, MapProjections.GNOMONIC,
+                                                    MapProjections.AZIMUTH, MapProjections.CONICAL};
         }
 
         #endregion
@@ -505,6 +525,433 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                                 x = Math.Cos(theta1 + theta2) * cos2;
                                 z = -Math.Sin(theta1 + theta2) * cos2;
                                 generatePoint(x, y, z, i, j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DoStereographicProjection()
+        {
+            double x, y, ymin, ymax, z, zz, x1, y1, z1;
+            int i, j;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            for (j = 0; j < Height; j++)
+            {
+                for (i = 0; i < Width; i++)
+                {
+                    x = (2.0 * i - Width) / Height / Scale;
+                    y = (2.0 * j - Height) / Height / Scale;
+                    z = x * x + y * y;
+                    zz = 0.25 * (4.0 + z);
+                    x = x / zz;
+                    y = y / zz;
+                    z = (1.0 - 0.25 * z) / zz;
+                    x1 = longitudeCos * x + longitudeSin * latitudeSin * y + longitudeSin * latitudeCos * z;
+                    y1 = latitudeCos * y - latitudeSin * z;
+                    z1 = -longitudeSin * x + longitudeCos * latitudeSin * y + longitudeCos * latitudeCos * z;
+                    if (y1 < ymin) ymin = y1;
+                    if (y1 > ymax) ymax = y1;
+
+                    /* for level-of-detail effect:
+                       Depth = 3*((int)(log_2(scale*Height)/(1.0+x1*x1+y1*y1)))+6; */
+
+                    generatePoint(x1, y1, z1, i, j);
+                }
+            }
+        }
+
+        private void DoOrtographicProjection()
+        {
+            double x, y, z, x1, y1, z1, ymin, ymax;
+            int i, j;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            for (j = 0; j < Height; j++)
+            {
+                for (i = 0; i < Width; i++)
+                {
+                    x = (2.0 * i - Width) / Height / Scale;
+                    y = (2.0 * j - Height) / Height / Scale;
+                    if (x * x + y * y > 1.0)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                    else
+                    {
+                        z = Math.Sqrt(1.0 - x * x - y * y);
+                        x1 = longitudeCos * x + longitudeSin * latitudeSin * y + longitudeSin * latitudeCos * z;
+                        y1 = latitudeCos * y - latitudeSin * z;
+                        z1 = -longitudeSin * x + longitudeCos * latitudeSin * y + longitudeCos * latitudeSin * z;
+                        if (y1 < ymin)
+                        {
+                            ymin = y1;
+                        }
+                        if (y1 > ymax)
+                        {
+                            ymax = y1;
+                        }
+                        generatePoint(x1, y1, z1, i, j);
+                    }
+                }
+            }
+        }
+
+        private void DoIcosahedralProjection()
+        {
+            double x, y, z, x1, y1, z1, zz, ymin, ymax;
+            int i, j;
+            double lat1, longi1, sla, cla, slo, clo, x0, y0, sq3;
+            double L1, L2, S;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            sq3 = Constants.SQRT3;
+            L1 = 10.812317; /* theoretically 10.9715145571469; */
+            L2 = -52.622632; /* theoretically -48.3100310579607; */
+            S = 55.6; /* found by experimentation */
+            for (j = 0; j < Height; j++)
+            {
+                for (i = 0; i < Width; i++)
+                {
+
+                    x0 = 198.0 * (2.0 * i - Width) / Width / Scale - 36;
+                    y0 = 198.0 * (2.0 * j - Height) / Width / Scale - Latitude / Constants.DEG2RAD;
+
+                    longi1 = 0.0;
+                    lat1 = 500.0;
+                    if (y0 / sq3 <= 18.0 && y0 / sq3 >= -18.0)
+                    { /* middle row of triangles */
+                      /* upward triangles */
+                        if (x0 - y0 / sq3 < 144.0 && x0 + y0 / sq3 >= 108.0)
+                        {
+                            lat1 = -L1;
+                            longi1 = 126.0;
+                        }
+                        else if (x0 - y0 / sq3 < 72.0 && x0 + y0 / sq3 >= 36.0)
+                        {
+                            lat1 = -L1;
+                            longi1 = 54.0;
+                        }
+                        else if (x0 - y0 / sq3 < 0.0 && x0 + y0 / sq3 >= -36.0)
+                        {
+                            lat1 = -L1;
+                            longi1 = -18.0;
+                        }
+                        else if (x0 - y0 / sq3 < -72.0 && x0 + y0 / sq3 >= -108.0)
+                        {
+                            lat1 = -L1;
+                            longi1 = -90.0;
+                        }
+                        else if (x0 - y0 / sq3 < -144.0 && x0 + y0 / sq3 >= -180.0)
+                        {
+                            lat1 = -L1;
+                            longi1 = -162.0;
+                        }
+
+                        /* downward triangles */
+                        else if (x0 + y0 / sq3 < 108.0 && x0 - y0 / sq3 >= 72.0)
+                        {
+                            lat1 = L1;
+                            longi1 = 90.0;
+                        }
+                        else if (x0 + y0 / sq3 < 36.0 && x0 - y0 / sq3 >= 0.0)
+                        {
+                            lat1 = L1;
+                            longi1 = 18.0;
+                        }
+                        else if (x0 + y0 / sq3 < -36.0 && x0 - y0 / sq3 >= -72.0)
+                        {
+                            lat1 = L1;
+                            longi1 = -54.0;
+                        }
+                        else if (x0 + y0 / sq3 < -108.0 && x0 - y0 / sq3 >= -144.0)
+                        {
+                            lat1 = L1;
+                            longi1 = -126.0;
+                        }
+                        else if (x0 + y0 / sq3 < -180.0 && x0 - y0 / sq3 >= -216.0)
+                        {
+                            lat1 = L1;
+                            longi1 = -198.0;
+                        }
+                    }
+
+                    if (y0 / sq3 > 18.0)
+                    { /* bottom row of triangles */
+                        if (x0 + y0 / sq3 < 180.0 && x0 - y0 / sq3 >= 72.0)
+                        {
+                            lat1 = L2;
+                            longi1 = 126.0;
+                        }
+                        else if (x0 + y0 / sq3 < 108.0 && x0 - y0 / sq3 >= 0.0)
+                        {
+                            lat1 = L2;
+                            longi1 = 54.0;
+                        }
+                        else if (x0 + y0 / sq3 < 36.0 && x0 - y0 / sq3 >= -72.0)
+                        {
+                            lat1 = L2;
+                            longi1 = -18.0;
+                        }
+                        else if (x0 + y0 / sq3 < -36.0 && x0 - y0 / sq3 >= -144.0)
+                        {
+                            lat1 = L2;
+                            longi1 = -90.0;
+                        }
+                        else if (x0 + y0 / sq3 < -108.0 && x0 - y0 / sq3 >= -216.0)
+                        {
+                            lat1 = L2;
+                            longi1 = -162.0;
+                        }
+                    }
+                    if (y0 / sq3 < -18.0)
+                    { /* top row of triangles */
+                        if (x0 - y0 / sq3 < 144.0 && x0 + y0 / sq3 >= 36.0)
+                        {
+                            lat1 = -L2;
+                            longi1 = 90.0;
+                        }
+                        else if (x0 - y0 / sq3 < 72.0 && x0 + y0 / sq3 >= -36.0)
+                        {
+                            lat1 = -L2;
+                            longi1 = 18.0;
+                        }
+                        else if (x0 - y0 / sq3 < 0.0 && x0 + y0 / sq3 >= -108.0)
+                        {
+                            lat1 = -L2;
+                            longi1 = -54.0;
+                        }
+                        else if (x0 - y0 / sq3 < -72.0 && x0 + y0 / sq3 >= -180.0)
+                        {
+                            lat1 = -L2;
+                            longi1 = -126.0;
+                        }
+                        else if (x0 - y0 / sq3 < -144.0 && x0 + y0 / sq3 >= -252.0)
+                        {
+                            lat1 = -L2;
+                            longi1 = -198.0;
+                        }
+                    }
+
+                    if (lat1 > 400.0)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                    else
+                    {
+                        x = (x0 - longi1) / S;
+                        y = (y0 + lat1) / S;
+
+                        longi1 = longi1 * Constants.DEG2RAD - Longitude;
+                        lat1 = lat1 * Constants.DEG2RAD;
+
+                        sla = Math.Sin(lat1); cla = Math.Cos(lat1);
+                        slo = Math.Sin(longi1); clo = Math.Cos(longi1);
+
+                        zz = Math.Sqrt(1.0 / (1.0 + x * x + y * y));
+                        x = x * zz;
+                        y = y * zz;
+                        z = Math.Sqrt(1.0 - x * x - y * y);
+                        x1 = clo * x + slo * sla * y + slo * cla * z;
+                        y1 = cla * y - sla * z;
+                        z1 = -slo * x + clo * sla * y + clo * cla * z;
+
+                        /*
+                          if (y0/sq3 < 18.05 && y0/sq3 > 17.95
+                          && x0+y0/sq3 > -18.05 && x0+y0/sq3 < -17.95)
+                          fprintf(stderr, "%lf, %lf: %lf, %lf, %lf\n",x0+y0/sq3, y0/sq3, x1,y1,z1);
+                        */
+                        if (y1 < ymin)
+                        {
+                            ymin = y1;
+                        }
+                        if (y1 > ymax)
+                        {
+                            ymax = y1;
+                        }
+                        generatePoint(x1, y1, z1, i, j);
+                    }
+                }
+            }
+        }
+
+        private void DoGnomonicProjection()
+        {
+            double x, y, z, x1, y1, z1, zz, ymin, ymax;
+            int i, j;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            for (j = 0; j < Height; j++)
+            {
+                for (i = 0; i < Width; i++)
+                {
+                    x = (2.0 * i - Width) / Height / scale;
+                    y = (2.0 * j - Height) / Height / scale;
+                    zz = Math.Sqrt(1.0 / (1.0 + x * x + y * y));
+                    x = x * zz;
+                    y = y * zz;
+                    z = Math.Sqrt(1.0 - x * x - y * y);
+                    x1 = longitudeCos * x + longitudeSin * latitudeSin * y + longitudeSin * latitudeCos * z;
+                    y1 = latitudeCos * y - latitudeSin * z;
+                    z1 = -longitudeSin * x + longitudeCos * latitudeSin * y + longitudeCos * latitudeCos * z;
+                    if (y1 < ymin)
+                    {
+                        ymin = y1;
+                    }
+                    if (y1 > ymax)
+                    {
+                        ymax = y1;
+                    }
+                    generatePoint(x1, y1, z1, i, j);
+                }
+            }
+        }
+
+        private void DoAzimuthProjection()
+        {
+            double x, y, z, x1, y1, z1, zz, ymin, ymax;
+            int i, j;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            for (j = 0; j < Height; j++)
+            {
+                for (i = 0; i < Width; i++)
+                {
+                    x = (2.0 * i - Width) / Height / Scale;
+                    y = (2.0 * j - Height) / Height / Scale;
+                    zz = x * x + y * y;
+                    z = 1.0 - 0.5 * zz;
+                    if (z < -1.0)
+                    {
+                        setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                    }
+                    else
+                    {
+                        zz = Math.Sqrt(1.0 - 0.25 * zz);
+                        x = x * zz;
+                        y = y * zz;
+                        x1 = longitudeCos * x + longitudeSin * latitudeSin * y + longitudeSin * latitudeCos * z;
+                        y1 = latitudeCos * y - latitudeSin * z;
+                        z1 = -longitudeSin * x + longitudeCos * latitudeSin * y + longitudeCos * latitudeCos * z;
+                        if (y1 < ymin)
+                        {
+                            ymin = y1;
+                        }
+                        if (y1 > ymax)
+                        {
+                            ymax = y1;
+                        }
+                        generatePoint(x1, y1, z1, i, j);
+                    }
+                }
+            }
+        }
+
+        private void DoConicalProjection()
+        {
+            double k1, c, y2, x, y, zz, x1, z1, theta1, theta2, ymin, ymax, cos2;
+            int i, j;
+
+            ymin = 2.0;
+            ymax = -2.0;
+            if (Latitude > 0)
+            {
+                k1 = 1.0 / latitudeSin;
+                c = k1 * k1;
+                y2 = Math.Sqrt(c * (1.0 - Math.Sin(Latitude / k1)) / (1.0 + Math.Sin(Latitude / k1)));
+                for (j = 0; j < Height; j++)
+                {
+                    for (i = 0; i < Width; i++)
+                    {
+                        x = (2.0 * i - Width) / Height / scale;
+                        y = (2.0 * j - Height) / Height / scale + y2;
+                        zz = x * x + y * y;
+                        if (zz == 0.0) theta1 = 0.0; else theta1 = k1 * Math.Atan2(x, y);
+                        if (theta1 < -Constants.PI || theta1 > Constants.PI)
+                        {
+                            setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                        }
+                        else
+                        {
+                            theta1 += Longitude - 0.5 * Constants.PI; /* theta1 is longitude */
+                            theta2 = k1 * Math.Asin((zz - c) / (zz + c));
+                            /* theta2 is latitude */
+                            if (theta2 > 0.5 * Constants.PI || theta2 < -0.5 * Constants.PI)
+                            {
+                                setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                            }
+                            else
+                            {
+                                cos2 = Math.Cos(theta2);
+                                y = Math.Sin(theta2);
+                                if (y < ymin)
+                                {
+                                    ymin = y;
+                                }
+                                if (y > ymax)
+                                {
+                                    ymax = y;
+                                }
+
+                                x1 = Math.Cos(theta1) * cos2;
+                                z1 = -Math.Sin(theta1) * cos2;
+
+                                generatePoint(x1, y, z1, i, j);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                k1 = 1.0 / latitudeSin;
+                c = k1 * k1;
+                y2 = Math.Sqrt(c * (1.0 - Math.Sin(Latitude / k1)) / (1.0 + Math.Sin(Latitude / k1)));
+                for (j = 0; j < Height; j++)
+                {
+                    for (i = 0; i < Width; i++)
+                    {
+                        x = (2.0 * i - Width) / Height / scale;
+                        y = (2.0 * j - Height) / Height / scale - y2;
+                        zz = x * x + y * y;
+                        if (zz == 0.0) theta1 = 0.0; else theta1 = -k1 * Math.Atan2(x, -y);
+                        if (theta1 < -Constants.PI || theta1 > Constants.PI)
+                        {
+                            setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                        }
+                        else
+                        {
+                            theta1 += Longitude - 0.5 * Constants.PI; /* theta1 is longitude */
+                            theta2 = k1 * Math.Asin((zz - c) / (zz + c));
+                            /* theta2 is latitude */
+                            if (theta2 > 0.5 * Constants.PI || theta2 < -0.5 * Constants.PI)
+                            {
+                                setFixedPointValue(i, j, Constants.COLOURS_BLACK);
+                            }
+                            else
+                            {
+                                cos2 = Math.Cos(theta2);
+                                y = Math.Sin(theta2);
+                                if (y < ymin)
+                                {
+                                    ymin = y;
+                                }
+                                if (y > ymax)
+                                {
+                                    ymax = y;
+                                }
+
+                                x1 = Math.Cos(theta1) * cos2;
+                                z1 = -Math.Sin(theta1) * cos2;
+
+                                generatePoint(x1, y, z1, i, j);
                             }
                         }
                     }
