@@ -13,11 +13,17 @@ namespace WorldGen.Console.TestConsole
     {
         static void Main(string[] args)
         {
+            int quantity;
+            string line;
             StaticLogger.SetLoggerType(LoggerTypes.TEXT);
+            System.Console.WriteLine("cuantos mapas quiere crear?");
+            line = System.Console.ReadLine();
+            quantity = int.Parse(line);
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " START");
 
             //TestTetrahedronReorder();
-            TestMaps();
+            TestManyMaps(quantity);
+            //TestMaps();
 
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " END");
         }
@@ -62,6 +68,49 @@ namespace WorldGen.Console.TestConsole
 
             T = new Tetrahedron(A, B, C, D);
             T.Reorder();
+
+        }
+
+
+        private static void TestManyMaps(int quantity)
+        {
+            Random rnd;
+            TetrahedralSubdivision TSAlgorithm;
+            HeightMap TSMaps;
+            InitializeParams parameters;
+            double seed;
+            int width, height;
+            rnd = new Random();
+            seed = 0.3;
+            width = 400;
+            height = 300;
+            TSAlgorithm = new TetrahedralSubdivision();
+            parameters = new InitializeParams();
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.DEBUG, false);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.HEIGHT, height);
+
+            //StaticLogger.SetLoggerType(LoggerTypes.CONSOLE);
+
+
+            for (int i =0; i<quantity; i++)
+            {
+                seed = rnd.NextDouble();
+                System.Console.WriteLine("Generando mapa " + (i+1) + " de " + quantity + " (Semilla = " + seed + ")");
+                if (parameters.Parameters.ContainsKey(AlgorithmParameters.SEED))
+                {
+                    parameters.Parameters[Common.Enums.AlgorithmParameters.SEED] = seed;
+                }
+                else
+                {
+                    parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
+                }
+                TSAlgorithm.Initialize(parameters);
+                TSMaps = (HeightMap)TSAlgorithm.Create();
+                TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
+                TSMaps.Save(@"Results/" + seed + ".jpg");
+            }
+
 
         }
     }

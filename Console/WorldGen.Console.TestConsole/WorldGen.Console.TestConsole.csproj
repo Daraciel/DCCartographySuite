@@ -18,5 +18,8 @@
       <Name>WorldGen.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Results\" />
+  </ItemGroup>
 
 </Project>
