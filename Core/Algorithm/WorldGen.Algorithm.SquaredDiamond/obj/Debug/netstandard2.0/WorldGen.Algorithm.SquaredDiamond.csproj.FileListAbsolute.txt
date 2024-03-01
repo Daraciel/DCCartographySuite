@@ -103,3 +103,9 @@ C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\Algorithm\WorldGen.Algo
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.dll
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.pdb
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csprojAssemblyReference.cache
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csproj.AssemblyReference.cache
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.GeneratedMSBuildEditorConfig.editorconfig
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfoInputs.cache
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.AssemblyInfo.cs
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.csproj.CoreCompileInputs.cache
+C:\git\DCCartographySuite\Core\Algorithm\WorldGen.Algorithm.SquaredDiamond\obj\Debug\netstandard2.0\WorldGen.Algorithm.SquaredDiamond.pdb

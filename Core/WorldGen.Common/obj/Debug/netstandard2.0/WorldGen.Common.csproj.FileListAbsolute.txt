@@ -97,3 +97,9 @@ C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Common\obj\Deb
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.dll
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.pdb
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.csprojAssemblyReference.cache
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.csproj.AssemblyReference.cache
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.AssemblyInfoInputs.cache
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.AssemblyInfo.cs
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.csproj.CoreCompileInputs.cache
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.pdb

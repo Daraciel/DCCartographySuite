@@ -24,3 +24,13 @@ C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.dll
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.pdb
 C:\Users\jponce\Documents\GitHub\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csprojAssemblyReference.cache
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.deps.json
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.dll
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\bin\Debug\netstandard2.0\WorldGen.Utilities.pdb
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csproj.AssemblyReference.cache
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfoInputs.cache
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.AssemblyInfo.cs
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.csproj.CoreCompileInputs.cache
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.dll
+C:\git\DCCartographySuite\Core\WorldGen.Utilities\obj\Debug\netstandard2.0\WorldGen.Utilities.pdb
