@@ -1,6 +1,5 @@
-﻿using ImageSharp;
-using System;
-using System.Threading.Tasks;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using WorldGen.Common.Interfaces;
 
 namespace WorldGen.Common.Maps
@@ -96,14 +95,12 @@ namespace WorldGen.Common.Maps
             maxHeight = Utilities.ToolBox.GetMaxValue(this.heightmap);
             color.A = byte.MaxValue;
 
-            result = new Image<Rgba32>((int)this.width, (int)this.height);
+            result = new Image<Rgba32>((int)this.width, (int)this.height, Color.Red);
 
             if(result == null || result.Width <= 0 || result.Height <= 0)
             {
                 return null;
             }
-
-            result.Fill(Rgba32.Red);
 
             for(int x= 0; x < this.width; x++)
             {
@@ -146,14 +143,12 @@ namespace WorldGen.Common.Maps
             maxHeight = Utilities.ToolBox.GetMaxValue(this.heightmap);
             color.A = byte.MaxValue;
 
-            result = new Image<Rgba32>((int)this.width, (int)this.height);
+            result = new Image<Rgba32>((int)this.width, (int)this.height, Color.Red);
 
             if (result == null || result.Width <= 0 || result.Height <= 0)
             {
                 return null;
             }
-
-            result.Fill(Rgba32.Red);
 
             for (int x = 0; x < this.width; x++)
             {

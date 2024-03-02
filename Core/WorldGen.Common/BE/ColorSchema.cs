@@ -1,8 +1,5 @@
-﻿using ImageSharp;
-using System;
-using System.IO;
+﻿using SixLabors.ImageSharp.PixelFormats;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace WorldGen.Common.BE
 {
