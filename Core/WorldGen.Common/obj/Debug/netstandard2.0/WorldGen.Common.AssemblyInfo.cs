@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorldGen.Common")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ad213e233d86fd33f7ff425529ec564350cdada")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorldGen.Common")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorldGen.Common")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

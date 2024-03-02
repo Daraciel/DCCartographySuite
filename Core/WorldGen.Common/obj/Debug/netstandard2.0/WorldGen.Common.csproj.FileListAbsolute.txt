@@ -103,3 +103,4 @@ C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen
 C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.AssemblyInfo.cs
 C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.csproj.CoreCompileInputs.cache
 C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.pdb
+C:\git\DCCartographySuite\Core\WorldGen.Common\obj\Debug\netstandard2.0\WorldGen.Common.sourcelink.json
