@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{CB11
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Console.TestConsole", "Console\WorldGen.Console.TestConsole\WorldGen.Console.TestConsole.csproj", "{0779ECB9-57BE-4020-9732-BB66A202CFC6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Forms.NetForm", "WorldGen.Forms.NetForm\WorldGen.Forms.NetForm.csproj", "{3B3E2687-E564-4201-A6D0-A21C441A0105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldGen.Forms.NetForm", "Forms\WorldGen.Forms.NetForm\WorldGen.Forms.NetForm.csproj", "{3B3E2687-E564-4201-A6D0-A21C441A0105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
