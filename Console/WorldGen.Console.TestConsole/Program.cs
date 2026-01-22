@@ -6,6 +6,9 @@ using WorldGen.Common.Enums;
 using WorldGen.Common.Maps;
 using WorldGen.Utilities.Logger;
 using WorldGen.Utilities.Enum;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace WorldGen.Console.TestConsole
 {
@@ -109,11 +112,13 @@ namespace WorldGen.Console.TestConsole
                 TSMaps = (HeightMap)TSAlgorithm.Create();
                 TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
 
-                if(!System.IO.Directory.Exists("Results"))
+                if(!Directory.Exists("Results"))
                 {
-                    System.IO.Directory.CreateDirectory("Results");
+                    Directory.CreateDirectory("Results");
                 }
                 TSMaps.Save(@"Results/" + seed + ".jpg");
+
+                File.WriteAllText(@"Results/" + seed + ".json", JsonConvert.SerializeObject(TSAlgorithm));
             }
 
 

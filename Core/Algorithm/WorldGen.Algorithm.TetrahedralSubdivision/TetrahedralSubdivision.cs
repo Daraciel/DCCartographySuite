@@ -145,6 +145,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         public MapProjections Projection { get => projection; set => projection = value; }
         public bool IsDoLatitudeIcecapsSet { get => isDoLatitudeIcecapsSet; set => isDoLatitudeIcecapsSet = value; }
 
+        public HeightMap ResultMap { get => resultMap; }
+
         #endregion
 
         #region IALGORITHM
