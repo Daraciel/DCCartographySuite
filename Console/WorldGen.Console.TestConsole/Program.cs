@@ -108,6 +108,11 @@ namespace WorldGen.Console.TestConsole
                 TSAlgorithm.Initialize(parameters);
                 TSMaps = (HeightMap)TSAlgorithm.Create();
                 TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
+
+                if(!System.IO.Directory.Exists("Results"))
+                {
+                    System.IO.Directory.CreateDirectory("Results");
+                }
                 TSMaps.Save(@"Results/" + seed + ".jpg");
             }
 

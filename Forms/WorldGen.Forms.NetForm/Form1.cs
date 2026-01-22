@@ -1,3 +1,5 @@
+using SixLabors.ImageSharp;
+using Image = System.Drawing.Image;
 using WorldGen.Algorithm.SquaredDiamond;
 using WorldGen.Algorithm.TetrahedralSubdivision;
 using WorldGen.Common.BE;
@@ -146,8 +148,14 @@ namespace WorldGen.Forms.NetForm
         private void TSPrint()
         {
             TSMaps.SetColorSchema(this.cmbTSColourSchema.SelectedValue.ToString());
-            TSMaps.Save(@"C:/sample/sampleTSimage.jpg");
-            pbTSResult.ImageLocation = @"C:/sample/sampleTSimage.jpg";
+            // Convertir ImageSharp.Image<Rgba32> a System.Drawing.Image
+            using (var imageSharpImage = TSMaps.Print())
+            using (var ms = new MemoryStream())
+            {
+                imageSharpImage.SaveAsPng(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                pbTSResult.Image = Image.FromStream(ms);
+            }
         }
 
         private void btnTSGenerateRandomSeed_Click(object sender, EventArgs e)
