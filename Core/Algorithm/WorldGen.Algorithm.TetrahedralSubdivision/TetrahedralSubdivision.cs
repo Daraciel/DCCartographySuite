@@ -114,13 +114,16 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         public double Latitude
         {
-            get { return latitude; }
+            get => latitude;
             set
             {
-                latitude = value;
-                if (value < -90) latitude = -90;
-                if (value > 90) latitude = 90;
-                latitude *= Constants.DEG2RAD;
+                // Validar ANTES de asignar
+                double tempValue = value;
+                if (tempValue < -90) tempValue = -90;
+                if (tempValue > 90) tempValue = 90;
+
+                // Convertir y asignar
+                latitude = tempValue * Constants.DEG2RAD;
                 latitudeSin = Math.Sin(latitude);
                 latitudeCos = Math.Cos(latitude);
             }
@@ -266,13 +269,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         Height = (int)value;
                         break;
                     case AlgorithmParameters.SCALE:
-                        Scale = (double)value;
+                        Scale = Convert.ToDouble(value);
                         break;
                     case AlgorithmParameters.LONGITUDE:
-                        Longitude = (double)value;
+                        Longitude = Convert.ToDouble(value);
                         break;
                     case AlgorithmParameters.LATITUDE:
-                        Latitude = (double)value; 
+                        Latitude = Convert.ToDouble(value); 
                         break;
                     case AlgorithmParameters.INITIAL_ALTITUDE:
                         InitialAltitude = (double)value;
