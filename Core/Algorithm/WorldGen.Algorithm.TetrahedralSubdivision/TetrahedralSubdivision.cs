@@ -83,7 +83,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private Tetrahedron defaultTetra;
 
-        private double latitudeSin, latitudeCos, longitudeSin, longitudeCos;
+        private double latitudeSin, latitudeCos, longitudeSin, longitudeCos, inputLongitude, inputLatitude;
 
         private double depth;
 
@@ -122,6 +122,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 if (tempValue < -90) tempValue = -90;
                 if (tempValue > 90) tempValue = 90;
 
+                inputLatitude = tempValue;
                 // Convertir y asignar
                 latitude = tempValue * Constants.DEG2RAD;
                 latitudeSin = Math.Sin(latitude);
@@ -131,12 +132,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         public double Longitude
         {
-            get => longitude;
+            get => inputLongitude;
             set
             {
                 longitude = value;
                 while (longitude < -180) longitude += 360;
                 while (longitude > 180) longitude -= 360;
+                inputLongitude = longitude;
                 longitude *= Constants.DEG2RAD;
                 longitudeSin = Math.Sin(longitude);
                 longitudeCos = Math.Cos(longitude);
@@ -334,7 +336,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     depth = 3 * (Math.Truncate(Math.Log(scale1 * Height, 2))) + 3;
                     for (i = 0; i < Width; i++)
                     {
-                        theta1 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
+                        theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
                         x = Math.Cos(theta1) * cos2;
                         z = -Math.Sin(theta1) * cos2;
                         generatePoint(x, y, z, i, j);
@@ -383,7 +385,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             depth = 3*((int)(Math.Log(scale1*Height, 2)))+3;
                             for (i = 0; i < Width ; i++) 
                             {
-                                theta1 = Longitude-0.5*Constants.PI + Constants.PI*(2.0*i-Width)/Width/Scale;
+                                theta1 = longitude - 0.5*Constants.PI + Constants.PI*(2.0*i-Width)/Width/Scale;
                                 x = Math.Cos(theta1)*cos2;
                                 z = -Math.Sin(theta1)*cos2;
                                 generatePoint(x, y, z, i, j);
@@ -430,7 +432,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
                         for (i = 0; i < Width; i++)
                         {
-                            theta1 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
+                            theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
                             x = Math.Cos(theta1) * cos2;
                             z = -Math.Sin(theta1) * cos2;
                             generatePoint(x, y, z, i, j);
@@ -519,7 +521,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             l = i * 12 / Width / (int)Scale;
                             l1 = l * Width * Scale / 12.0;
                             i1 = i - l1;
-                            theta2 = Longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * l1 - Width) / Width / Scale;
+                            theta2 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * l1 - Width) / Width / Scale;
                             theta1 = (Constants.PI * (2.0 * i1 - Width * Scale / 12.0) / Width / Scale) / cos2;
                             if (Math.Abs(theta1) > Constants.PI / 12.0)
                             {
@@ -752,7 +754,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         x = (x0 - longi1) / S;
                         y = (y0 + lat1) / S;
 
-                        longi1 = longi1 * Constants.DEG2RAD - Longitude;
+                        longi1 = longi1 * Constants.DEG2RAD - longitude;
                         lat1 = lat1 * Constants.DEG2RAD;
 
                         sla = Math.Sin(lat1); cla = Math.Cos(lat1);
@@ -885,7 +887,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         }
                         else
                         {
-                            theta1 += Longitude - 0.5 * Constants.PI; /* theta1 is longitude */
+                            theta1 += longitude - 0.5 * Constants.PI; /* theta1 is longitude */
                             theta2 = k1 * Math.Asin((zz - c) / (zz + c));
                             /* theta2 is latitude */
                             if (theta2 > 0.5 * Constants.PI || theta2 < -0.5 * Constants.PI)
@@ -933,7 +935,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         }
                         else
                         {
-                            theta1 += Longitude - 0.5 * Constants.PI; /* theta1 is longitude */
+                            theta1 += longitude - 0.5 * Constants.PI; /* theta1 is longitude */
                             theta2 = k1 * Math.Asin((zz - c) / (zz + c));
                             /* theta2 is latitude */
                             if (theta2 > 0.5 * Constants.PI || theta2 < -0.5 * Constants.PI)

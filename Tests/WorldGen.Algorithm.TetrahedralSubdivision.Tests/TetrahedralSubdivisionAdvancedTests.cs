@@ -8,7 +8,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
 {
     public class TetrahedralSubdivisionAdvancedTests
     {
-        private const string TestDataPath = "TestData/BaseGeneration";
+        private const string DifferentSeedPath = "TestData/BaseGeneration";
+        private const string DifferentLongitudesPath = "TestData/LongitudeRotation";
         private const double Tolerance = 1e-10; // Tolerance for double comparison
 
         public class TestScenario
@@ -34,9 +35,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
             public double[] Heightmap { get; set; } = Array.Empty<double>();
         }
 
-        public static IEnumerable<object[]> GetJsonTestFiles()
+        public static IEnumerable<object[]> GetJsonTestFiles(string subpath)
         {
-            var testDirectory = Path.Combine(AppContext.BaseDirectory, TestDataPath);
+            var testDirectory = Path.Combine(AppContext.BaseDirectory, subpath);
             
             if (!Directory.Exists(testDirectory))
             {
@@ -51,9 +52,19 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
             }
         }
 
+        public static IEnumerable<object[]> GetJsonTestFiles_DifferentSeed() => GetJsonTestFiles(DifferentSeedPath);
+
+        public static IEnumerable<object[]> GetJsonTestFiles_DifferentLongitudes() => GetJsonTestFiles(DifferentLongitudesPath);
+
         [Theory]
-        [MemberData(nameof(GetJsonTestFiles))]
-        public void GenerateMap_WithJsonScenarios_DifferentSeeds(string jsonFilePath)
+        [MemberData(nameof(GetJsonTestFiles_DifferentSeed))]
+        public void GenerateMap_WithJsonScenarios_DifferentSeeds(string jsonFilePath) => baseAdvancedTest(jsonFilePath);
+
+        [Theory]
+        [MemberData(nameof(GetJsonTestFiles_DifferentLongitudes))]
+        public void GenerateMap_WithJsonScenarios_DifferentLongitudes(string jsonFilePath) => baseAdvancedTest(jsonFilePath);
+
+        protected void baseAdvancedTest(string jsonFilePath)
         {
             // Arrange
             var jsonContent = File.ReadAllText(jsonFilePath);
@@ -62,7 +73,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
                 PropertyNameCaseInsensitive = true
             };
             var scenario = JsonSerializer.Deserialize<TestScenario>(jsonContent, options);
-            
+
             scenario.Should().NotBeNull($"JSON file {jsonFilePath} should be deserializable");
 
             var algorithm = new TetrahedralSubdivision
@@ -88,19 +99,19 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
             // Assert
             result.Should().NotBeNull("Generated map should not be null");
             result.Should().BeOfType<HeightMap>("Result should be a HeightMap");
-            
+
             var heightMap = result as HeightMap;
             heightMap!.Width.Should().Be(scenario.Width, "Width should match the scenario");
             heightMap.Height.Should().Be(scenario.Height, "Height should match the scenario");
             heightMap.Heightmap.Should().NotBeNull("Heightmap array should not be null");
-            heightMap.Heightmap.Length.Should().Be(scenario.ResultMap.Heightmap.Length, 
+            heightMap.Heightmap.Length.Should().Be(scenario.ResultMap.Heightmap.Length,
                 "Heightmap length should match expected result");
 
             // Compare heightmap values with tolerance
             for (int i = 0; i < heightMap.Heightmap.Length; i++)
             {
                 heightMap.Heightmap[i].Should().BeApproximately(
-                    scenario.ResultMap.Heightmap[i], 
+                    scenario.ResultMap.Heightmap[i],
                     Tolerance,
                     $"Heightmap value at index {i} should match expected value");
             }
