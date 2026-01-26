@@ -16,30 +16,30 @@ namespace WorldGen.Console.TestConsole
     {
         static void Main(string[] args)
         {
-            int quantity;
-            string line;
             StaticLogger.SetLoggerType(LoggerTypes.TEXT);
             System.Console.WriteLine("cuantos mapas quiere crear?");
-            line = System.Console.ReadLine();
-            quantity = int.Parse(line);
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " START");
 
             //TestTetrahedronReorder();
             //TestManyMaps(quantity);
             //TestMaps();
-            TestLatitudeRotation(quantity);
+            TestLatitudeRotation();
 
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " END");
         }
 
-        private static void TestLatitudeRotation(int quantity)
+        private static void TestLatitudeRotation()
         {
             Random rnd;
             TetrahedralSubdivision TSAlgorithm;
             HeightMap TSMaps;
             InitializeParams parameters;
-            double seed;
+            double seed, latitude;
             int width, height, totalsnapshots, degreeRotation;
+            string line, path;
+            int quantity;
+            DateTime now = DateTime.Now;
+
             rnd = new Random();
             seed = rnd.NextDouble();
             width = 400;
@@ -50,34 +50,47 @@ namespace WorldGen.Console.TestConsole
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.HEIGHT, height);
             parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SCALE, 2.0);
 
             //StaticLogger.SetLoggerType(LoggerTypes.CONSOLE);
 
-
-            degreeRotation = 90 / quantity;
+            System.Console.WriteLine("cuantas particiones quieres hacer?");
+            line = System.Console.ReadLine();
+            quantity = int.Parse(line);
+            System.Console.WriteLine(now.ToString("HHmmss") + " START");
+            path = @$"Results/{now.ToString("dd-MM-yyyy-HHmmss")}";
+            degreeRotation = 180 / quantity;
 
             for (int i = 0; i < quantity; i++)
             {
-                System.Console.WriteLine($"Generando mapa {i + 1} de {quantity} (Grados = {i * degreeRotation})");
+                latitude = (i * degreeRotation) - 90;
+                System.Console.WriteLine($"Generando mapa {i + 1} de {quantity} (Grados = {latitude})");
                 if (parameters.Parameters.ContainsKey(AlgorithmParameters.LATITUDE))
                 {
-                    parameters.Parameters[Common.Enums.AlgorithmParameters.LATITUDE] = i * degreeRotation;
+                    parameters.Parameters[Common.Enums.AlgorithmParameters.LATITUDE] = latitude;
                 }
                 else
                 {
-                    parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LATITUDE, i * degreeRotation);
+                    parameters.Parameters.Add(Common.Enums.AlgorithmParameters.LATITUDE, latitude);
                 }
                 TSAlgorithm.Initialize(parameters);
                 TSMaps = (HeightMap)TSAlgorithm.Create();
                 TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
 
+                /*
                 if (!Directory.Exists("Results"))
                 {
                     Directory.CreateDirectory("Results");
                 }
-                TSMaps.Save(@$"Results/{i * degreeRotation}.jpg");
+                */
 
-                File.WriteAllText(@$"Results/{i * degreeRotation}.json", JsonConvert.SerializeObject(TSAlgorithm));
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                TSMaps.Save(@$"{path}/{latitude}.jpg");
+
+                File.WriteAllText(@$"{path}/{latitude}.json", JsonConvert.SerializeObject(TSAlgorithm));
             }
         }
 
