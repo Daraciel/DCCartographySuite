@@ -149,7 +149,7 @@ public class TetrahedralSubdivisionBasicTests
         algorithm.Longitude = input;
 
         // Assert
-        var actualDegrees = algorithm.Longitude * 180.0 / Math.PI;
+        var actualDegrees = algorithm.Longitude ;
         actualDegrees.Should().BeApproximately(expected, 0.001);
     }
 
