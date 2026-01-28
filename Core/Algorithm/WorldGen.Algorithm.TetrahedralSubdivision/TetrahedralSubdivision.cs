@@ -972,31 +972,31 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
         private void setFixedPointValue(int i, int j, double value)
         {
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, i, j, value);
+                //this.WriteLogFunctionEnter(method, i, j, value);
                 
                 this.resultMap.Heightmap[j*this.resultMap.Width + i] = value;
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
-                throw ex;
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                throw;
             }
             finally
             {
-                this.WriteLogFunctionExit(method);
+                //this.WriteLogFunctionExit(method);
             }
         }
 
         private void generatePoint(double x, double y, double z, int i, int j)
         {
             double generatedHeight = 0;
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, x, y, z, i, j);
+                //this.WriteLogFunctionEnter(method, x, y, z, i, j);
 
                 generatedHeight = getHeightForPoint(new Point3D(x, y, z));
 
@@ -1004,12 +1004,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
-                throw ex;
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                throw;
             }
             finally
             {
-                this.WriteLogFunctionExit(method);
+                //this.WriteLogFunctionExit(method);
             }
         }
 
@@ -1017,10 +1017,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double result = 0;
             bool isInsideTetrahedron = false;
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, point);
+                //this.WriteLogFunctionEnter(method, point);
 
                 isInsideTetrahedron = savedTetra.IsInside(point);
 
@@ -1036,12 +1036,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
-                throw ex;
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                throw;
             }
             finally
             {
-                this.WriteLogFunctionExit(method, result);
+                //this.WriteLogFunctionExit(method, result);
             }
 
             return result;
@@ -1055,10 +1055,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             TetrahedronPoint E;
             TetrahedronPoint A, B;
             Enum.TetrahedronEdges longestSide;
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, tetra, point, depth);
+                //this.WriteLogFunctionEnter(method, tetra, point, depth);
                 if (depth > 0)
                 {
                     longestSide = tetra.LongestSide;
@@ -1190,12 +1190,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
-                throw ex;
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                throw;
             }
             finally
             {
-                this.WriteLogFunctionExit(method, result);
+                //this.WriteLogFunctionExit(method, result);
             }
             
             return result;
@@ -1209,10 +1209,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             TetrahedronPoint E;
             TetrahedronPoint B;
             Enum.TetrahedronEdges longestSide;
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, tetra, point, depth);
+                //this.WriteLogFunctionEnter(method, tetra, point, depth);
                 if (depth > 0)
                 {
                     tetra.Reorder();
@@ -1273,12 +1273,12 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
-                throw ex;
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                throw;
             }
             finally
             {
-                this.WriteLogFunctionExit(method, result);
+                //this.WriteLogFunctionExit(method, result);
             }
             
             return result;
@@ -1288,10 +1288,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         {
             double result = 0;
             double yRaised;
-            MethodBase method = MethodBase.GetCurrentMethod();
+            //MethodBase method = MethodBase.GetCurrentMethod();
             try
             {
-                this.WriteLogFunctionEnter(method, alt, y);
+                //this.WriteLogFunctionEnter(method, alt, y);
 
                 result = alt;
                 if(IsDoLatitudeIcecapsSet)
@@ -1317,13 +1317,13 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(method, ex);
+                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
                 throw ex;
             }
             finally
             {
-                this.WriteLogMessage(method, "result test = " + result);
-                this.WriteLogFunctionExit(method, result);
+                //this.WriteLogMessage(method, "result test = " + result);
+                //this.WriteLogFunctionExit(method, result);
             }
 
             return result;
