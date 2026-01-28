@@ -10,6 +10,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
     {
         private const string DifferentSeedPath = "TestData/BaseGeneration";
         private const string DifferentLongitudesPath = "TestData/LongitudeRotation";
+        private const string DifferentScalesPath = "TestData/Scale";
         private const double Tolerance = 1e-10; // Tolerance for double comparison
 
         public class TestScenario
@@ -56,6 +57,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
 
         public static IEnumerable<object[]> GetJsonTestFiles_DifferentLongitudes() => GetJsonTestFiles(DifferentLongitudesPath);
 
+        public static IEnumerable<object[]> GetJsonTestFiles_DifferentScales() => GetJsonTestFiles(DifferentScalesPath);
+
         [Theory]
         [MemberData(nameof(GetJsonTestFiles_DifferentSeed))]
         public void GenerateMap_WithJsonScenarios_DifferentSeeds(string jsonFilePath) => baseAdvancedTest(jsonFilePath);
@@ -63,6 +66,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.Tests
         [Theory]
         [MemberData(nameof(GetJsonTestFiles_DifferentLongitudes))]
         public void GenerateMap_WithJsonScenarios_DifferentLongitudes(string jsonFilePath) => baseAdvancedTest(jsonFilePath);
+
+        [Theory]
+        [MemberData(nameof(GetJsonTestFiles_DifferentScales))]
+        public void GenerateMap_WithJsonScenarios_DifferentScales(string jsonFilePath) => baseAdvancedTest(jsonFilePath);
 
         protected void baseAdvancedTest(string jsonFilePath)
         {

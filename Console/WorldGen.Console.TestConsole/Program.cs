@@ -26,6 +26,7 @@ namespace WorldGen.Console.TestConsole
                 System.Console.WriteLine("1 - TestManyMaps");
                 System.Console.WriteLine("2 - TestLatitudeRotation (rotacion vertical)");
                 System.Console.WriteLine("3 - TestLongitudeRotation (rotacion horizontal)");
+                System.Console.WriteLine("4 - TestScale (rotacion horizontal)");
                 System.Console.WriteLine("0 - Salir");
                 line = System.Console.ReadLine();
                 option = int.Parse(line);
@@ -40,16 +41,11 @@ namespace WorldGen.Console.TestConsole
                     case 3:
                         TestLongitudeRotation();
                         break;
-                    case 0:
-                        return;
+                    case 4:
+                        TestScale();
+                        break;
                 }
-            } while (true);
-
-            //TestTetrahedronReorder();
-            //TestManyMaps(quantity);
-            //TestMaps();
-            //TestLatitudeRotation();
-            TestLongitudeRotation();
+            } while (option != 0);
 
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " END");
         }
@@ -227,6 +223,70 @@ namespace WorldGen.Console.TestConsole
             T = new Tetrahedron(A, B, C, D);
             T.Reorder();
 
+        }
+
+        private static void TestScale()
+        {
+            Random rnd;
+            TetrahedralSubdivision TSAlgorithm;
+            HeightMap TSMaps;
+            InitializeParams parameters;
+            double seed, longitude;
+            int width, height, degreeRotation;
+            string line, path;
+            int quantity;
+            DateTime now = DateTime.Now;
+
+            rnd = new Random();
+            seed = rnd.NextDouble();
+            width = 400;
+            height = 300;
+            TSAlgorithm = new TetrahedralSubdivision();
+            parameters = new InitializeParams();
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.DEBUG, false);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.WIDTH, width);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.HEIGHT, height);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SEED, seed);
+            parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SCALE, 1.0);
+
+            //StaticLogger.SetLoggerType(LoggerTypes.CONSOLE);
+
+            System.Console.WriteLine("cuantos zooms quieres hacer?");
+            line = System.Console.ReadLine();
+            quantity = int.Parse(line);
+            System.Console.WriteLine(now.ToString("HHmmss") + " START");
+            path = @$"Results/{now.ToString("dd-MM-yyyy-HHmmss")}";
+
+            for (int i = 1; i <= quantity; i++)
+            {
+                System.Console.WriteLine($"Generando mapa {i} de {quantity} (Zoom = {i})");
+                if (parameters.Parameters.ContainsKey(AlgorithmParameters.SCALE))
+                {
+                    parameters.Parameters[Common.Enums.AlgorithmParameters.SCALE] = i;
+                }
+                else
+                {
+                    parameters.Parameters.Add(Common.Enums.AlgorithmParameters.SCALE, i);
+                }
+                TSAlgorithm.Initialize(parameters);
+                TSMaps = (HeightMap)TSAlgorithm.Create();
+                TSMaps.SetColorSchema(@"ColorSchemas/Olsson.col");
+
+                /*
+                if (!Directory.Exists("Results"))
+                {
+                    Directory.CreateDirectory("Results");
+                }
+                */
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                TSMaps.Save(@$"{path}/{i}.jpg");
+
+                File.WriteAllText(@$"{path}/{i}.json", JsonConvert.SerializeObject(TSAlgorithm));
+            }
         }
 
 
