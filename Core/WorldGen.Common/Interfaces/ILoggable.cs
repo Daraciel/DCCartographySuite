@@ -18,11 +18,11 @@ namespace WorldGen.Common.Interfaces
         protected abstract void WriteLogMessage(MethodBase method, string message);
         protected abstract void WriteLogMessage(string message);
 
-        protected string GetArrayObjectsString(MethodBase method, params object[] values)
+        protected string GetArrayObjectsString(MethodBase? method, params object[] values)
         {
             string result = String.Empty;
             Type objType;
-            MethodInfo methodToString;
+            MethodInfo? methodToString;
             string objName;
             string valueToString;
             if(values == null || values.Length == 0)
@@ -37,11 +37,11 @@ namespace WorldGen.Common.Interfaces
                     objName = GetParamName(method, i);
                     objType = values[i].GetType();
                     methodToString = objType.GetMethod(
-                                                        "ToString",
-                                                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
-                                                        null,
-                                                        new Type[] { },// Method ToString() without parameters
-                                                        null);
+                        "ToString",
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+                        null,
+                        new Type[] { },// Method ToString() without parameters
+                        null);
                     if(methodToString != null)
                     {
                         //this.WriteLogMessage("GetArrayObjectsString", "nameof(obj): " + objName);
@@ -59,21 +59,21 @@ namespace WorldGen.Common.Interfaces
             return result;
         }
 
-        protected string GetResultObjectString(MethodBase method, object resultObject)
+        protected string GetResultObjectString(MethodBase? method, object resultObject)
         {
             string result = String.Empty;
             Type objType;
-            MethodInfo methodToString;
-            string valueToString;
+            MethodInfo? methodToString;
+            string? valueToString;
 
             if(resultObject != null)
             {
                 objType = resultObject.GetType();
-                methodToString = objType.GetMethod("ToString",
-                                                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
-                                                    null,
-                                                    new Type[] { },// Method ToString() without parameters
-                                                    null);
+                methodToString = objType?.GetMethod("ToString",
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+                    null,
+                    new Type[] { },// Method ToString() without parameters
+                    null);
                 if(methodToString != null)
                 {
                     valueToString = (string)methodToString.Invoke(resultObject, null);
@@ -87,7 +87,7 @@ namespace WorldGen.Common.Interfaces
             return result;
         }
 
-        protected string GetParamName(MethodBase method, int index)
+        protected string GetParamName(MethodBase? method, int index)
         {
             string retVal = string.Empty;
 
