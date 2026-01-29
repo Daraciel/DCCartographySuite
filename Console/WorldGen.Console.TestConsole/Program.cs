@@ -45,8 +45,34 @@ namespace WorldGen.Console.TestConsole
             {
                 if (args[0].Equals("efficiency", StringComparison.OrdinalIgnoreCase))
                 {
-                    var outputPath = args.Length > 1 ? args[1] : null;
-                    TestEficiency(outputPath);
+                    string? outputPath = null;
+                    string? improvement = null;
+
+                    // Supported usage:
+                    // - efficiency
+                    // - efficiency <outputPath> <improvement>
+                    // - efficiency --output <outputPath> --improvement <literal>
+                    for (int i = 1; i < args.Length; i++)
+                    {
+                        if (args[i].Equals("--output", StringComparison.OrdinalIgnoreCase) && i + 1 < args.Length)
+                        {
+                            outputPath = args[++i];
+                            continue;
+                        }
+                        if (args[i].Equals("--improvement", StringComparison.OrdinalIgnoreCase) && i + 1 < args.Length)
+                        {
+                            improvement = args[++i];
+                            continue;
+                        }
+                    }
+
+                    // Backward compatible positional args when no flags are provided.
+                    if (outputPath is null && improvement is null)
+                    {
+                        outputPath = args.Length > 1 ? args[1] : null;
+                        improvement = args.Length > 2 ? args[2] : null;
+                    }
+                    TestEficiency(outputPath, improvement);
                     return;
                 }
             }
@@ -81,7 +107,7 @@ namespace WorldGen.Console.TestConsole
                         TestScale();
                         break;
                     case 5:
-                        TestEficiency(null);
+                        TestEficiency(null, null);
                         break;
                 }
             } while (option != 0);
@@ -89,7 +115,7 @@ namespace WorldGen.Console.TestConsole
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " END");
         }
 
-        private static void TestEficiency(string? markdownOutputPath)
+        private static void TestEficiency(string? markdownOutputPath, string? improvement)
         {
             Random rnd;
             TetrahedralSubdivision TSAlgorithm;
@@ -148,17 +174,17 @@ namespace WorldGen.Console.TestConsole
                 }
             }
 
-            PrintResultsTable(results);
+            PrintResultsTable(results, improvement);
 
             if (!string.IsNullOrWhiteSpace(markdownOutputPath))
             {
-                AppendResultsMarkdown(markdownOutputPath, results, now);
+                AppendResultsMarkdown(markdownOutputPath, results, now, improvement);
                 System.Console.WriteLine($"Resultados exportados a: {markdownOutputPath}");
             }
 
         }
 
-        private static void AppendResultsMarkdown(string markdownOutputPath, List<Tuple<string, double, TimeSpan>> results, DateTime now)
+        private static void AppendResultsMarkdown(string markdownOutputPath, List<Tuple<string, double, TimeSpan>> results, DateTime now, string? improvement)
         {
             var dir = Path.GetDirectoryName(markdownOutputPath);
             if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
@@ -166,8 +192,8 @@ namespace WorldGen.Console.TestConsole
                 Directory.CreateDirectory(dir);
             }
 
-            var headers = new List<string>(results.Count + 1) { "Date" };
-            var values = new List<string>(results.Count + 1) { now.ToString("yyyy-MM-dd") };
+            var headers = new List<string>(results.Count + 2) { "Date", "Improvement" };
+            var values = new List<string>(results.Count + 2) { now.ToString("yyyy-MM-dd"), improvement ?? string.Empty };
             results.GroupBy(x => x.Item1)
                 .ToList()
                 .ForEach(g =>
@@ -176,6 +202,24 @@ namespace WorldGen.Console.TestConsole
                     headers.Add(g.Key);
                     values.Add(FormatDuration(avgDuration));
                 });
+
+            static string PadWithTabsToHeader(string value, string header)
+            {
+                if (value is null) value = string.Empty;
+                if (header is null) header = string.Empty;
+
+                var result = value;
+                while (result.Length < header.Length)
+                {
+                    result += "\t";
+                }
+                return result;
+            }
+
+            for (int i = 0; i < values.Count && i < headers.Count; i++)
+            {
+                values[i] = PadWithTabsToHeader(values[i], headers[i]);
+            }
 
             var table = BuildMarkdownTable(headers, values);
 
@@ -221,7 +265,7 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
             return headerRow + Environment.NewLine + separatorRow + Environment.NewLine + valueRow + Environment.NewLine;
         }
 
-        private static void PrintResultsTable(List<Tuple<string, double, TimeSpan>> results)
+        private static void PrintResultsTable(List<Tuple<string, double, TimeSpan>> results, string? improvement)
         {
             // Tabla con cabecera = Item1 y una única fila con tiempos (valores)
             // Se imprime en ms para mantener una unidad homogénea.
@@ -230,6 +274,9 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
 
             headers.Add("Date");
             values.Add(DateTime.Today.ToShortDateString());
+
+            headers.Add("Improvement");
+            values.Add(improvement ?? string.Empty);
             results.GroupBy(x => x.Item1)
                 .ToList()
                 .ForEach(g =>

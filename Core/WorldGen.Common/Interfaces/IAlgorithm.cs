@@ -57,7 +57,7 @@ namespace WorldGen.Common.Interfaces
         #region ILOGGABLE
 
 
-        protected override void WriteLogFunctionEnter(MethodBase method, params object[] values)
+        protected override void WriteLogFunctionEnter(MethodBase? method, params object[] values)
         {
             string logString = String.Empty;
             string paramValues = String.Empty;
@@ -67,13 +67,13 @@ namespace WorldGen.Common.Interfaces
                 logString = string.Format(  this.functionEnterBaseString,
                                             DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
-                                            method.Name,
+                                            method?.Name ?? "Unknown",
                                             paramValues);
                 StaticLogger.WriteLog(logString);
             }
         }
 
-        protected override void WriteLogFunctionExit(MethodBase method, object result)
+        protected override void WriteLogFunctionExit(MethodBase? method, object result)
         {
             string logString = String.Empty;
             string resultString = String.Empty;
@@ -83,13 +83,13 @@ namespace WorldGen.Common.Interfaces
                 logString = string.Format(  this.functionExitBaseString,
                                             DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
-                                            method.Name,
+                                            method?.Name ?? "Unknown",
                                             resultString);
                 StaticLogger.WriteLog(logString);
             }
         }
 
-        protected override void WriteLogFunctionExit(MethodBase method)
+        protected override void WriteLogFunctionExit(MethodBase? method)
         {
             string logString = String.Empty;
             string resultString = String.Empty;
@@ -98,7 +98,7 @@ namespace WorldGen.Common.Interfaces
                 logString = string.Format(  this.functionExitBaseString,
                                             DateTime.Now.ToString("HHmmss"),
                                             this.GetType().Name,
-                                            method.Name,
+                                            method?.Name ?? "Unknown",
                                             resultString);
                 StaticLogger.WriteLog(logString);
             }

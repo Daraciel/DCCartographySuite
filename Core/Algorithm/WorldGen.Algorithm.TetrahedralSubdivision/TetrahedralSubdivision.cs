@@ -92,6 +92,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         private HeightMap resultMap;
 
         private readonly Point3D reusablePoint = new Point3D();
+
+        private bool hotPathLoggingEnabled;
         
         #endregion
 
@@ -256,6 +258,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 {
                     case AlgorithmParameters.DEBUG:
                         DebugMode = (bool)value;
+					hotPathLoggingEnabled = DebugMode;
                         break;
                     case AlgorithmParameters.DISTANCEWEIGHT:
                         DistanceWeight = (double)value;
@@ -983,7 +986,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
@@ -1006,7 +1012,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
@@ -1047,7 +1056,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
