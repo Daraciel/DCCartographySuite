@@ -90,6 +90,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         private double randSeed1, randSeed2, randSeed3, randSeed4;
 
         private HeightMap resultMap;
+
+        private readonly Point3D reusablePoint = new Point3D();
         
         #endregion
 
@@ -998,7 +1000,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             {
                 //this.WriteLogFunctionEnter(method, x, y, z, i, j);
 
-                generatedHeight = getHeightForPoint(new Point3D(x, y, z));
+                generatedHeight = getHeightForPoint(x, y, z);
 
                 this.resultMap.Heightmap[j*this.resultMap.Width + i] = generatedHeight;
             }
@@ -1011,6 +1013,15 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             {
                 //this.WriteLogFunctionExit(method);
             }
+        }
+
+        private double getHeightForPoint(double x, double y, double z)
+        {
+            reusablePoint.X = x;
+            reusablePoint.Y = y;
+            reusablePoint.Z = z;
+
+            return getHeightForPoint(reusablePoint);
         }
 
         private double getHeightForPoint(Point3D point)
