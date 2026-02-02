@@ -107,28 +107,33 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         public void Reorder()
         {
             autoRecalculateSides = false;
-            if(ABSideLength < ACSideLength)
+            while (true)
             {
-                this.SwitchSides(ref b, ref c);
-                Reorder();
-            }
-            else if(ABSideLength < ADSideLength)
-            {
-                this.SwitchSides(ref b, ref c);
-                this.SwitchSides(ref b, ref d);
-                Reorder();
-            }
-            else if (ABSideLength < BCSideLength)
-            {
-                this.SwitchSides(ref a, ref b);
-                this.SwitchSides(ref b, ref c);
-                Reorder();
-            }
-            else if (ABSideLength < BDSideLength)
-            {
-                this.SwitchSides(ref b, ref c);
-                this.SwitchSides(ref b, ref d);
-                Reorder();
+                if (ABSideLength < ACSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    continue;
+                }
+                if (ABSideLength < ADSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    this.SwitchSides(ref b, ref d);
+                    continue;
+                }
+                if (ABSideLength < BCSideLength)
+                {
+                    this.SwitchSides(ref a, ref b);
+                    this.SwitchSides(ref b, ref c);
+                    continue;
+                }
+                if (ABSideLength < BDSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    this.SwitchSides(ref b, ref d);
+                    continue;
+                }
+
+                break;
             }
 
             autoRecalculateSides = true;
@@ -136,12 +141,17 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         private void SwitchSides(ref TetrahedronPoint b, ref TetrahedronPoint c)
         {
-            TetrahedronPoint aux;
+            var aux = b;
+            b = c;
+            c = aux;
 
-            aux = b.Copy();
-            b = c.Copy();
-            c = aux.Copy();
-            calculateSides();
+            // Recalcular longitudes afectadas. En Reorder() solo se intercambian referencias
+            // a, b, c, d; por tanto actualizamos las longitudes que dependen de ellas.
+            UpdateSidesForA();
+            UpdateSidesForB();
+            UpdateSidesForC();
+            UpdateSidesForD();
+            setLongestSide();
         }
 
         public void UpdateA(TetrahedronPoint value)
