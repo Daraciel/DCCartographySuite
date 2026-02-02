@@ -113,8 +113,10 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 
 ### Mejora 3 (ampliación): reducir `Copy()`/allocs adicional (pendiente)
 
-- Estado: parcialmente solucionado.
-- Pendiente: revisar `Tetrahedron.SwitchSides(...)` para evitar copias redundantes (actualmente hace `Copy()` varias veces) y, si es posible, reordenar referencias sin clonar cuando sea seguro.
+- Estado: implementada.
+- Hecho:
+  - `Tetrahedron.SwitchSides(...)` ya no clona (`Copy()`), ahora intercambia referencias (`swap`) y recalcula longitudes.
+  - `Tetrahedron.Reorder()` ya no usa recursión; se convirtió a bucle iterativo.
 - Impacto esperado: medio–alto.
 
 ### Mejora 4: recursión -> `while`
