@@ -80,6 +80,29 @@ sequenceDiagram
 
 Esta técnica asume ejecución secuencial. Si el cálculo se paralelizase en el futuro, el `Point3D` reutilizable tendría que ser `ThreadLocal` o por hilo.
 
+### Mejora 3: reducir `Copy()`/allocs en subdivisión
+
+**Qué se cambió**
+
+- Se optimizó `TetrahedronPoint.Copy()` para evitar asignaciones explícitas por copia y pasar a un clon superficial con `MemberwiseClone()`.
+- En `Tetrahedron` ya existía infraestructura para reducir recálculo de lados durante mutaciones:
+  - Flag `autoRecalculateSides` para evitar `calculateSides()` en cada `set`.
+  - Métodos `UpdateA/B/C/D(...)` que actualizan solo longitudes afectadas (`UpdateSidesForX`) y recalculan `LongestSide`.
+
+**Motivación**
+
+En subdivisiones profundas, las copias de puntos y los recálculos de longitudes pueden disparar el coste total (allocs/GC + CPU). Esta mejora reduce el coste de copiar puntos y permite mutaciones con recálculo parcial.
+
+**Impacto esperado**
+
+- Menos presión de GC (menos asignaciones) en caminos que copian puntos con frecuencia.
+- Menos CPU por evitar recalcular todas las longitudes cuando solo cambia un vértice.
+
+**Ficheros**
+
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/BE/TetrahedronPoint.cs`
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/BE/Tetrahedron.cs`
+
 ## Mejoras pendientes
 
 ### Mejora 1 (ampliación): logging hot-path completo (opcional)
@@ -88,11 +111,11 @@ Esta técnica asume ejecución secuencial. Si el cálculo se paralelizase en el fut
 - Pendiente: si se reactivan `WriteLogFunctionEnter/Exit` en hot-path, protegerlos también con el flag y evitar `MethodBase.GetCurrentMethod()` cuando esté desactivado.
 - Impacto esperado: alto si se vuelve a habilitar logging por píxel.
 
-### Mejora 3: reducir `Copy()`/allocs en subdivisión
+### Mejora 3 (ampliación): reducir `Copy()`/allocs adicional (pendiente)
 
-- Problema: `TetrahedronPoint.Copy()` clona objetos en bucles muy profundos; además cada asignación a `Tetrahedron.A/B/C/D` recalcula lados.
-- Acción: reducir clones, reutilizar instancias y/o evitar recalcular todos los lados por cada setter.
-- Impacto esperado: alto.
+- Estado: parcialmente solucionado.
+- Pendiente: revisar `Tetrahedron.SwitchSides(...)` para evitar copias redundantes (actualmente hace `Copy()` varias veces) y, si es posible, reordenar referencias sin clonar cuando sea seguro.
+- Impacto esperado: medio–alto.
 
 ### Mejora 4: recursión -> `while`
 
