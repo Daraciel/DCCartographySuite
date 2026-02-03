@@ -103,6 +103,36 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 - `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/BE/TetrahedronPoint.cs`
 - `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/BE/Tetrahedron.cs`
 
+### Mejora 5: trigonometría incremental por fila
+
+**Qué se cambió**
+
+- En proyecciones con `theta` lineal por columna (y, por tanto, incremento constante por píxel), se sustituyeron las llamadas por píxel a `Math.Sin/Math.Cos(theta)` por una recurrencia incremental:
+  - Se calcula una vez por fila `thetaStart` y `dTheta`.
+  - Se inicializa `sin/cos(thetaStart)` y se avanza por píxel con la rotación por `dTheta`.
+- Proyecciones actualizadas:
+  - `DoMercatorProjection()`
+  - `DoPeterProjection()`
+  - `DoSquareProjection()`
+
+**Motivación**
+
+`Math.Sin/Math.Cos` por píxel es costoso. En mapas típicos (p.ej. 800×600) se ejecutan cientos de miles de veces por proyección. Con incremento angular constante en X, es posible calcular `sin/cos` por fila y actualizarlo incrementalmente por píxel.
+
+**Notas / precisión**
+
+- Se mantiene el **mismo orden de evaluación de píxeles** y las mismas llamadas a `generatePoint` (solo cambia cómo se obtiene `sin/cos`).
+- Esta técnica puede introducir **pequeñas diferencias** de coma flotante respecto a recalcular `sin/cos` desde cero en cada píxel. Si se necesitase modo “bit-exacto”, se podría hacer opcional.
+- `DoSinusoidProjection()` no se ha convertido aún a incremental completo porque el ángulo efectivo depende de segmentos (`l`/`theta2`), y optimizarlo bien requiere reinicios por segmento para mantener consistencia.
+
+**Impacto esperado**
+
+- Reducción de CPU en `DoMercatorProjection`/`DoPeterProjection`/`DoSquareProjection` al evitar trigonometría por píxel.
+
+**Ficheros**
+
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
+
 ## Mejoras pendientes
 
 ### Mejora 1 (ampliación): logging hot-path completo (opcional)
@@ -111,26 +141,11 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 - Pendiente: si se reactivan `WriteLogFunctionEnter/Exit` en hot-path, protegerlos también con el flag y evitar `MethodBase.GetCurrentMethod()` cuando esté desactivado.
 - Impacto esperado: alto si se vuelve a habilitar logging por píxel.
 
-### Mejora 3 (ampliación): reducir `Copy()`/allocs adicional (pendiente)
-
-- Estado: implementada.
-- Hecho:
-  - `Tetrahedron.SwitchSides(...)` ya no clona (`Copy()`), ahora intercambia referencias (`swap`) y recalcula longitudes.
-  - `Tetrahedron.Reorder()` ya no usa recursión; se convirtió a bucle iterativo.
-- Impacto esperado: medio–alto.
-
 ### Mejora 4: recursión -> `while`
 
 - Problema: overhead de llamadas recursivas en `getHeightForPoint`/`getHeightForPointOld`.
 - Acción: convertir a iterativo preservando exactamente el orden de mutaciones/decisiones.
 - Impacto esperado: medio.
-
-### Mejora 5: trigonometría incremental por fila
-
-- Problema: `Math.Sin/Math.Cos` por píxel en varias proyecciones.
-- Acción: recurrences `sin/cos` por incremento de `theta`.
-- Riesgo: pequeñas diferencias por floating-point; considerar como modo rápido opcional.
-- Impacto esperado: medio–alto.
 
 ### Mejora 6: cacheo de índices y arrays
 

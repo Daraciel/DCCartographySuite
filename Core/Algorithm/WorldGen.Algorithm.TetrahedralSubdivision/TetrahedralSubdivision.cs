@@ -339,12 +339,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     scale1 = scale * Width / Height / Math.Sqrt(1.0 - y * y) / Constants.PI;
                     cos2 = Math.Sqrt(1.0 - y * y);
                     depth = 3 * (Math.Truncate(Math.Log(scale1 * Height, 2))) + 3;
+
+                    // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                    double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / scale;
+                    double dTheta = (2.0 * Constants.PI) / Width / scale;
+                    double cosTheta = Math.Cos(thetaStart);
+                    double sinTheta = Math.Sin(thetaStart);
+                    double cosDelta = Math.Cos(dTheta);
+                    double sinDelta = Math.Sin(dTheta);
+
                     for (i = 0; i < Width; i++)
                     {
-                        theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
-                        x = Math.Cos(theta1) * cos2;
-                        z = -Math.Sin(theta1) * cos2;
+                        x = cosTheta * cos2;
+                        z = -sinTheta * cos2;
                         generatePoint(x, y, z, i, j);
+
+                        double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                        sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                        cosTheta = cosNext;
                     }
                 }
             }
@@ -388,12 +400,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         {
                             scale1 = Scale*Width/Height/cos2/Constants.PI;
                             depth = 3*((int)(Math.Log(scale1*Height, 2)))+3;
+
+                            // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                            double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / Scale;
+                            double dTheta = (2.0 * Constants.PI) / Width / Scale;
+                            double cosTheta = Math.Cos(thetaStart);
+                            double sinTheta = Math.Sin(thetaStart);
+                            double cosDelta = Math.Cos(dTheta);
+                            double sinDelta = Math.Sin(dTheta);
+
                             for (i = 0; i < Width ; i++) 
                             {
-                                theta1 = longitude - 0.5*Constants.PI + Constants.PI*(2.0*i-Width)/Width/Scale;
-                                x = Math.Cos(theta1)*cos2;
-                                z = -Math.Sin(theta1)*cos2;
+                                x = cosTheta * cos2;
+                                z = -sinTheta * cos2;
                                 generatePoint(x, y, z, i, j);
+
+                                double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                                sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                                cosTheta = cosNext;
                                 //if (col[i][j] < LAND) water++; else land++;
                             }
                         }
@@ -435,12 +459,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     {
                         scale1 = scale * Width / Height / cos2 / Constants.PI;
                         depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+
+                        // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                        double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / scale;
+                        double dTheta = (2.0 * Constants.PI) / Width / scale;
+                        double cosTheta = Math.Cos(thetaStart);
+                        double sinTheta = Math.Sin(thetaStart);
+                        double cosDelta = Math.Cos(dTheta);
+                        double sinDelta = Math.Sin(dTheta);
+
                         for (i = 0; i < Width; i++)
                         {
-                            theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
-                            x = Math.Cos(theta1) * cos2;
-                            z = -Math.Sin(theta1) * cos2;
+                            x = cosTheta * cos2;
+                            z = -sinTheta * cos2;
                             generatePoint(x, y, z, i, j);
+
+                            double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                            sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                            cosTheta = cosNext;
                         }
                     }
                 }
@@ -521,6 +557,11 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         y = Math.Sin(y);
                         scale1 = Scale * Width / Height / cos2 / Constants.PI;
                         depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+
+                        // Incremental en el tramo principal (sin reordenar píxeles).
+                        // En los límites (cambio de "l") se reinicia el ángulo, porque theta2 depende de l.
+                        double dTheta = (2.0 * Constants.PI) / Width / Scale;
+
                         for (i = 0; i < Width; i++)
                         {
                             l = i * 12 / Width / (int)Scale;
@@ -534,8 +575,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             }
                             else
                             {
-                                x = Math.Cos(theta1 + theta2) * cos2;
-                                z = -Math.Sin(theta1 + theta2) * cos2;
+                                double theta = theta1 + theta2;
+                                x = Math.Cos(theta) * cos2;
+                                z = -Math.Sin(theta) * cos2;
                                 generatePoint(x, y, z, i, j);
                             }
                         }
