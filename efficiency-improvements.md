@@ -141,25 +141,11 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 - Pendiente: si se reactivan `WriteLogFunctionEnter/Exit` en hot-path, protegerlos también con el flag y evitar `MethodBase.GetCurrentMethod()` cuando esté desactivado.
 - Impacto esperado: alto si se vuelve a habilitar logging por píxel.
 
-### Mejora 3 (ampliación): reducir `Copy()`/allocs adicional (pendiente)
-
-- Estado: implementada.
-- Hecho:
-  - `Tetrahedron.SwitchSides(...)` ya no clona (`Copy()`), ahora intercambia referencias (`swap`) y recalcula longitudes.
-  - `Tetrahedron.Reorder()` ya no usa recursión; se convirtió a bucle iterativo.
-- Impacto esperado: medio–alto.
-
 ### Mejora 4: recursión -> `while`
 
 - Problema: overhead de llamadas recursivas en `getHeightForPoint`/`getHeightForPointOld`.
 - Acción: convertir a iterativo preservando exactamente el orden de mutaciones/decisiones.
 - Impacto esperado: medio.
-
-### Mejora 5: trigonometría incremental por fila
-
-- Estado: implementada parcialmente.
-- Hecho: incremental por fila en `DoMercatorProjection`, `DoPeterProjection` y `DoSquareProjection`.
-- Pendiente: evaluar/implementar incremental en proyecciones con segmentación o transformaciones adicionales (p.ej. `DoSinusoidProjection`).
 
 ### Mejora 6: cacheo de índices y arrays
 
