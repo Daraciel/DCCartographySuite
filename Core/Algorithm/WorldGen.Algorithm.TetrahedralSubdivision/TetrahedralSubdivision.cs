@@ -1023,8 +1023,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             try
             {
                 //this.WriteLogFunctionEnter(method, i, j, value);
-                
-                this.resultMap.Heightmap[j*this.resultMap.Width + i] = value;
+
+                var heightmap = this.resultMap.Heightmap;
+                int mapWidth = this.resultMap.Width;
+                heightmap[j * mapWidth + i] = value;
             }
             catch(Exception ex)
             {
@@ -1050,7 +1052,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
 
                 generatedHeight = getHeightForPoint(x, y, z);
 
-                this.resultMap.Heightmap[j*this.resultMap.Width + i] = generatedHeight;
+                var heightmap = this.resultMap.Heightmap;
+                int mapWidth = this.resultMap.Width;
+                heightmap[j * mapWidth + i] = generatedHeight;
             }
             catch(Exception ex)
             {
