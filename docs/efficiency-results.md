@@ -4,7 +4,7 @@ Tabla histórica para comparar cambios de eficiencia del proyecto con el tiempo.
 
 Cómo generar una nueva fila:
 
-- `dotnet run -c Release --project Console/WorldGen.Console.TestConsole/WorldGen.Console.TestConsole.csproj -- efficiency --improvement "Mejora 1" --output "docs/efficiency-results.md"`
+- `dotnet run -c Release --project Console/WorldGen.Console.TestConsole/WorldGen.Console.TestConsole.csproj -- efficiency --improvement "Mejora X" --output "docs/efficiency-results.md"`
 
 La consola añadirá una nueva fila (si no existe ya) con la fecha y los tiempos por resolución.
 
@@ -17,3 +17,4 @@ La consola añadirá una nueva fila (si no existe ya) con la fecha y los tiempos p
 | 2026-01-29	| Mejora 3		| 474,631 ms	| 733,321 ms	| 1,946 s		| 3,22 s		| 6,687 s		|
 | 2026-02-02	| Mejora 3b		| 197,225 ms	| 233,167 ms	| 1,012 s		| 1,501 s		| 3,01 s		|
 | 2026-02-03	| Mejora 5		| 233,637 ms	| 208,757 ms	| 1,167 s		| 1,5 s			| 2,901 s		|
+| 2026-02-04	| Mejora 6		| 299,412 ms	| 338,715 ms	| 1,24 s		| 2,162 s		| 3,935 s		|

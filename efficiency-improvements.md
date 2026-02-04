@@ -133,6 +133,30 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 
 - `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
 
+### Mejora 6: cacheo de índices y arrays
+
+**Qué se cambió**
+
+- En el hot-path de escritura del `HeightMap` se cachean referencias y valores usados repetidamente:
+  - `heightmap = resultMap.Heightmap`
+  - `mapWidth = resultMap.Width`
+- La escritura pasa de `resultMap.Heightmap[j * resultMap.Width + i] = ...` a `heightmap[j * mapWidth + i] = ...`.
+- Aplicado en:
+  - `setFixedPointValue(i, j, value)`
+  - `generatePoint(x, y, z, i, j)`
+
+**Motivación**
+
+En bucles por píxel, acceder repetidamente a propiedades (`resultMap.Heightmap`, `resultMap.Width`) y recomponer expresiones puede añadir overhead innecesario. Cachear variables locales ayuda al JIT y reduce trabajo repetitivo sin tocar el orden de evaluación.
+
+**Impacto esperado**
+
+- Micro-optimización (bajo–medio): menor overhead por acceso a propiedades y computación de índice en el hot-path.
+
+**Ficheros**
+
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
+
 ## Mejoras pendientes
 
 ### Mejora 1 (ampliación): logging hot-path completo (opcional)
@@ -149,9 +173,9 @@ En subdivisiones profundas, las copias de puntos y los recálculos de longitudes 
 
 ### Mejora 6: cacheo de índices y arrays
 
-- Problema: recalcular `j*Width+i` y accesos repetidos a propiedades.
-- Acción: cachear `heightmap`, `width` y `rowBase` por fila.
-- Impacto esperado: bajo–medio.
+- Estado: implementada parcialmente.
+- Hecho: cacheo de `heightmap` y `width` en los métodos de escritura del hot-path (`setFixedPointValue`, `generatePoint`).
+- Pendiente: si se quiere exprimir más, cachear por fila (`rowBase = j * width`) directamente dentro de los bucles de proyección (sin reordenar píxeles) para evitar multiplicaciones por píxel.
 
 ### Mejora 7: `throw ex;` -> `throw;`
 
