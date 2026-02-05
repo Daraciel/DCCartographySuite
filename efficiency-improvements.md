@@ -43,6 +43,43 @@ Aunque gran parte del logging por píxel ya estaba comentado, quedaban llamadas a
 
 - `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
 
+### Mejora 7: `throw ex;` -> `throw;`
+
+**Qué se cambió**
+
+- En `catch (Exception ex)` se reemplazaron los `throw ex;` por `throw;`.
+
+**Motivación**
+
+`throw ex;` reinicia el stack trace y dificulta el diagnóstico. `throw;` preserva el stack trace original y evita trabajo extra del runtime al reconstruir la excepción.
+
+**Impacto esperado**
+
+- Rendimiento: bajo (solo camino excepcional).
+- Diagnóstico: alto (stack trace correcto).
+
+**Ficheros**
+
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
+
+### Mejora 8: `doLatitudeIcecaps` early-return
+
+**Qué se cambió**
+
+- En `doLatitudeIcecaps(alt, y)` se añadió un retorno temprano cuando `IsDoLatitudeIcecapsSet == false`, evitando calcular `yRaised` y lógica asociada.
+
+**Motivación**
+
+Cuando no están activados los icecaps por latitud, la función puede devolver el valor base sin realizar trabajo adicional.
+
+**Impacto esperado**
+
+- Bajo–medio si `doLatitudeIcecaps` se invoca frecuentemente con la feature desactivada.
+
+**Ficheros**
+
+- `Core/Algorithm/WorldGen.Algorithm.TetrahedralSubdivision/TetrahedralSubdivision.cs`
+
 ### Mejora 2: evitar `new Point3D` por píxel
 
 **Qué se cambió**
@@ -171,23 +208,13 @@ En bucles por píxel, acceder repetidamente a propiedades (`resultMap.Heightmap`,
 - Acción: convertir a iterativo preservando exactamente el orden de mutaciones/decisiones.
 - Impacto esperado: medio.
 
-### Mejora 6: cacheo de índices y arrays
-
-- Estado: implementada parcialmente.
-- Hecho: cacheo de `heightmap` y `width` en los métodos de escritura del hot-path (`setFixedPointValue`, `generatePoint`).
-- Pendiente: si se quiere exprimir más, cachear por fila (`rowBase = j * width`) directamente dentro de los bucles de proyección (sin reordenar píxeles) para evitar multiplicaciones por píxel.
-
 ### Mejora 7: `throw ex;` -> `throw;`
 
-- Problema: `throw ex;` pierde stack trace.
-- Acción: usar `throw;`.
-- Impacto esperado: rendimiento bajo, diagnóstico alto.
+- Estado: implementada.
 
 ### Mejora 8: `doLatitudeIcecaps` early-return
 
-- Problema: trabajo extra cuando `IsDoLatitudeIcecapsSet == false`.
-- Acción: retorno temprano.
-- Impacto esperado: bajo–medio.
+- Estado: implementada.
 
 ## Roadmap sugerido
 

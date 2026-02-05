@@ -215,7 +215,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -239,7 +239,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -363,7 +363,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -1363,20 +1363,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 //this.WriteLogFunctionEnter(method, alt, y);
 
                 result = alt;
-                if(IsDoLatitudeIcecapsSet)
+                if (!IsDoLatitudeIcecapsSet)
                 {
-                    yRaised = y * y;
-                    yRaised *= yRaised;
-                    yRaised *= yRaised;
-                    if(result <= 0 &&
-                        yRaised + alt >= 1.0 - 0.02)
-                    {
-                        result = double.MaxValue;
-                    }
-                    else
-                    {
-                        result += 0.1 * yRaised;
-                    }
+                    return result;
+                }
+
+                yRaised = y * y;
+                yRaised *= yRaised;
+                yRaised *= yRaised;
+                if(result <= 0 &&
+                    yRaised + alt >= 1.0 - 0.02)
+                {
+                    result = double.MaxValue;
+                }
+                else
+                {
+                    result += 0.1 * yRaised;
                 }
 
                 if (result >= 0.1)
@@ -1387,7 +1389,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
-                throw ex;
+                throw;
             }
             finally
             {
