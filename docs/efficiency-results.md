@@ -18,3 +18,4 @@ La consola añadirá una nueva fila (si no existe ya) con la fecha y los tiempos p
 | 2026-02-02	| Mejora 3b		| 197,225 ms	| 233,167 ms	| 1,012 s		| 1,501 s		| 3,01 s		|
 | 2026-02-03	| Mejora 5		| 233,637 ms	| 208,757 ms	| 1,167 s		| 1,5 s			| 2,901 s		|
 | 2026-02-04	| Mejora 6		| 299,412 ms	| 338,715 ms	| 1,24 s		| 2,162 s		| 3,935 s		|
+| 2026-02-05	| Mejora 7+8	| 289,42 ms		| 298,793 ms	| 1,283 s		| 2,068 s		| 3,931 s		|
