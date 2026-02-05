@@ -13,6 +13,8 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         private TetrahedronPoint c;
         private TetrahedronPoint d;
 
+        private bool autoRecalculateSides = true;
+
         #endregion
 
         #region PROPERTIES
@@ -20,25 +22,25 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
         public TetrahedronPoint A
         {
             get { return a; }
-            set {  a = value; calculateSides(); }
+            set {  a = value; if (autoRecalculateSides) calculateSides(); }
         }
 
         public TetrahedronPoint B
         {
             get { return b; }
-            set { b = value; calculateSides(); }
+            set { b = value; if (autoRecalculateSides) calculateSides(); }
         }
 
         public TetrahedronPoint C
         {
             get { return c; }
-            set { c = value; calculateSides(); }
+            set { c = value; if (autoRecalculateSides) calculateSides(); }
         }
 
         public TetrahedronPoint D
         {
             get { return d; }
-            set { d = value; calculateSides(); }
+            set { d = value; if (autoRecalculateSides) calculateSides(); }
         }
 
         public double ABSideLength { get; private set; }
@@ -104,39 +106,88 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
 
         public void Reorder()
         {
-            if(ABSideLength < ACSideLength)
+            autoRecalculateSides = false;
+            while (true)
             {
-                this.SwitchSides(ref b, ref c);
-                Reorder();
+                if (ABSideLength < ACSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    continue;
+                }
+                if (ABSideLength < ADSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    this.SwitchSides(ref b, ref d);
+                    continue;
+                }
+                if (ABSideLength < BCSideLength)
+                {
+                    this.SwitchSides(ref a, ref b);
+                    this.SwitchSides(ref b, ref c);
+                    continue;
+                }
+                if (ABSideLength < BDSideLength)
+                {
+                    this.SwitchSides(ref b, ref c);
+                    this.SwitchSides(ref b, ref d);
+                    continue;
+                }
+
+                break;
             }
-            else if(ABSideLength < ADSideLength)
-            {
-                this.SwitchSides(ref b, ref c);
-                this.SwitchSides(ref b, ref d);
-                Reorder();
-            }
-            else if (ABSideLength < BCSideLength)
-            {
-                this.SwitchSides(ref a, ref b);
-                this.SwitchSides(ref b, ref c);
-                Reorder();
-            }
-            else if (ABSideLength < BDSideLength)
-            {
-                this.SwitchSides(ref b, ref c);
-                this.SwitchSides(ref b, ref d);
-                Reorder();
-            }
+
+            autoRecalculateSides = true;
         }
 
         private void SwitchSides(ref TetrahedronPoint b, ref TetrahedronPoint c)
         {
-            TetrahedronPoint aux;
+            var aux = b;
+            b = c;
+            c = aux;
 
-            aux = b.Copy();
-            b = c.Copy();
-            c = aux.Copy();
-            calculateSides();
+            // Recalcular longitudes afectadas. En Reorder() solo se intercambian referencias
+            // a, b, c, d; por tanto actualizamos las longitudes que dependen de ellas.
+            UpdateSidesForA();
+            UpdateSidesForB();
+            UpdateSidesForC();
+            UpdateSidesForD();
+            setLongestSide();
+        }
+
+        public void UpdateA(TetrahedronPoint value)
+        {
+            autoRecalculateSides = false;
+            a = value;
+            UpdateSidesForA();
+            setLongestSide();
+            autoRecalculateSides = true;
+        }
+
+        public void UpdateB(TetrahedronPoint value)
+        {
+            autoRecalculateSides = false;
+            b = value;
+            UpdateSidesForB();
+            setLongestSide();
+            autoRecalculateSides = true;
+        }
+
+        public void UpdateC(TetrahedronPoint value)
+        {
+            autoRecalculateSides = false;
+            c = value;
+            UpdateSidesForC();
+            setLongestSide();
+            autoRecalculateSides = true;
+        }
+
+        public void UpdateD(TetrahedronPoint value)
+        {
+            autoRecalculateSides = false;
+            d = value;
+            UpdateSidesForD();
+            setLongestSide();
+            autoRecalculateSides = true;
         }
 
         public bool IsInside(Point3D point)
@@ -185,6 +236,34 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision.BE
             }
 
             return result;
+        }
+
+        private void UpdateSidesForA()
+        {
+            if (A != null && B != null) ABSideLength = A.GetDistanceToPoint(B);
+            if (A != null && C != null) ACSideLength = A.GetDistanceToPoint(C);
+            if (A != null && D != null) ADSideLength = A.GetDistanceToPoint(D);
+        }
+
+        private void UpdateSidesForB()
+        {
+            if (A != null && B != null) ABSideLength = A.GetDistanceToPoint(B);
+            if (B != null && C != null) BCSideLength = B.GetDistanceToPoint(C);
+            if (B != null && D != null) BDSideLength = B.GetDistanceToPoint(D);
+        }
+
+        private void UpdateSidesForC()
+        {
+            if (A != null && C != null) ACSideLength = A.GetDistanceToPoint(C);
+            if (B != null && C != null) BCSideLength = B.GetDistanceToPoint(C);
+            if (C != null && D != null) CDSideLength = C.GetDistanceToPoint(D);
+        }
+
+        private void UpdateSidesForD()
+        {
+            if (A != null && D != null) ADSideLength = A.GetDistanceToPoint(D);
+            if (B != null && D != null) BDSideLength = B.GetDistanceToPoint(D);
+            if (C != null && D != null) CDSideLength = C.GetDistanceToPoint(D);
         }
 
         public bool IsBeside(TetrahedronSides side, Point3D point)

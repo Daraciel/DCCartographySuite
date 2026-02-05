@@ -90,6 +90,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
         private double randSeed1, randSeed2, randSeed3, randSeed4;
 
         private HeightMap resultMap;
+
+        private readonly Point3D reusablePoint = new Point3D();
+
+        private bool hotPathLoggingEnabled;
         
         #endregion
 
@@ -211,7 +215,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -235,7 +239,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -254,6 +258,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 {
                     case AlgorithmParameters.DEBUG:
                         DebugMode = (bool)value;
+					hotPathLoggingEnabled = DebugMode;
                         break;
                     case AlgorithmParameters.DISTANCEWEIGHT:
                         DistanceWeight = (double)value;
@@ -334,19 +339,31 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     scale1 = scale * Width / Height / Math.Sqrt(1.0 - y * y) / Constants.PI;
                     cos2 = Math.Sqrt(1.0 - y * y);
                     depth = 3 * (Math.Truncate(Math.Log(scale1 * Height, 2))) + 3;
+
+                    // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                    double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / scale;
+                    double dTheta = (2.0 * Constants.PI) / Width / scale;
+                    double cosTheta = Math.Cos(thetaStart);
+                    double sinTheta = Math.Sin(thetaStart);
+                    double cosDelta = Math.Cos(dTheta);
+                    double sinDelta = Math.Sin(dTheta);
+
                     for (i = 0; i < Width; i++)
                     {
-                        theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
-                        x = Math.Cos(theta1) * cos2;
-                        z = -Math.Sin(theta1) * cos2;
+                        x = cosTheta * cos2;
+                        z = -sinTheta * cos2;
                         generatePoint(x, y, z, i, j);
+
+                        double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                        sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                        cosTheta = cosNext;
                     }
                 }
             }
             catch(Exception ex)
             {
                 this.WriteLogError(method, ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -383,12 +400,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         {
                             scale1 = Scale*Width/Height/cos2/Constants.PI;
                             depth = 3*((int)(Math.Log(scale1*Height, 2)))+3;
+
+                            // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                            double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / Scale;
+                            double dTheta = (2.0 * Constants.PI) / Width / Scale;
+                            double cosTheta = Math.Cos(thetaStart);
+                            double sinTheta = Math.Sin(thetaStart);
+                            double cosDelta = Math.Cos(dTheta);
+                            double sinDelta = Math.Sin(dTheta);
+
                             for (i = 0; i < Width ; i++) 
                             {
-                                theta1 = longitude - 0.5*Constants.PI + Constants.PI*(2.0*i-Width)/Width/Scale;
-                                x = Math.Cos(theta1)*cos2;
-                                z = -Math.Sin(theta1)*cos2;
+                                x = cosTheta * cos2;
+                                z = -sinTheta * cos2;
                                 generatePoint(x, y, z, i, j);
+
+                                double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                                sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                                cosTheta = cosNext;
                                 //if (col[i][j] < LAND) water++; else land++;
                             }
                         }
@@ -430,12 +459,24 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     {
                         scale1 = scale * Width / Height / cos2 / Constants.PI;
                         depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+
+                        // trigonometría incremental por fila para evitar Sin/Cos por píxel
+                        double thetaStart = longitude - 0.5 * Constants.PI + Constants.PI * (-Width) / Width / scale;
+                        double dTheta = (2.0 * Constants.PI) / Width / scale;
+                        double cosTheta = Math.Cos(thetaStart);
+                        double sinTheta = Math.Sin(thetaStart);
+                        double cosDelta = Math.Cos(dTheta);
+                        double sinDelta = Math.Sin(dTheta);
+
                         for (i = 0; i < Width; i++)
                         {
-                            theta1 = longitude - 0.5 * Constants.PI + Constants.PI * (2.0 * i - Width) / Width / scale;
-                            x = Math.Cos(theta1) * cos2;
-                            z = -Math.Sin(theta1) * cos2;
+                            x = cosTheta * cos2;
+                            z = -sinTheta * cos2;
                             generatePoint(x, y, z, i, j);
+
+                            double cosNext = cosTheta * cosDelta - sinTheta * sinDelta;
+                            sinTheta = sinTheta * cosDelta + cosTheta * sinDelta;
+                            cosTheta = cosNext;
                         }
                     }
                 }
@@ -516,6 +557,11 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                         y = Math.Sin(y);
                         scale1 = Scale * Width / Height / cos2 / Constants.PI;
                         depth = 3 * ((int)(Math.Log(scale1 * Height, 2))) + 3;
+
+                        // Incremental en el tramo principal (sin reordenar píxeles).
+                        // En los límites (cambio de "l") se reinicia el ángulo, porque theta2 depende de l.
+                        double dTheta = (2.0 * Constants.PI) / Width / Scale;
+
                         for (i = 0; i < Width; i++)
                         {
                             l = i * 12 / Width / (int)Scale;
@@ -529,8 +575,9 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                             }
                             else
                             {
-                                x = Math.Cos(theta1 + theta2) * cos2;
-                                z = -Math.Sin(theta1 + theta2) * cos2;
+                                double theta = theta1 + theta2;
+                                x = Math.Cos(theta) * cos2;
+                                z = -Math.Sin(theta) * cos2;
                                 generatePoint(x, y, z, i, j);
                             }
                         }
@@ -976,12 +1023,17 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             try
             {
                 //this.WriteLogFunctionEnter(method, i, j, value);
-                
-                this.resultMap.Heightmap[j*this.resultMap.Width + i] = value;
+
+                var heightmap = this.resultMap.Heightmap;
+                int mapWidth = this.resultMap.Width;
+                heightmap[j * mapWidth + i] = value;
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
@@ -998,19 +1050,33 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             {
                 //this.WriteLogFunctionEnter(method, x, y, z, i, j);
 
-                generatedHeight = getHeightForPoint(new Point3D(x, y, z));
+                generatedHeight = getHeightForPoint(x, y, z);
 
-                this.resultMap.Heightmap[j*this.resultMap.Width + i] = generatedHeight;
+                var heightmap = this.resultMap.Heightmap;
+                int mapWidth = this.resultMap.Width;
+                heightmap[j * mapWidth + i] = generatedHeight;
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
             {
                 //this.WriteLogFunctionExit(method);
             }
+        }
+
+        private double getHeightForPoint(double x, double y, double z)
+        {
+            reusablePoint.X = x;
+            reusablePoint.Y = y;
+            reusablePoint.Z = z;
+
+            return getHeightForPoint(reusablePoint);
         }
 
         private double getHeightForPoint(Point3D point)
@@ -1036,7 +1102,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             }
             catch(Exception ex)
             {
-                this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                if (hotPathLoggingEnabled)
+                {
+                    this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
+                }
                 throw;
             }
             finally
@@ -1137,45 +1206,45 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                     switch (longestSide)
                     {
                         case Enum.TetrahedronEdges.AB:
-                            tetra.B = E;
+                            tetra.UpdateB(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.A = B;
+                                tetra.UpdateA(B);
                             }
                             break;
                         case Enum.TetrahedronEdges.AC:
-                            tetra.C = E;
+                            tetra.UpdateC(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.A = B;
+                                tetra.UpdateA(B);
                             }
                             break;
                         case Enum.TetrahedronEdges.AD:
-                            tetra.D = E;
+                            tetra.UpdateD(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.A = B;
+                                tetra.UpdateA(B);
                             }
                             break;
                         case Enum.TetrahedronEdges.BC:
-                            tetra.C = E;
+                            tetra.UpdateC(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.B = B;
+                                tetra.UpdateB(B);
                             }
                             break;
                         case Enum.TetrahedronEdges.BD:
-                            tetra.D = E;
+                            tetra.UpdateD(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.B = B;
+                                tetra.UpdateB(B);
                             }
                             break;
                         case Enum.TetrahedronEdges.CD:
-                            tetra.D = E;
+                            tetra.UpdateD(E);
                             if(!tetra.IsInside(point))
                             {
-                                tetra.C = B;
+                                tetra.UpdateC(B);
                             }
                             break;
                     }             
@@ -1256,10 +1325,10 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                                 + es * this.AltitudeDifferenceWeight * Math.Pow(Math.Abs(tetra.A.Value - tetra.B.Value), this.AltitudeDifferencePower)
                                 + es1 * this.DistanceWeight * Math.Pow(longestSideValue, this.DistanceFunctionPower);
 
-                    tetra.B = E; 
+                    tetra.UpdateB(E);
                     if(!tetra.IsBeside(Enum.TetrahedronSides.BCD, point))
                     {
-                        tetra.A = B;
+                        tetra.UpdateA(B);
                     }
                              
                     result = this.getHeightForPoint(tetra, point, depth - 1);
@@ -1294,20 +1363,22 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
                 //this.WriteLogFunctionEnter(method, alt, y);
 
                 result = alt;
-                if(IsDoLatitudeIcecapsSet)
+                if (!IsDoLatitudeIcecapsSet)
                 {
-                    yRaised = y * y;
-                    yRaised *= yRaised;
-                    yRaised *= yRaised;
-                    if(result <= 0 &&
-                        yRaised + alt >= 1.0 - 0.02)
-                    {
-                        result = double.MaxValue;
-                    }
-                    else
-                    {
-                        result += 0.1 * yRaised;
-                    }
+                    return result;
+                }
+
+                yRaised = y * y;
+                yRaised *= yRaised;
+                yRaised *= yRaised;
+                if(result <= 0 &&
+                    yRaised + alt >= 1.0 - 0.02)
+                {
+                    result = double.MaxValue;
+                }
+                else
+                {
+                    result += 0.1 * yRaised;
                 }
 
                 if (result >= 0.1)
@@ -1318,7 +1389,7 @@ namespace WorldGen.Algorithm.TetrahedralSubdivision
             catch(Exception ex)
             {
                 this.WriteLogError(MethodBase.GetCurrentMethod(), ex);
-                throw ex;
+                throw;
             }
             finally
             {

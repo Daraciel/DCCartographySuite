@@ -36,13 +36,11 @@ namespace WorldGen.Common.BE
 
         public double GetDistanceToPoint(Point3D B)
         {
-            double result = 0;
+            var dx = this.X - B.X;
+            var dy = this.Y - B.Y;
+            var dz = this.Z - B.Z;
 
-            result = Math.Pow(this.X - B.X, 2);
-            result += Math.Pow(this.Y - B.Y, 2);
-            result += Math.Pow(this.Z - B.Z, 2);
-
-            return result;
+            return (dx * dx) + (dy * dy) + (dz * dz);
         }
 
         #endregion

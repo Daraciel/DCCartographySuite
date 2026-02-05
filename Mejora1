@@ -1,0 +1,8 @@
+# Efficiency results
+
+Tabla histórica generada por `WorldGen.Console.TestConsole` (modo `efficiency`).
+
+| Date | Improvement | CVGA 320×200 | QVGA 320×240 | VGA 640×480 | SVGA 800x600 | HD 1280x720 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2026-01-29 | 											 | 2,501 s					 | 8,609 s					 | 25,513 s			 | 19,017 s				 | 35,063 s			 |
+

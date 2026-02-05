@@ -17,14 +17,62 @@ namespace WorldGen.Console.TestConsole
 {
     class Program
     {
+        private static List<Tuple<string, int, int>> resolutions = new List<Tuple<string, int, int>>()
+            {
+                new Tuple<string, int, int>("CVGA 320×200", 320, 200),
+                new Tuple<string, int, int>("QVGA 320×240", 320, 240),
+                new Tuple<string, int, int>("VGA 640×480", 640, 480),
+                new Tuple<string, int, int>("SVGA 800x600", 800, 600),
+                new Tuple<string, int, int>("HD 1280x720", 1280, 720),
+            };
+
+        private static List<double> seeds = new List<double>()
+            {
+                0.2141870367,
+                0.3463649213,
+                0.4543181966,
+                0.4638076137,
+                0.4839993895,
+                0.5029696404,
+                0.5748610283,
+                0.8880820194,
+                0.9525475248,
+                0.9930768225
+            };
         static void Main(string[] args)
         {
             if (args != null && args.Length > 0)
             {
                 if (args[0].Equals("efficiency", StringComparison.OrdinalIgnoreCase))
                 {
-                    var outputPath = args.Length > 1 ? args[1] : null;
-                    TestEficiency(outputPath);
+                    string? outputPath = null;
+                    string? improvement = null;
+
+                    // Supported usage:
+                    // - efficiency
+                    // - efficiency <outputPath> <improvement>
+                    // - efficiency --output <outputPath> --improvement <literal>
+                    for (int i = 1; i < args.Length; i++)
+                    {
+                        if (args[i].Equals("--output", StringComparison.OrdinalIgnoreCase) && i + 1 < args.Length)
+                        {
+                            outputPath = args[++i];
+                            continue;
+                        }
+                        if (args[i].Equals("--improvement", StringComparison.OrdinalIgnoreCase) && i + 1 < args.Length)
+                        {
+                            improvement = args[++i];
+                            continue;
+                        }
+                    }
+
+                    // Backward compatible positional args when no flags are provided.
+                    if (outputPath is null && improvement is null)
+                    {
+                        outputPath = args.Length > 1 ? args[1] : null;
+                        improvement = args.Length > 2 ? args[2] : null;
+                    }
+                    TestEficiency(outputPath, improvement);
                     return;
                 }
             }
@@ -59,7 +107,7 @@ namespace WorldGen.Console.TestConsole
                         TestScale();
                         break;
                     case 5:
-                        TestEficiency(null);
+                        TestEficiency(null, null);
                         break;
                 }
             } while (option != 0);
@@ -67,7 +115,7 @@ namespace WorldGen.Console.TestConsole
             System.Console.WriteLine(DateTime.Now.ToString("HHmmss") + " END");
         }
 
-        private static void TestEficiency(string? markdownOutputPath)
+        private static void TestEficiency(string? markdownOutputPath, string? improvement)
         {
             Random rnd;
             TetrahedralSubdivision TSAlgorithm;
@@ -76,17 +124,9 @@ namespace WorldGen.Console.TestConsole
             double seed;
             int width, height;
             Stopwatch sw = new Stopwatch();
-            List<Tuple<string, int, int>> resolutions = new List<Tuple<string, int, int>>()
-            {
-                new Tuple<string, int, int>("CVGA 320×200", 320, 200),
-                new Tuple<string, int, int>("QVGA 320×240", 320, 240),
-                new Tuple<string, int, int>("VGA 640×480", 640, 480),
-                new Tuple<string, int, int>("SVGA 800x600", 800, 600),
-                new Tuple<string, int, int>("HD 1280x720", 1280, 720),
-            };
             DateTime now = DateTime.Now;
 
-            List<Tuple<string, TimeSpan>> results = new List<Tuple<string, TimeSpan>>();
+            List<Tuple<string, double, TimeSpan>> results = new List<Tuple<string, double, TimeSpan>>();
 
             System.Console.WriteLine("Vamos a medir la velocidad de generacion del mapa");
 
@@ -108,39 +148,43 @@ namespace WorldGen.Console.TestConsole
                 height = res.Item3;
                 parameters.Parameters[Common.Enums.AlgorithmParameters.WIDTH] = width;
                 parameters.Parameters[Common.Enums.AlgorithmParameters.HEIGHT] = height;
-                System.Console.WriteLine($"Generando mapa de resolucion {res.Item1} ({width}x{height})");
-                sw.Reset();
-                sw.Start();
-                TSAlgorithm.Initialize(parameters);
-                TSMaps = (HeightMap)TSAlgorithm.Create();
-                sw.Stop();
-                var duration = sw.Elapsed;
-                results.Add(new Tuple<string, TimeSpan>(res.Item1, duration));
-                if (duration.TotalMilliseconds < 1000)
+                foreach (var s in seeds)
                 {
-                    System.Console.WriteLine($"Tiempo de generacion: {duration.TotalMilliseconds} ms");
-                }
-                else if (duration.TotalSeconds < 120)
-                {
-                    System.Console.WriteLine($"Tiempo de generacion: {duration.TotalSeconds} s");
-                }
-                else
-                {
-                    System.Console.WriteLine($"Tiempo de generacion: {duration.TotalMinutes} min");
+                    parameters.Parameters[Common.Enums.AlgorithmParameters.SEED] = s;
+                    System.Console.WriteLine($"Generando mapa de resolucion {res.Item1} ({width}x{height}) para la semilla {s}");
+                    sw.Reset();
+                    sw.Start();
+                    TSAlgorithm.Initialize(parameters);
+                    TSMaps = (HeightMap)TSAlgorithm.Create();
+                    sw.Stop();
+                    var duration = sw.Elapsed;
+                    results.Add(new Tuple<string, double, TimeSpan>(res.Item1, s, duration));
+                    if (duration.TotalMilliseconds < 1000)
+                    {
+                        System.Console.WriteLine($"Tiempo de generacion: {duration.TotalMilliseconds} ms");
+                    }
+                    else if (duration.TotalSeconds < 120)
+                    {
+                        System.Console.WriteLine($"Tiempo de generacion: {duration.TotalSeconds} s");
+                    }
+                    else
+                    {
+                        System.Console.WriteLine($"Tiempo de generacion: {duration.TotalMinutes} min");
+                    }
                 }
             }
 
-            PrintResultsTable(results);
+            PrintResultsTable(results, improvement);
 
             if (!string.IsNullOrWhiteSpace(markdownOutputPath))
             {
-                AppendResultsMarkdown(markdownOutputPath, results, now);
+                AppendResultsMarkdown(markdownOutputPath, results, now, improvement);
                 System.Console.WriteLine($"Resultados exportados a: {markdownOutputPath}");
             }
 
         }
 
-        private static void AppendResultsMarkdown(string markdownOutputPath, List<Tuple<string, TimeSpan>> results, DateTime now)
+        private static void AppendResultsMarkdown(string markdownOutputPath, List<Tuple<string, double, TimeSpan>> results, DateTime now, string? improvement)
         {
             var dir = Path.GetDirectoryName(markdownOutputPath);
             if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
@@ -148,13 +192,33 @@ namespace WorldGen.Console.TestConsole
                 Directory.CreateDirectory(dir);
             }
 
-            var headers = new List<string>(results.Count + 1) { "Date" };
-            var values = new List<string>(results.Count + 1) { now.ToString("yyyy-MM-dd") };
+            var headers = new List<string>(results.Count + 2) { "Date", "Improvement" };
+            var values = new List<string>(results.Count + 2) { now.ToString("yyyy-MM-dd"), improvement ?? string.Empty };
+            results.GroupBy(x => x.Item1)
+                .ToList()
+                .ForEach(g =>
+                {
+                    var avgDuration = new TimeSpan((long)g.Average(x => x.Item3.Ticks));
+                    headers.Add(g.Key);
+                    values.Add(FormatDuration(avgDuration));
+                });
 
-            foreach (var r in results)
+            static string PadWithTabsToHeader(string value, string header)
             {
-                headers.Add(r.Item1);
-                values.Add(FormatDuration(r.Item2));
+                if (value is null) value = string.Empty;
+                if (header is null) header = string.Empty;
+
+                var result = value;
+                while (result.Length < header.Length)
+                {
+                    result += "\t";
+                }
+                return result;
+            }
+
+            for (int i = 0; i < values.Count && i < headers.Count; i++)
+            {
+                values[i] = PadWithTabsToHeader(values[i], headers[i]);
             }
 
             var table = BuildMarkdownTable(headers, values);
@@ -167,7 +231,7 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
             }
 
             var existing = File.ReadAllText(markdownOutputPath);
-            if (existing.Contains("| Date |"))
+            if (existing.Contains("| Date\t\t\t|"))
             {
                 var row = "| " + string.Join(" | ", values) + " |";
                 if (!existing.Contains(row))
@@ -201,7 +265,7 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
             return headerRow + Environment.NewLine + separatorRow + Environment.NewLine + valueRow + Environment.NewLine;
         }
 
-        private static void PrintResultsTable(List<Tuple<string, TimeSpan>> results)
+        private static void PrintResultsTable(List<Tuple<string, double, TimeSpan>> results, string? improvement)
         {
             // Tabla con cabecera = Item1 y una única fila con tiempos (valores)
             // Se imprime en ms para mantener una unidad homogénea.
@@ -210,22 +274,17 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
 
             headers.Add("Date");
             values.Add(DateTime.Today.ToShortDateString());
-            foreach (var r in results)
-            {
-                headers.Add(r.Item1);
-                if (r.Item2.TotalMilliseconds < 1000)
+
+            headers.Add("Improvement");
+            values.Add(improvement ?? string.Empty);
+            results.GroupBy(x => x.Item1)
+                .ToList()
+                .ForEach(g =>
                 {
-                    values.Add($"{r.Item2.TotalMilliseconds} ms");
-                }
-                else if (r.Item2.TotalSeconds < 120)
-                {
-                    values.Add($"{r.Item2.TotalSeconds} s");
-                }
-                else
-                {
-                    values.Add($"{r.Item2.TotalMinutes} min");
-                }
-            }
+                    var avgDuration = new TimeSpan((long)g.Average(x => x.Item3.Ticks));
+                    headers.Add(g.Key);
+                    values.Add(FormatDuration(avgDuration));
+                });
 
             int[] widths = new int[headers.Count];
             for (int i = 0; i < headers.Count; i++)
@@ -437,8 +496,8 @@ $"# Efficiency results\n\nTabla histórica generada por `WorldGen.Console.TestCo
             TetrahedralSubdivision TSAlgorithm;
             HeightMap TSMaps;
             InitializeParams parameters;
-            double seed, longitude;
-            int width, height, degreeRotation;
+            double seed;
+            int width, height;
             string line, path;
             int quantity;
             DateTime now = DateTime.Now;
